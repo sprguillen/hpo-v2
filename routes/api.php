@@ -13,5 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::post('register', 'AuthController@register');
-Route::post('login', 'AuthController@login');
+// Authentication
+Route::post('auth/register', 'AuthController@register');
+Route::post('auth/login', 'AuthController@login')->name('login');
+
+// Sources
+Route::post('source/add', 'SourceController@add');
