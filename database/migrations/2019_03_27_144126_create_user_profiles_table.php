@@ -23,7 +23,7 @@ class CreateUserProfilesTable extends Migration
             $table->string('contact_number', 40);
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserModes extends Migration
+class CreatePatientTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreateUserModes extends Migration
      */
     public function up()
     {
-        Schema::create('user_modes', function (Blueprint $table) {
+        Schema::create('patient_types', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
-            $table->string('payment_mode', 45)->nullable()->default(null);
-            $table->string('dispatch_mode', 45)->nullable()->default(null);
+            $table->string('code', 20)->unique()->nullable()->default(null);
+            $table->string('name', 45);
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -31,6 +28,6 @@ class CreateUserModes extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_modes');
+        Schema::dropIfExists('patient_types');
     }
 }

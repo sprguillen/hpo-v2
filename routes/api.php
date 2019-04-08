@@ -19,3 +19,12 @@ Route::post('auth/login', 'AuthController@login')->name('login');
 
 // Sources
 Route::post('source/add', 'SourceController@add');
+
+// Dispatchers
+Route::post('dispatcher/add', 'DispatcherController@add');
+
+// Patients
+Route::post('patient/type/add', 'PatientController@addType');
+
+// Services
+Route::post('service/add', 'ServiceController@add');

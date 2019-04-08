@@ -28,7 +28,7 @@ class AuthController extends Controller
         $validator = Validator::make($userdata, $rules);
         
         if ($validator->passes()) {
-            $user = User::create([
+            User::create([
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
                 'username' => $request->username
@@ -61,5 +61,18 @@ class AuthController extends Controller
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
+    }
+
+    public function clientRegister(Request $request)
+    {
+        $userdata = [
+            'email' => $request->email,
+            'username' => $request->username,
+            'password' => $request->password,
+            'password_confirmation' => $request->password_confirmation,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'dispatch_mode' => $request->dispatch_mode
+        ];
     }
 }

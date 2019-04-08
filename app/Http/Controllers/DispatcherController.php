@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use API;
 use Validator;
-use App\Models\Source;
+use App\Models\Dispatcher;
 use Illuminate\Http\Request;
 
-class SourceController extends Controller
+class DispatcherController extends Controller
 {
     public function __construct()
     {
@@ -16,7 +16,7 @@ class SourceController extends Controller
 
     public function add(Request $request)
     {
-        $source = [
+        $dispatcher = [
             'code' => $request->code,
             'name' => $request->name
         ];
@@ -26,10 +26,10 @@ class SourceController extends Controller
             'name' => 'required'
         ];
 
-        $validator = Validator::make($source, $rules);
+        $validator = Validator::make($dispatcher, $rules);
 
         if ($validator->passes()) {
-            Source::create([
+            Dispatcher::create([
                 'code' => $request->code,
                 'name' => $request->name
             ]);
