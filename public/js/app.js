@@ -125,6 +125,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
@@ -25822,7 +25825,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".logo[data-v-4221c3ad] {\n  margin: 60px auto 20px;\n  padding: 15px;\n  text-align: center;\n}", ""]);
+exports.push([module.i, ".logo[data-v-4221c3ad] {\n  margin: 60px auto 20px;\n  padding: 15px;\n  text-align: center;\n}\n.company-logo[data-v-4221c3ad] {\n  width: 350px;\n}", ""]);
 
 // exports
 
@@ -27025,8 +27028,13 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "container" }, [
       _c("div", { staticClass: "logo" }, [
-        _c("img", { attrs: { src: "/images/logo.png" } })
-      ])
+        _c("img", {
+          staticClass: "company-logo",
+          attrs: { src: "/images/logo.png" }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "content" })
     ])
   }
 ]

@@ -14,8 +14,8 @@ class AddForeignKeysToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('dispatcher_id')->after('id');
-            $table->unsignedBigInteger('payment_mode_id')->after('dispatcher_id');
+            $table->unsignedBigInteger('dispatcher_id')->after('id')->nullable();
+            $table->unsignedBigInteger('payment_mode_id')->after('dispatcher_id')->nullable();
 
             $table->foreign('dispatcher_id')->references('id')->on('dispatchers')->onDelete('cascade');
             $table->foreign('payment_mode_id')->references('id')->on('payment_modes')->onDelete('cascade');
