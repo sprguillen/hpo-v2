@@ -14,17 +14,17 @@ use Illuminate\Http\Request;
 */
 
 // Authentication
-Route::post('auth/register', 'AuthController@register');
-Route::post('auth/login', 'AuthController@login')->name('login');
+Route::post('auth/register', 'API\AuthController@register');
+Route::post('auth/login', 'API\AuthController@login')->name('login');
 
 // Sources
-Route::post('source/add', 'SourceController@add');
+Route::post('source/add', 'API\SourceController@add');
 
 // Dispatchers
-Route::post('dispatcher/add', 'DispatcherController@add');
+Route::post('dispatcher/add', 'API\DispatcherController@add');
 
 // Patients
-Route::post('patient/type/add', 'PatientController@addType');
+Route::post('patient/type/add', 'API\PatientController@addType');
 
 // Services
-Route::post('service/add', 'ServiceController@add');
+Route::post('service/add', 'API\ServiceController@add');

@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use API;
 use Validator;
-use App\Models\Dispatcher;
+use App\Models\Source;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class DispatcherController extends Controller
+class SourceController extends Controller
 {
     public function __construct()
     {
@@ -16,7 +17,7 @@ class DispatcherController extends Controller
 
     public function add(Request $request)
     {
-        $dispatcher = [
+        $source = [
             'code' => $request->code,
             'name' => $request->name
         ];
@@ -26,10 +27,10 @@ class DispatcherController extends Controller
             'name' => 'required'
         ];
 
-        $validator = Validator::make($dispatcher, $rules);
+        $validator = Validator::make($source, $rules);
 
         if ($validator->passes()) {
-            Dispatcher::create([
+            Source::create([
                 'code' => $request->code,
                 'name' => $request->name
             ]);

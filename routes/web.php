@@ -11,4 +11,7 @@
 |
 */
 
+Route::get('/login', 'AuthController@index');
+Route::get('/register', 'AuthController@index');
+
 Route::get('/{any}', 'AppController@index')->where('any', '.*');

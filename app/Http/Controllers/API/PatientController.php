@@ -1,43 +1,42 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use API;
 use Validator;
-use App\Models\Service;
+use App\Models\PatientType;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class ServiceController extends Controller
+class PatientController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth:api');
     }
 
-    public function add(Request $request)
+    public function addType(Request $request)
     {
-        $service = [
+        $type = [
             'code' => $request->code,
-            'name' => $request->name,
-            'default_cost' => $request->defaultCost
+            'name' => $request->name
         ];
 
         $rules = [
-            'code' => 'required|unique:services',
+            'code' => 'required|unique:patient_types',
             'name' => 'required'
         ];
 
-        $validator = Validator::make($service, $rules);
+        $validator = Validator::make($type, $rules);
 
         if ($validator->passes()) {
-            Service::create([
+            PatientType::create([
                 'code' => $request->code,
-                'name' => $request->name,
-                'default_cost' => $request->default_cost
+                'name' => $request->name
             ]);
 
             return response()->json([
-                'message' => 'Successfully created service!'
+                'message' => 'Successfully created patient type!'
             ], 201);
         } else {
             $errors = $validator->errors();
