@@ -5,8 +5,19 @@
 // Variables
 @import 'variables';
 
+$primary: #32c5d2;
+
+$btn-primary: $primary;
+
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+.btn-custom {
+  color: #fff
+}
+
+// Bulma
+@import '~bulma/sass/utilities/_all';
 
 .navbar-laravel {
   background-color: #fff;
