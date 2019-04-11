@@ -1,14 +1,14 @@
 import VueRouter from 'vue-router'
 import Login from './components/auth/Login'
 import MainComponent from './components/MainComponent'
-console.log('test')
+import { getCookie } from './utils/cookies'
 
 const router = new VueRouter({
   mode: 'history',
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'dashboard',
       component: MainComponent
     },
     {
@@ -16,11 +16,16 @@ const router = new VueRouter({
       name: 'login',
       component: Login
     }
-  ],
-});
+  ]
+})
 
-// router.beforeEach((to, from, next) => {
-//   next({ path: '/login' })
-// })
+router.beforeEach((to, from, next) => {
+  let authToken = getCookie('auth')
+  if (!authToken && to.name !== 'login') {
+    return next('/login')
+  }
+
+  next()
+})
 
 export default router

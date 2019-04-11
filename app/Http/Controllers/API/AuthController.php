@@ -52,15 +52,27 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        $checkUser = User::where('username', $request->username)->first();
+
+        if (!$checkUser) {
+            return response()->json(['message' => 'User does not exist!'], 400);
+        }
+
         $credentials = $request->only(['username', 'password']);
         if (!$token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Username/password does not match'], 400);
+            return response()->json(['message' => 'Username/password does not match!'], 400);
         }
 
         return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'access_token' => [
+                'token' => $token,
+                'token_type' => 'bearer',
+                'expires_in' => auth()->factory()->getTTL() * 60
+            ],
+            'logged_in_user' => [
+                'username' => auth()->user()->username,
+                'id' => auth()->user()->id
+            ]
         ]);
     }
 

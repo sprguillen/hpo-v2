@@ -19,6 +19,7 @@
           </b-field>
           <b-field>
             <b-input v-model="form.password"
+              type="password"
               placeholder="Password"
               icon="lock">
             </b-input>
@@ -43,6 +44,8 @@
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   data() {
     return {
@@ -53,8 +56,19 @@ export default {
     }
   },
   methods: {
-    submit() {
+    ...mapActions('auth', [ 'login' ]),
+    async submit() {
+      const payload = {
+        username: this.form.username,
+        password: this.form.password
+      }
 
+      try {
+        await this.login(payload)
+        this.$router.push('dashboard')
+      } catch (e) {
+        this.$toasted.error(e.message)
+      }
     }
   }
 }

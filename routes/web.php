@@ -11,7 +11,4 @@
 |
 */
 
-Route::get('/login', 'Web\AppController@authIndex');
-Route::get('/register', 'Web\AppController@authIndex');
-
 Route::get('/{any}', 'Web\AppController@index')->where('any', '.*');
