@@ -1800,6 +1800,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _mixins_validation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../mixins/validation */ "./resources/js/mixins/validation.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -1862,7 +1863,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  mixins: [_mixins_validation__WEBPACK_IMPORTED_MODULE_2__["default"]],
   data: function data() {
     return {
       form: {
@@ -1880,63 +1883,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])('auth', ['login']), {
-    validateBeforeSubmit: function () {
-      var _validateBeforeSubmit = _asyncToGenerator(
+    submit: function () {
+      var _submit = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var result;
+        var result, payload;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return this.$validator.validateAll();
+                return this.validateBeforeSubmit();
 
               case 2:
                 result = _context.sent;
 
                 if (!result) {
-                  _context.next = 7;
-                  break;
-                }
-
-                return _context.abrupt("return", true);
-
-              case 7:
-                this.$toasted.error('Please fill out the required fields');
-                return _context.abrupt("return", false);
-
-              case 9:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function validateBeforeSubmit() {
-        return _validateBeforeSubmit.apply(this, arguments);
-      }
-
-      return validateBeforeSubmit;
-    }(),
-    submit: function () {
-      var _submit = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var result, payload;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return this.validateBeforeSubmit();
-
-              case 2:
-                result = _context2.sent;
-
-                if (!result) {
-                  _context2.next = 14;
+                  _context.next = 14;
                   break;
                 }
 
@@ -1944,26 +1907,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   username: this.form.username,
                   password: this.form.password
                 };
-                _context2.prev = 5;
-                _context2.next = 8;
+                _context.prev = 5;
+                _context.next = 8;
                 return this.login(payload);
 
               case 8:
                 this.$router.push('dashboard');
-                _context2.next = 14;
+                _context.next = 14;
                 break;
 
               case 11:
-                _context2.prev = 11;
-                _context2.t0 = _context2["catch"](5);
-                this.$toasted.error(_context2.t0.message);
+                _context.prev = 11;
+                _context.t0 = _context["catch"](5);
+                this.$toasted.error(_context.t0.message);
 
               case 14:
               case "end":
-                return _context2.stop();
+                return _context.stop();
             }
           }
-        }, _callee2, this, [[5, 11]]);
+        }, _callee, this, [[5, 11]]);
       }));
 
       function submit() {
@@ -43576,6 +43539,70 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Login_vue_vue_type_template_id_4221c3ad_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/mixins/validation.js":
+/*!*******************************************!*\
+  !*** ./resources/js/mixins/validation.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  methods: {
+    validateBeforeSubmit: function () {
+      var _validateBeforeSubmit = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var result;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return this.$validator.validateAll();
+
+              case 2:
+                result = _context.sent;
+
+                if (!result) {
+                  _context.next = 7;
+                  break;
+                }
+
+                return _context.abrupt("return", true);
+
+              case 7:
+                this.$toasted.error('Please fill out the required fields');
+                return _context.abrupt("return", false);
+
+              case 9:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function validateBeforeSubmit() {
+        return _validateBeforeSubmit.apply(this, arguments);
+      }
+
+      return validateBeforeSubmit;
+    }()
+  }
+});
 
 /***/ }),
 

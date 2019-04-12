@@ -51,8 +51,10 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
+import validationMixin from '../../mixins/validation'
 
 export default {
+  mixins: [validationMixin],
   data() {
     return {
       form: {
@@ -71,15 +73,6 @@ export default {
   },
   methods: {
     ...mapActions('auth', [ 'login' ]),
-    async validateBeforeSubmit() {
-      const result = await this.$validator.validateAll()
-      if (result) {
-        return true
-      } else {
-        this.$toasted.error('Please fill out the required fields')
-        return false
-      }
-    },
     async submit() {
 
       const result = await this.validateBeforeSubmit()
