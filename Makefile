@@ -10,9 +10,9 @@ authorize:
 	touch ./storage/logs/laravel.log
 	sudo chmod -R 777 ./storage/
 	sudo chmod -R 777 ./vendor/
+	sudo chmod -R 777 ./bootstrap/cache/
 	composer dump-autoload
 	php artisan cache:clear
-	php artisan storage:link
 
 update:
 	rm -rf ./storage/logs/laravel.log
