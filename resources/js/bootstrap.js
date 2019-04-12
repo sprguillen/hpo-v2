@@ -4,7 +4,6 @@ import PopperJs from 'popper.js'
 import $ from 'jquery'
 
 import 'bootstrap'
-import { getCookie } from './utils/cookies'
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -23,7 +22,7 @@ if (token) {
   console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
-let authToken = getCookie('auth_token')
+let authToken = localStorage.getItem('auth_token')
 
 if (auth) {
   axios.defaults.headers.common['Authorization'] = authToken;

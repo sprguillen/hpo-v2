@@ -32391,7 +32391,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var _components_auth_Login__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/auth/Login */ "./resources/js/components/auth/Login.vue");
 /* harmony import */ var _components_MainComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/MainComponent */ "./resources/js/components/MainComponent.vue");
-/* harmony import */ var _utils_cookies__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils/cookies */ "./resources/js/utils/cookies.js");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
 
 
 
@@ -32401,21 +32401,43 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
   routes: [{
     path: '/',
     name: 'dashboard',
-    component: _components_MainComponent__WEBPACK_IMPORTED_MODULE_2__["default"]
+    component: _components_MainComponent__WEBPACK_IMPORTED_MODULE_2__["default"],
+    meta: {
+      requiresAuth: true
+    }
   }, {
     path: '/login',
     name: 'login',
-    component: _components_auth_Login__WEBPACK_IMPORTED_MODULE_1__["default"]
+    component: _components_auth_Login__WEBPACK_IMPORTED_MODULE_1__["default"],
+    meta: {
+      guest: true
+    }
   }]
 });
 router.beforeEach(function (to, from, next) {
-  var authToken = Object(_utils_cookies__WEBPACK_IMPORTED_MODULE_3__["getCookie"])('auth');
+  var authToken = _store__WEBPACK_IMPORTED_MODULE_3__["default"].getters['auth/getAccessToken'];
 
-  if (!authToken && to.name !== 'login') {
-    return next('/login');
+  if (to.matched.some(function (record) {
+    return record.meta.requiresAuth;
+  })) {
+    if (!authToken) {
+      next({
+        path: '/login'
+      });
+    } else {
+      next();
+    }
+  } else if (to.matched.some(function (record) {
+    return record.meta.guest;
+  })) {
+    if (!authToken) {
+      next();
+    } else {
+      next({
+        path: '/'
+      });
+    }
   }
-
-  next();
 });
 /* harmony default export */ __webpack_exports__["default"] = (router);
 
@@ -32467,8 +32489,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 var state = {
-  currentLoggedInUser: null,
-  accessToken: null
+  currentLoggedInUser: localStorage.getItem('current_user'),
+  accessToken: localStorage.getItem('auth_token')
 };
 var getters = {
   getCurrentLoggedInUser: function getCurrentLoggedInUser(state) {
@@ -32505,9 +32527,9 @@ var actions = {
             case 4:
               _ref2 = _context.sent;
               data = _ref2.data;
-              commit('setAccessToken', data.access_token);
-              commit('setCurrentLoggedInUser', data.logged_in_user);
-              document.cookie = "user_id=".concat(data.logged_in_user.id, "; auth=").concat(data.access_token.token);
+              localStorage.setItem('auth_token', data.access_token.token);
+              localStorage.setItem('current_user', data.logged_in_user.id);
+              console.log(localStorage);
               _context.next = 15;
               break;
 
@@ -32539,26 +32561,6 @@ var actions = {
   mutations: mutations,
   actions: actions
 });
-
-/***/ }),
-
-/***/ "./resources/js/utils/cookies.js":
-/*!***************************************!*\
-  !*** ./resources/js/utils/cookies.js ***!
-  \***************************************/
-/*! exports provided: getCookie */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCookie", function() { return getCookie; });
-function getCookie(name) {
-  var value = "; ".concat(document.cookie);
-  var parts = value.split("; ".concat(name, "="));
-  if (parts.length == 2) return parts.pop().split(';').shift();
-}
-
-
 
 /***/ }),
 

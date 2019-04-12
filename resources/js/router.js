@@ -1,7 +1,7 @@
 import VueRouter from 'vue-router'
 import Login from './components/auth/Login'
 import MainComponent from './components/MainComponent'
-import { getCookie } from './utils/cookies'
+import store from './store'
 
 const router = new VueRouter({
   mode: 'history',
@@ -9,23 +9,38 @@ const router = new VueRouter({
     {
       path: '/',
       name: 'dashboard',
-      component: MainComponent
+      component: MainComponent,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: Login,
+      meta: {
+        guest: true
+      }
     }
   ]
 })
 
 router.beforeEach((to, from, next) => {
-  let authToken = getCookie('auth')
-  if (!authToken && to.name !== 'login') {
-    return next('/login')
-  }
+  let authToken = store.getters['auth/getAccessToken']
 
-  next()
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!authToken) {
+      next({ path: '/login' })
+    } else {
+      next()
+    }
+  } else if(to.matched.some(record => record.meta.guest)) {
+    if (!authToken) {
+      next()
+    } else {
+      next({ path: '/' })
+    }
+  }
 })
 
 export default router

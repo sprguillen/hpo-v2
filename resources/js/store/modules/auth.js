@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 const state = {
-  currentLoggedInUser: null,
-  accessToken: null
+  currentLoggedInUser: localStorage.getItem('current_user'),
+  accessToken: localStorage.getItem('auth_token')
 }
 
 const getters = {
@@ -23,10 +23,11 @@ const actions = {
   async login({ commit }, payload) {
     try {
       const { data } = await axios.post('/api/auth/login', payload)
-      commit('setAccessToken', data.access_token)
-      commit('setCurrentLoggedInUser', data.logged_in_user)
 
-      document.cookie = `user_id=${data.logged_in_user.id}; auth=${data.access_token.token}`
+      localStorage.setItem('auth_token', data.access_token.token)
+      localStorage.setItem('current_user', data.logged_in_user.id)
+
+      console.log(localStorage)
     } catch (e) {
       const { data } = e.response
       throw data
