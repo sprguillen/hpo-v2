@@ -1,0 +1,16 @@
+@import '../../variables';
+
+.page-header {
+  margin: 0;
+  padding: 0;
+  border-bottom: none;
+}
+
+.mega-menu {
+  background: $body-bg;
+}
+
+.company-logo {
+  height: 50px;
+  float: left;
+}

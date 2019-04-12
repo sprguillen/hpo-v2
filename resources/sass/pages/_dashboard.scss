@@ -1,3 +1,5 @@
+@import '../variables';
+
 .dashboard {
   width: 100%;
   position: fixed;
@@ -5,5 +7,5 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: #2f373e;
+  background: $body-bg;
 }

@@ -1,7 +1,7 @@
 import VueRouter from 'vue-router'
-import Login from './components/auth/Login'
-import Dashboard from './components/Dashboard'
-import store from './store'
+import Login from '@/pages/auth/Login'
+import Dashboard from '@/pages/Dashboard'
+import store from '@/store'
 
 const router = new VueRouter({
   mode: 'history',

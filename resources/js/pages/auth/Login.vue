@@ -94,5 +94,5 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  @import "../../../sass/components/auth/login.scss";
+  @import "../../../sass/pages/auth/login.scss";
 </style>
