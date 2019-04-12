@@ -1,6 +1,7 @@
 
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import VeeValidate from 'vee-validate'
 import Toasted from 'vue-toasted'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
@@ -9,6 +10,7 @@ import store from './store'
 
 Vue.use(Buefy)
 Vue.use(VueRouter)
+Vue.use(VeeValidate)
 
 const toastedOptions = {
   position: 'top-center',
@@ -16,6 +18,7 @@ const toastedOptions = {
 }
 
 Vue.use(Toasted, toastedOptions)
+Vue.use(VeeValidate, { events: '' })
 
 const app = new Vue({
   router,

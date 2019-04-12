@@ -1,6 +1,6 @@
 import VueRouter from 'vue-router'
 import Login from './components/auth/Login'
-import MainComponent from './components/MainComponent'
+import Dashboard from './components/Dashboard'
 import store from './store'
 
 const router = new VueRouter({
@@ -9,7 +9,7 @@ const router = new VueRouter({
     {
       path: '/',
       name: 'dashboard',
-      component: MainComponent,
+      component: Dashboard,
       meta: {
         requiresAuth: true
       }

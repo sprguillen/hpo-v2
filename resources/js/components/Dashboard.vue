@@ -1,6 +1,5 @@
 <template>
-  <div>
-    Test
+  <div class="dashboard">
   </div>
 </template>
 
@@ -11,3 +10,6 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+  @import "../../sass/components/dashboard.scss";
+</style>
