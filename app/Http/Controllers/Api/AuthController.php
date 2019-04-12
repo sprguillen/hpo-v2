@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\Api;
 
-use API;
 use Validator;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -27,7 +26,7 @@ class AuthController extends Controller
         ];
 
         $validator = Validator::make($userdata, $rules);
-        
+
         if ($validator->passes()) {
             User::create([
                 'email' => $request->email,

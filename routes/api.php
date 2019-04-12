@@ -14,8 +14,11 @@ use Illuminate\Http\Request;
 */
 
 // Authentication
-Route::post('auth/register', 'API\AuthController@register');
-Route::post('auth/login', 'API\AuthController@login')->name('login');
+Route::prefix('auth')->namespace('Api')->group(function() {
+  Route::post('register', 'AuthController@register');
+  Route::post('login', 'AuthController@login')->name('login');
+});
+
 
 // Sources
 Route::post('source/add', 'API\SourceController@add');
