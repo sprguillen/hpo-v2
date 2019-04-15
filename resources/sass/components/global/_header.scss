@@ -4,13 +4,31 @@
   margin: 0;
   padding: 0;
   border-bottom: none;
-}
+  color: $primary;
+  text-transform: uppercase;
 
-.mega-menu {
-  background: $body-bg;
-}
+  .mega-menu {
+    background: $body-bg;
+  }
 
-.company-logo {
-  height: 50px;
-  float: left;
+  .company-logo {
+    height: 50px;
+    float: left;
+  }
+
+  .topbar-actions {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+
+    a {
+      background: #333c43;
+    }
+
+    .dropdown-class {
+      padding: 8px 20px;
+      color: #606e7a;
+      background: #242b31;
+    }
+  }
 }

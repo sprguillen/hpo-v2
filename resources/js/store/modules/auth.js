@@ -25,9 +25,10 @@ const actions = {
       const { data } = await axios.post('/api/auth/login', payload)
 
       localStorage.setItem('auth_token', data.access_token.token)
-      localStorage.setItem('current_user', data.logged_in_user.id)
+      localStorage.setItem('current_user', data.logged_in_user.username)
 
-      console.log(localStorage)
+      commit('setCurrentLoggedInUser', data.logged_in_user.username)
+      commit('setAccessToken', data.access_token.token)
     } catch (e) {
       const { data } = e.response
       throw data

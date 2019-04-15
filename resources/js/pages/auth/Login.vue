@@ -84,7 +84,7 @@ export default {
 
         try {
           await this.login(payload)
-          this.$router.push('dashboard')
+          this.$router.push({ name: 'dashboard' })
         } catch (e) {
           this.$toasted.error(e.message)
         }
