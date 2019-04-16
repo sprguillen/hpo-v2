@@ -19,9 +19,14 @@ class CreateUsersTable extends Migration
             $table->string('global_prefix', 40)->nullable()->default(null);
             $table->string('type', 45)->default('client');
             $table->string('username', 45);
-            $table->string('email', 45);
-            $table->text('password');
-            $table->boolean('active')->default(true);
+            $table->string('email', 45)->unique();
+            $table->string('password');
+            $table->string('first_name', 45);
+            $table->string('last_name', 45);
+            $table->string('contact_number', 45)->nullable();
+            $table->string('business_name', 45)->nullable();
+            $table->string('business_address')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

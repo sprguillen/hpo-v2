@@ -4,6 +4,7 @@ setup:
 	php artisan key:generate
 	yarn
 	make authorize
+	php artisan jwt:secret
 
 authorize:
 	rm -rf ./storage/logs/laravel.log
@@ -34,3 +35,9 @@ refresh:
 
 migrate:
 	php artisan migrate:fresh --seed
+
+testApi:
+	./vendor/bin/phpunit ./tests/Api/.
+
+testSpecific:
+	./vendor/bin/phpunit --filter {${class}}

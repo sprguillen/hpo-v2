@@ -6,6 +6,7 @@ use Validator;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginRequest;
 
 class AuthController extends Controller
 {
@@ -49,20 +50,20 @@ class AuthController extends Controller
         }
     }
 
-    public function login(Request $request)
+    /**
+     * Login
+     *
+     * @param  LoginRequest $request
+     * @return response
+     */
+    public function login(LoginRequest $request)
     {
-        $checkUser = User::where('username', $request->username)->first();
-
-        if (!$checkUser) {
-            return response()->json(['message' => 'User does not exist!'], 400);
-        }
-
         $credentials = $request->only(['username', 'password']);
         if (!$token = auth()->attempt($credentials)) {
-            return response()->json(['message' => 'Username/password does not match!'], 400);
+            return errorify(trans('message.auth.login.error.credentials'));
         }
 
-        return response()->json([
+        return successful(trans('message.auth.login.success'), [
             'access_token' => [
                 'token' => $token,
                 'token_type' => 'bearer',
