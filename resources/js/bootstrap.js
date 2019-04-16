@@ -2,6 +2,7 @@
 import _ from 'lodash'
 import PopperJs from 'popper.js'
 import $ from 'jquery'
+import { getCookie } from './utils/cookie'
 
 import 'bootstrap'
 
@@ -22,7 +23,7 @@ if (token) {
   console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
-let authToken = localStorage.getItem('auth_token')
+let authToken = getCookie('auth_token')
 
 if (auth) {
   axios.defaults.headers.common['Authorization'] = authToken;

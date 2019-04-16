@@ -1,8 +1,12 @@
+import Vue from 'vue'
+import VueCookies from 'vue-cookies'
 import axios from 'axios'
 
+Vue.use(VueCookies)
+
 const state = {
-  currentLoggedInUser: localStorage.getItem('current_user'),
-  accessToken: localStorage.getItem('auth_token')
+  currentLoggedInUser: VueCookies.get('current_user'),
+  accessToken: VueCookies.get('auth_token')
 }
 
 const getters = {
@@ -24,8 +28,8 @@ const actions = {
     try {
       const { data } = await axios.post('/api/auth/login', payload)
 
-      localStorage.setItem('auth_token', data.access_token.token)
-      localStorage.setItem('current_user', data.logged_in_user.username)
+      VueCookies.set('auth_token', data.access_token.token)
+      VueCookies.set('current_user', data.logged_in_user.username)
 
       commit('setCurrentLoggedInUser', data.logged_in_user.username)
       commit('setAccessToken', data.access_token.token)
@@ -33,6 +37,14 @@ const actions = {
       const { data } = e.response
       throw data
     }
+  },
+
+  logout({ state }, payload) {
+    VueCookies.remove('auth_token')
+    VueCookies.remove('current_user')
+
+    state.currentLoggedInUser = null;
+    state.accessToken = null;
   }
 }
 
