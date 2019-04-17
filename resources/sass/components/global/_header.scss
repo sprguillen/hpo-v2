@@ -19,7 +19,7 @@
   .topbar-actions {
     position: absolute;
     top: 20px;
-    right: 25px;
+    right: 34px;
 
     a {
       background: #333c43;
@@ -30,5 +30,21 @@
       color: #606e7a;
       background: #242b31;
     }
+  }
+}
+
+.navbar-item.main-nav {
+  color: #636e77;
+  font-size: 18px;
+  font-weight: 400;
+  padding: 14px 33px;
+  background: #39424a;
+  text-decoration: none;
+  margin-left: 2px;
+
+  &.active,
+  &:hover {
+    background: $primary;
+    color: white;
   }
 }

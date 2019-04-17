@@ -6,6 +6,11 @@
           <a class="navbar-brand">
             <img class="company-logo" src="/images/header_logo.png">
           </a>
+          <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="nav-content">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
           <div class="navbar-end">
             <div class="topbar-actions">
               <b-dropdown position="is-bottom-left" aria-role="menu">
@@ -35,6 +40,36 @@
                 </template>
               </b-dropdown>
             </div>
+          </div>
+        </div>
+      </div>
+      <div class="container-fluid mt-3">
+        <div class="nav-content navbar-menu">
+          <div class="navbar-start">
+            <router-link to="/" class="navbar-item main-nav">
+              <b-icon icon="home"></b-icon>
+              <span>Dashboard</span>
+            </router-link>
+            <router-link to="/" class="navbar-item main-nav">
+              <b-icon icon="account-star"></b-icon>
+              <span>Clients</span>
+            </router-link>
+            <router-link to="/" class="navbar-item main-nav">
+              <b-icon icon="incognito"></b-icon>
+              <span>Processors</span>
+            </router-link>
+            <router-link to="/" class="navbar-item main-nav">
+              <b-icon icon="stethoscope"></b-icon>
+              <span>Batch Orders</span>
+            </router-link>
+            <router-link to="/" class="navbar-item main-nav">
+              <b-icon icon="hospital"></b-icon>
+              <span>Services</span>
+            </router-link>
+            <router-link to="/" class="navbar-item main-nav">
+              <b-icon icon="settings"></b-icon>
+              <span>System</span>
+            </router-link>
           </div>
         </div>
       </div>

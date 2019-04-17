@@ -1,18 +1,20 @@
 <template>
   <div class="dashboard">
     <Header />
-    <Menu />
+    <div class="container-fluid main-container">
+      <div class="col-lg-12 page-content">
+
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import Header from '@/components/global/Header'
-import Menu from '@/components/global/Menu'
 
 export default {
   components: {
-    Header,
-    Menu
+    Header
   }
 }
 </script>

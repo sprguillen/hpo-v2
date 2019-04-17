@@ -8,4 +8,15 @@
   left: 0;
   right: 0;
   background: $body-bg;
+
+  .main-container {
+    width: 98%;
+  }
+}
+
+.page-content {
+  padding: 30px;
+  min-height: 500px;
+  margin-bottom: 15px;
+  background: #fff;
 }
