@@ -9,8 +9,9 @@
   right: 0;
   background: $body-bg;
 
-  .main-container {
-    width: 98%;
+  section .main-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 }
 

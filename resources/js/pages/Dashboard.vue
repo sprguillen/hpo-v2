@@ -1,11 +1,13 @@
 <template>
   <div class="dashboard">
     <Header />
-    <div class="container-fluid main-container">
-      <div class="col-lg-12 page-content">
+    <section>
+      <div class="container-fluid main-container">
+        <div class="col-lg-12 page-content">
 
+        </div>
       </div>
-    </div>
+    </section>
   </div>
 </template>
 

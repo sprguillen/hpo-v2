@@ -1858,6 +1858,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('auth', ['getCurrentLoggedInUser'])),
@@ -1883,6 +1885,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_global_Header__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/global/Header */ "./resources/js/components/global/Header.vue");
+//
+//
 //
 //
 //
@@ -15745,7 +15749,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".page-header[data-v-1bd27444] {\n  margin: 0;\n  padding: 0;\n  border-bottom: none;\n  color: #32c5d2;\n  text-transform: uppercase;\n}\n.page-header .mega-menu[data-v-1bd27444] {\n  background: #2f373e;\n}\n.page-header .company-logo[data-v-1bd27444] {\n  height: 50px;\n  float: left;\n}\n.page-header .topbar-actions[data-v-1bd27444] {\n  position: absolute;\n  top: 20px;\n  right: 34px;\n}\n.page-header .topbar-actions a[data-v-1bd27444] {\n  background: #333c43;\n}\n.page-header .topbar-actions .dropdown-class[data-v-1bd27444] {\n  padding: 8px 20px;\n  color: #606e7a;\n  background: #242b31;\n}\n.navbar-item.main-nav[data-v-1bd27444] {\n  color: #636e77;\n  font-size: 18px;\n  font-weight: 400;\n  padding: 14px 33px;\n  background: #39424a;\n  text-decoration: none;\n  margin-left: 2px;\n}\n.navbar-item.main-nav.active[data-v-1bd27444], .navbar-item.main-nav[data-v-1bd27444]:hover {\n  background: #32c5d2;\n  color: white;\n}", ""]);
+exports.push([module.i, ".page-header[data-v-1bd27444] {\n  margin-top: 1rem;\n  padding: 0;\n  border-bottom: none;\n  text-transform: uppercase;\n}\n.page-header .navbar[data-v-1bd27444] {\n  margin-bottom: 0;\n  background: #2f373e;\n  padding: 0 1rem;\n}\n.page-header .company-logo[data-v-1bd27444] {\n  height: 50px;\n  float: left;\n}\n.page-header .topbar-actions .button-action[data-v-1bd27444] {\n  background: #333c43;\n  color: #32c5d2;\n  font-size: 0.8rem;\n}\n.page-header .topbar-actions .button[data-v-1bd27444] {\n  border-color: #333c43;\n}\n.page-header .topbar-actions .dropdown-class[data-v-1bd27444] {\n  padding: 8px 20px;\n  color: #606e7a;\n  background: #242b31;\n}\n.navbar-item.main-nav[data-v-1bd27444] {\n  color: #636e77;\n  font-size: 18px;\n  font-weight: 400;\n  padding: 14px 33px;\n  background: #39424a;\n  text-decoration: none;\n  margin-right: 2px;\n}\n.navbar-item.main-nav.active[data-v-1bd27444], .navbar-item.main-nav[data-v-1bd27444]:hover {\n  background: #32c5d2;\n  color: white;\n}", ""]);
 
 // exports
 
@@ -15764,7 +15768,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".dashboard[data-v-82704d4a] {\n  width: 100%;\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: #2f373e;\n}\n.dashboard .main-container[data-v-82704d4a] {\n  width: 98%;\n}\n.page-content[data-v-82704d4a] {\n  padding: 30px;\n  min-height: 500px;\n  margin-bottom: 15px;\n  background: #fff;\n}", ""]);
+exports.push([module.i, ".dashboard[data-v-82704d4a] {\n  width: 100%;\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: #2f373e;\n}\n.dashboard section .main-container[data-v-82704d4a] {\n  padding-left: 2rem;\n  padding-right: 2rem;\n}\n.page-content[data-v-82704d4a] {\n  padding: 30px;\n  min-height: 500px;\n  margin-bottom: 15px;\n  background: #fff;\n}", ""]);
 
 // exports
 
@@ -28906,14 +28910,29 @@ var render = function() {
   return _c("header", { staticClass: "page-header" }, [
     _c(
       "nav",
-      { staticClass: "navbar mega-menu", attrs: { role: "navigation" } },
+      {
+        staticClass: "navbar mega-menu",
+        attrs: { role: "navigation", "aria-label": "main navigation" }
+      },
       [
         _c("div", { staticClass: "container-fluid" }, [
-          _c("div", { staticClass: "clearfix navbar-fixed-top" }, [
-            _vm._m(0),
-            _vm._v(" "),
-            _vm._m(1),
-            _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "navbar-brand" },
+            [
+              _c("router-link", { attrs: { to: "/" } }, [
+                _c("img", {
+                  staticClass: "company-logo",
+                  attrs: { src: "/images/header_logo.png" }
+                })
+              ]),
+              _vm._v(" "),
+              _vm._m(0)
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "navbar-menu" }, [
             _c("div", { staticClass: "navbar-end" }, [
               _c(
                 "div",
@@ -28926,10 +28945,10 @@ var render = function() {
                     },
                     [
                       _c(
-                        "a",
+                        "b-button",
                         {
-                          staticClass: "navbar-item",
-                          attrs: { slot: "trigger", role: "button" },
+                          staticClass: "navbar-item button-action",
+                          attrs: { slot: "trigger" },
                           slot: "trigger"
                         },
                         [
@@ -28964,10 +28983,10 @@ var render = function() {
                     },
                     [
                       _c(
-                        "a",
+                        "b-button",
                         {
-                          staticClass: "navbar-item",
-                          attrs: { slot: "trigger", role: "button" },
+                          staticClass: "navbar-item button-action",
+                          attrs: { slot: "trigger" },
                           slot: "trigger"
                         },
                         [
@@ -29011,97 +29030,90 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "container-fluid mt-3" }, [
-          _c("div", { staticClass: "nav-content navbar-menu" }, [
-            _c(
-              "div",
-              { staticClass: "navbar-start" },
-              [
-                _c(
-                  "router-link",
-                  { staticClass: "navbar-item main-nav", attrs: { to: "/" } },
-                  [
-                    _c("b-icon", { attrs: { icon: "home" } }),
-                    _vm._v(" "),
-                    _c("span", [_vm._v("Dashboard")])
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "router-link",
-                  { staticClass: "navbar-item main-nav", attrs: { to: "/" } },
-                  [
-                    _c("b-icon", { attrs: { icon: "account-star" } }),
-                    _vm._v(" "),
-                    _c("span", [_vm._v("Clients")])
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "router-link",
-                  { staticClass: "navbar-item main-nav", attrs: { to: "/" } },
-                  [
-                    _c("b-icon", { attrs: { icon: "incognito" } }),
-                    _vm._v(" "),
-                    _c("span", [_vm._v("Processors")])
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "router-link",
-                  { staticClass: "navbar-item main-nav", attrs: { to: "/" } },
-                  [
-                    _c("b-icon", { attrs: { icon: "stethoscope" } }),
-                    _vm._v(" "),
-                    _c("span", [_vm._v("Batch Orders")])
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "router-link",
-                  { staticClass: "navbar-item main-nav", attrs: { to: "/" } },
-                  [
-                    _c("b-icon", { attrs: { icon: "hospital" } }),
-                    _vm._v(" "),
-                    _c("span", [_vm._v("Services")])
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "router-link",
-                  { staticClass: "navbar-item main-nav", attrs: { to: "/" } },
-                  [
-                    _c("b-icon", { attrs: { icon: "settings" } }),
-                    _vm._v(" "),
-                    _c("span", [_vm._v("System")])
-                  ],
-                  1
-                )
-              ],
-              1
-            )
-          ])
+          _c(
+            "div",
+            { staticClass: "navbar-menu", attrs: { id: "nav-content" } },
+            [
+              _c(
+                "div",
+                { staticClass: "navbar-start" },
+                [
+                  _c(
+                    "router-link",
+                    { staticClass: "navbar-item main-nav", attrs: { to: "/" } },
+                    [
+                      _c("b-icon", { attrs: { icon: "home" } }),
+                      _vm._v(" \n            "),
+                      _c("span", [_vm._v("Dashboard")])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "router-link",
+                    { staticClass: "navbar-item main-nav", attrs: { to: "/" } },
+                    [
+                      _c("b-icon", { attrs: { icon: "account-star" } }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("Clients")])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "router-link",
+                    { staticClass: "navbar-item main-nav", attrs: { to: "/" } },
+                    [
+                      _c("b-icon", { attrs: { icon: "incognito" } }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("Processors")])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "router-link",
+                    { staticClass: "navbar-item main-nav", attrs: { to: "/" } },
+                    [
+                      _c("b-icon", { attrs: { icon: "stethoscope" } }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("Batch Orders")])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "router-link",
+                    { staticClass: "navbar-item main-nav", attrs: { to: "/" } },
+                    [
+                      _c("b-icon", { attrs: { icon: "hospital" } }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("Services")])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "router-link",
+                    { staticClass: "navbar-item main-nav", attrs: { to: "/" } },
+                    [
+                      _c("b-icon", { attrs: { icon: "settings" } }),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("System")])
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ]
+          )
         ])
       ]
     )
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "navbar-brand" }, [
-      _c("img", {
-        staticClass: "company-logo",
-        attrs: { src: "/images/header_logo.png" }
-      })
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -29160,8 +29172,10 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container-fluid main-container" }, [
-      _c("div", { staticClass: "col-lg-12 page-content" })
+    return _c("section", [
+      _c("div", { staticClass: "container-fluid main-container" }, [
+        _c("div", { staticClass: "col-lg-12 page-content" })
+      ])
     ])
   }
 ]

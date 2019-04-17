@@ -1,24 +1,26 @@
 <template>
   <header class="page-header">
-    <nav class="navbar mega-menu" role="navigation">
+    <nav class="navbar mega-menu" role="navigation" aria-label="main navigation">
       <div class="container-fluid">
-        <div class="clearfix navbar-fixed-top">
-          <a class="navbar-brand">
+        <div class="navbar-brand">
+          <router-link to="/">
             <img class="company-logo" src="/images/header_logo.png">
-          </a>
+          </router-link>
           <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="nav-content">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
           </a>
+        </div>
+        <div class="navbar-menu">
           <div class="navbar-end">
             <div class="topbar-actions">
               <b-dropdown position="is-bottom-left" aria-role="menu">
-                <a class="navbar-item" slot="trigger" role="button">
+                <b-button class="navbar-item button-action" slot="trigger">
                   <b-icon icon="bell"></b-icon>
                   <span>Announcements</span>
                   <b-icon icon="menu-down"></b-icon>
-                </a>
+                </b-button>
 
                 <template slot="default" class="dropdown-class">
                   <div class="dropdown-item">
@@ -27,11 +29,11 @@
                 </template>
               </b-dropdown>
               <b-dropdown position="is-bottom-left" aria-role="menu">
-                <a class="navbar-item" slot="trigger" role="button">
+                <b-button class="navbar-item button-action" slot="trigger">
                   <b-icon icon="account"></b-icon>
                   <span>Hi, {{ getCurrentLoggedInUser }}</span>
                   <b-icon icon="menu-down"></b-icon>
-                </a>
+                </b-button>
 
                 <template slot="default" class="dropdown-class">
                   <div class="dropdown-item" @click="exit">
@@ -44,10 +46,10 @@
         </div>
       </div>
       <div class="container-fluid mt-3">
-        <div class="nav-content navbar-menu">
+        <div id="nav-content" class="navbar-menu">
           <div class="navbar-start">
             <router-link to="/" class="navbar-item main-nav">
-              <b-icon icon="home"></b-icon>
+              <b-icon icon="home"></b-icon>&nbsp;
               <span>Dashboard</span>
             </router-link>
             <router-link to="/" class="navbar-item main-nav">

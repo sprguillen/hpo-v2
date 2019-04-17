@@ -16,7 +16,10 @@ $btn-primary: $primary;
 }
 
 // Bulma
+
 @import '~bulma/sass/utilities/_all';
+
+$family-primary: 'Oswald', sans-serif;
 
 .navbar-laravel {
   background-color: #fff;
