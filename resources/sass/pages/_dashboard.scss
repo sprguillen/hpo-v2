@@ -13,11 +13,26 @@
     padding-left: 2rem;
     padding-right: 2rem;
   }
-}
 
-.page-content {
-  padding: 30px;
-  min-height: 500px;
-  margin-bottom: 15px;
-  background: #fff;
+  .page-content {
+    padding: 30px;
+    min-height: 500px;
+    margin-bottom: 15px;
+    background: #fff;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .breadcrumb {
+    padding: 0;
+    background-color: #fff;
+  }
+
+  .side-borders {
+    border-left-style: solid;
+    border-right-style: solid;
+    border-width: thin;
+  }
 }
