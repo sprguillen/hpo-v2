@@ -77,17 +77,6 @@ class User extends Authenticatable implements JWTSubject
         return $query->where('role', self::ROLE_CLIENT);
     }
 
-    /**
-     * Is the current user an admin?
-     *
-     * @author goper
-     * @return boolean
-     */
-    public function isAdmin()
-    {
-        return $this->role == self::ROLE_ADMIN;
-    }
-
     public function getJWTIdentifier()
     {
       return $this->getKey();

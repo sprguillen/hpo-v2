@@ -15,7 +15,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients = User::isClient()->paginate(10);
+        $clients = User::client()->paginate(10);
         return success_data(compact('clients'));
     }
 
@@ -28,7 +28,7 @@ class ClientController extends Controller
      */
     public function store(Request $request, $id)
     {
-        
+
     }
 
     /**

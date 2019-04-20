@@ -34,7 +34,7 @@ abstract class TestCase extends BaseTestCase
     public function loggedUser($email)
     {
         if ($email == 'random') {
-            $randomUser = User::orderByRaw('RAND()')->whitelisted()->first();
+            $randomUser = User::orderByRaw('RAND()')->client()->first();
             $email = $randomUser->email;
         }
         $this->user = User::where('email', $email)->first();
@@ -42,12 +42,23 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
+     * Login client user
+     *
+     * @author goper
+     * @return void
+     */
+    public function loggedUserClient()
+    {
+        $user = User::orderByRaw('RAND()')->client()->first();
+        $this->loggedUser($user->email);
+    }
+
+    /**
      * Login user admin
      */
     public function loggedUserAsAdmin()
     {
-        $user = User::orderByRaw('RAND()')->isAdmin()->first();
-        dd($user);
+        $user = User::orderByRaw('RAND()')->admin()->first();
         $this->loggedUser($user->email);
     }
 

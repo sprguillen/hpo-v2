@@ -20,7 +20,7 @@ class AdminClientTest extends TestCase
         $this->actingAs($this->user, 'api');
 
         $response = $this->json('GET', route('api.admin.client'));
-
+        
         $data = $response->getData();
         $response
             ->assertStatus(self::RESPONSE_SUCCESS)

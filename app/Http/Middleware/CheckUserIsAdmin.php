@@ -15,11 +15,11 @@ class CheckUserIsAdmin
      */
     public function handle($request, Closure $next)
     {
-        if (!$request->isAdmin()) {
+        if ($request->user()->role != \App\Models\User::ROLE_ADMIN) {
             auth()->logout();
             session()->flush();
 
-            return redirect()->route('home');
+            return redirect()->route('home', ['any' => '']);
         }
 
         return $next($request);

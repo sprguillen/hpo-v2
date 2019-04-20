@@ -25,14 +25,17 @@ Route::namespace('Api')->group(function() {
     /**
      * Admin Routes
      */
-    Route::prefix('admin')->namespace('Admin')->group(function() {
-        
-        // Client
-        Route::prefix('client')->group(function() {
-            Route::name('api.admin.client')->get('', 'ClientController@index');
-            Route::name('api.admin.client.store')->post('store', 'ClientController@store');
-            Route::name('api.admin.client.update')->post('update/{id}', 'ClientController@update');
-            Route::name('api.admin.client.destroy')->post('destroy/{id}', 'ClientController@destroy');
+    Route::middleware('auth')->group(function() {
+        Route::prefix('admin')
+            ->middleware('admin')
+            ->namespace('Admin')->group(function() {
+            // Client
+            Route::prefix('client')->group(function() {
+                Route::name('api.admin.client')->get('', 'ClientController@index');
+                Route::name('api.admin.client.store')->post('store', 'ClientController@store');
+                Route::name('api.admin.client.update')->post('update/{id}', 'ClientController@update');
+                Route::name('api.admin.client.destroy')->post('destroy/{id}', 'ClientController@destroy');
+            });
         });
     });
 
