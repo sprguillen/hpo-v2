@@ -48,27 +48,27 @@
       <div class="container-fluid mt-3">
         <div id="nav-content" class="navbar-menu">
           <div class="navbar-start">
-            <router-link to="/" class="navbar-item main-nav">
+            <router-link to="/" class="navbar-item main-nav" :style="activeStyle('dashboard')">
               <b-icon icon="home"></b-icon>&nbsp;
               <span>Dashboard</span>
             </router-link>
-            <router-link to="/" class="navbar-item main-nav">
+            <router-link to="/clients" class="navbar-item main-nav" :style="activeStyle('clients')">
               <b-icon icon="account-star"></b-icon>
               <span>Clients</span>
             </router-link>
-            <router-link to="/" class="navbar-item main-nav">
+            <router-link to="/processors" class="navbar-item main-nav" :style="activeStyle('processors')">
               <b-icon icon="incognito"></b-icon>
               <span>Processors</span>
             </router-link>
-            <router-link to="/" class="navbar-item main-nav">
+            <router-link to="/orders" class="navbar-item main-nav" :style="activeStyle('orders')">
               <b-icon icon="stethoscope"></b-icon>
               <span>Batch Orders</span>
             </router-link>
-            <router-link to="/" class="navbar-item main-nav">
+            <router-link to="/services" class="navbar-item main-nav" :style="activeStyle('services')">
               <b-icon icon="hospital"></b-icon>
               <span>Services</span>
             </router-link>
-            <router-link to="/" class="navbar-item main-nav">
+            <router-link to="/system" class="navbar-item main-nav" :style="activeStyle('system')">
               <b-icon icon="settings"></b-icon>
               <span>System</span>
             </router-link>
@@ -90,6 +90,11 @@ export default {
     exit() {
       this.logout()
       this.$router.push({ name: 'login' })
+    },
+    activeStyle(item) {
+      if (this.$route.name === item) {
+        return { 'background': '#f9f9f9!important', 'color': '#2a3239!important' }
+      }
     }
   }
 }

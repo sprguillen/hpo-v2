@@ -27,14 +27,23 @@
           {{ props.row.status }}
         </b-table-column>
         <b-table-column field="actions" label="Actions">
-          <b-button type="is-success">View</b-button>
+          <b-button type="is-success" @click="openBatchModal()">View</b-button>
         </b-table-column>
       </template>
     </b-table>
+    <BatchOrdersModal
+      :open="isBatchModalActive"
+      :details="orders"
+      @close="isBatchModalActive = false" />
   </section>
 </template>
 <script>
+import BatchOrdersModal from '@/components/dashboard/BatchOrdersModal'
+
 export default {
+  components: {
+    BatchOrdersModal
+  },
   props: {
     orders: {
       type: Array,
@@ -43,6 +52,16 @@ export default {
     type: {
       type: String,
       required: true
+    }
+  },
+  data() {
+    return {
+      isBatchModalActive: false
+    }
+  },
+  methods: {
+    openBatchModal() {
+      this.isBatchModalActive = true
     }
   }
 }
