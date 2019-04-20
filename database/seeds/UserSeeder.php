@@ -31,5 +31,22 @@ class UserSeeder extends Seeder
             $user->is_active = true;
             $user->save();
         }
+
+        // Seed admin
+        $user = new User();
+        $user->code = str_random(20);
+        $user->global_prefix = '';
+        $user->type = 'client';
+        $user->username = $faker->userName;
+        $user->email = $faker->freeEmail;
+        $user->password = Hash::make('secret');
+        $user->first_name = $faker->firstNameMale;
+        $user->last_name = $faker->lastName;
+        $user->role = User::ROLE_ADMIN;
+        $user->contact_number = $faker->phoneNumber;
+        $user->business_name = $faker->company;
+        $user->business_address = $faker->address;
+        $user->is_active = true;
+        $user->save();
     }
 }

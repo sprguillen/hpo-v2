@@ -14,9 +14,28 @@ use Illuminate\Http\Request;
 */
 
 // Authentication
-Route::prefix('auth')->namespace('Api')->group(function() {
-  Route::post('register', 'AuthController@register')->name('register');
-  Route::post('login', 'AuthController@login')->name('login');
+Route::namespace('Api')->group(function() {
+
+    //** Auth routes
+    Route::prefix('auth')->namespace('Auth')->group(function() {
+        Route::post('login', 'AuthController@login')->name('login');
+        Route::post('register', 'AuthController@register')->name('register');
+    });
+
+    /**
+     * Admin Routes
+     */
+    Route::prefix('admin')->namespace('Admin')->group(function() {
+        
+        // Client
+        Route::prefix('client')->group(function() {
+            Route::name('api.admin.client')->get('', 'ClientController@index');
+            Route::name('api.admin.client.store')->post('store', 'ClientController@store');
+            Route::name('api.admin.client.update')->post('update/{id}', 'ClientController@update');
+            Route::name('api.admin.client.destroy')->post('destroy/{id}', 'ClientController@destroy');
+        });
+    });
+
 });
 
 

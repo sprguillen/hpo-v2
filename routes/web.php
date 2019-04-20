@@ -11,4 +11,4 @@
 |
 */
 
-Route::get('/{any}', 'Web\AppController@index')->where('any', '.*');
+Route::get('/{any}', 'Web\AppController@index')->where('any', '.*')->name('home');

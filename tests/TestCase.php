@@ -22,6 +22,8 @@ abstract class TestCase extends BaseTestCase
     const RESPONSE_INTERNAL_ERROR = 500;
     const RESPONSE_NOT_FOUND = 404;
 
+    protected $user;
+
     /**
      * Login user
      *
@@ -44,7 +46,9 @@ abstract class TestCase extends BaseTestCase
      */
     public function loggedUserAsAdmin()
     {
-        $this->loggedUser('admin@etrs.com');
+        $user = User::orderByRaw('RAND()')->isAdmin()->first();
+        dd($user);
+        $this->loggedUser($user->email);
     }
 
     /**
@@ -67,5 +71,21 @@ abstract class TestCase extends BaseTestCase
     public function getPostResponse($response)
     {
         return json_decode($response->getContent());
+    }
+
+    /**
+     * Test response data if pagination or not
+     *
+     * @author goper
+     * @param  object $data
+     * @return void
+     */
+    public function paginationTest($data)
+    {
+        $this->assertObjectHasAttribute('current_page', $data);
+        $this->assertObjectHasAttribute('first_page_url', $data);
+        $this->assertObjectHasAttribute('total', $data);
+        $this->assertTrue(is_array($data->data));
+
     }
 }

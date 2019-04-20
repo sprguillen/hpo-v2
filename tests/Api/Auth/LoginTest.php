@@ -21,10 +21,14 @@ class LoginTest extends TestCase
             'username' => 'none_existing_username',
             'password' => 'secret'
         ]);
-
+        
         $response
             ->assertStatus(self::RESPONSE_CLIENT_ERROR)
-            ->assertJsonValidationErrors(['username']);
+            ->assertJsonValidationErrors(['username'])
+            ->assertJson([
+                'success' => false,
+                'message' => trans('error.validation'),
+            ]);
     }
 
     /**

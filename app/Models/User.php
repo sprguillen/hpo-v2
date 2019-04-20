@@ -11,6 +11,9 @@ class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
+    const ROLE_ADMIN = 10;
+    const ROLE_CLIENT = 0;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -25,6 +28,7 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'first_name',
         'last_name',
+        'role',
         'contact_number',
         'business_name',
         'business_address',
@@ -40,12 +44,49 @@ class User extends Authenticatable implements JWTSubject
         'password',
     ];
 
+    /**
+     * guarded
+     * @var array
+     */
     protected $guarded = [
         'code',
         'global_prefix',
         'type',
         'active'
     ];
+
+    /**
+     * Get users that are admin
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     * @author goper
+     */
+    public function scopeAdmin($query) {
+        return $query->where('role', self::ROLE_ADMIN);
+    }
+
+    /**
+     * Get users that are client
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     * @author goper
+     */
+    public function scopeClient($query) {
+        return $query->where('role', self::ROLE_CLIENT);
+    }
+
+    /**
+     * Is the current user an admin?
+     *
+     * @author goper
+     * @return boolean
+     */
+    public function isAdmin()
+    {
+        return $this->role == self::ROLE_ADMIN;
+    }
 
     public function getJWTIdentifier()
     {

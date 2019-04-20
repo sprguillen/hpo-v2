@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\Client;
 
-use App\Http\Requests\BaseRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends BaseRequest
+class StoreReqest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class LoginRequest extends BaseRequest
      */
     public function authorize()
     {
-        return true;
+        return auth()->user()->isAdmin();
     }
 
     /**
@@ -24,8 +24,7 @@ class LoginRequest extends BaseRequest
     public function rules()
     {
         return [
-            'username' => 'required|exists:users',
-            'password' => 'required',
+            //
         ];
     }
 }

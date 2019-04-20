@@ -12,7 +12,7 @@ return [
     'auth' => [
       'login' => [
         'error' => [
-          'credentials' => 'Email or passowrd does not match.'
+          'credentials' => 'Email or password does not match.'
         ],
         'success' => 'You are logged in. Please wait.'
       ],
