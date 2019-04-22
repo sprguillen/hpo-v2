@@ -4,7 +4,7 @@
     <section>
       <div class="container-fluid main-container">
         <div class="column is-full page-content">
-          <div class="column is-full">
+          <div class="column is-full no-left-padding">
             <h1 class="float-left">HI-PRECISION ORDERING SYSTEM</h1>
             <nav class="breadcrumb float-right has-bullet-separator" aria-label="breadcrumbs">
               <ul>
@@ -64,7 +64,12 @@ export default {
       { topic: 'Release of results' },
       { topic: 'Holiday schedules' },
       { topic: 'Patients Beware' },
-      { topic: 'New Tests' }
+      { topic: 'New Tests' },
+      { topic: 'Management Announcement' },
+      { topic: 'What`s hot' },
+      { topic: 'New Facilities' },
+      { topic: 'Doctor Lists' },
+      { topic: 'Announcement!' }
     ]
 
     return {
@@ -72,6 +77,9 @@ export default {
       confirmedOrders,
       announcements
     }
+  },
+  created() {
+    this.$toasted.success('Welcome')
   }
 }
 </script>

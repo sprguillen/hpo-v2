@@ -27,14 +27,14 @@
           {{ props.row.status }}
         </b-table-column>
         <b-table-column field="actions" label="Actions">
-          <b-button type="is-success" @click="openBatchModal()">View</b-button>
+          <b-button type="is-success" @click="openBatchModal(props.row)">View</b-button>
         </b-table-column>
       </template>
     </b-table>
     <BatchOrdersModal
-      :open="isBatchModalActive"
-      :details="orders"
-      @close="isBatchModalActive = false" />
+      :open="isModalActive"
+      :details="currentOrder"
+      @close="isModalActive = false" />
   </section>
 </template>
 <script>
@@ -56,12 +56,14 @@ export default {
   },
   data() {
     return {
-      isBatchModalActive: false
+      isModalActive: false,
+      currentOrder: []
     }
   },
   methods: {
-    openBatchModal() {
-      this.isBatchModalActive = true
+    openBatchModal(batch) {
+      this.currentOrder = [batch]
+      this.isModalActive = true
     }
   }
 }

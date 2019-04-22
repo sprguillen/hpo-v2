@@ -1,6 +1,6 @@
 @import '../variables';
 
-.dashboard {
+.clients {
   width: 100%;
   position: fixed;
   top: 0;
@@ -25,18 +25,15 @@
     background: #fff;
   }
 
+  .portlet {
+    border: 1px solid #e7ecf1;
+  }
+
+  hr {
+    background-color: #e7ecf1;
+  }
+
   h1 {
     font-size: 1.5rem;
-  }
-
-  .breadcrumb {
-    padding: 0;
-    background-color: #fff;
-  }
-
-  .side-borders {
-    border-left-style: solid;
-    border-right-style: solid;
-    border-width: thin;
   }
 }

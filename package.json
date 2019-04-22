@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "buefy": "^0.7.4",
+        "moment": "^2.24.0",
         "vee-validate": "^2.2.2",
         "vue-cookies": "^1.5.13",
         "vue-router": "^3.0.2",

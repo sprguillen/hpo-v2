@@ -1,6 +1,8 @@
 import VueRouter from 'vue-router'
 import Login from '@/pages/auth/Login'
 import Dashboard from '@/pages/Dashboard'
+import Clients from '@/pages/clients/Index'
+import ClientDetails from '@/pages/clients/Details'
 import store from '@/store'
 
 const router = new VueRouter({
@@ -10,6 +12,22 @@ const router = new VueRouter({
       path: '/',
       name: 'dashboard',
       component: Dashboard,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/clients',
+      name: 'clients',
+      component: Clients,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/clients/:id',
+      name: 'client_details',
+      component: ClientDetails,
       meta: {
         requiresAuth: true
       }
