@@ -77,6 +77,40 @@ class User extends Authenticatable implements JWTSubject
         return $query->where('role', self::ROLE_CLIENT);
     }
 
+    /**
+     * Is the current user an admin
+     *
+     * @return boolean
+     * @author goper
+     */
+    public function getIsAdminAttribute()
+    {
+        return $this->isAdmin();
+    }
+
+    /**
+     * Is the current user an client
+     *
+     * @return boolean
+     * @author goper
+     */
+    public function getIsClientAttribute()
+    {
+        return $this->role == self::ROLE_CLIENT;
+    }
+
+    /**
+     * Is the current user is not admin?
+     *
+     * @return boolean
+     */
+    public function getIsNotAdminAttribute()
+    {
+        return !$this->isAdmin();
+    }
+
+
+
     public function getJWTIdentifier()
     {
       return $this->getKey();
@@ -85,5 +119,19 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
       return [];
+    }
+
+    /**
+     * Custom methods
+     */
+
+    /**
+     * Is the current user an admin?
+     *
+     * @return boolean
+     * @author goper
+     */
+    public function isAdmin() {
+        return $this->role == self::ROLE_ADMIN;
     }
 }

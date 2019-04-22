@@ -21,7 +21,7 @@ class LoginTest extends TestCase
             'username' => 'none_existing_username',
             'password' => 'secret'
         ]);
-        
+
         $response
             ->assertStatus(self::RESPONSE_CLIENT_ERROR)
             ->assertJsonValidationErrors(['username'])
@@ -75,6 +75,26 @@ class LoginTest extends TestCase
                     'username' => $randomUser->username,
                     'id' => $randomUser->id
                 ]
+            ]);
+    }
+
+    /**
+     * @test
+     */
+    public function cannotPostLoginIfUserIsAlreadyLoggedIn()
+    {
+        $this->loggedUserClient();
+        $this->actingAs($this->user, 'api');
+        $response = $this->json('POST', route('login'), [
+            'username' => $this->user->username,
+            'password' => 'secret'
+        ]);
+
+        $response
+            ->assertStatus(self::RESPONSE_CLIENT_ERROR)
+            ->assertJson([
+                'success' => false,
+                'message' => trans('message.auth.login.error.already_login'),
             ]);
     }
 }

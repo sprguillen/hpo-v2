@@ -43,4 +43,14 @@ class AdminTest extends TestCase
         $response
             ->assertStatus(self::RESPONSE_REDIRECTION);
     }
+
+    /**
+     * @test
+     */
+    public function cannotAccessIfUserIsNotLoggedIn()
+    {
+        $response = $this->json('GET', route('api.admin.client'));
+        $response
+            ->assertStatus(self::RESPONSE_UNAUTHORIZED);
+    }
 }

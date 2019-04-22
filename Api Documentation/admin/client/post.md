@@ -2,11 +2,11 @@
 
 #### (**Admin Only**)
 
-Used to collect client list
+Store client
 
-**URL** : `/api/admin/client`
+**URL** : `/api/admin/client/store`
 
-**Method** : `GET`
+**Method** : `POST`
 
 **Auth required** : YES
 

@@ -18,6 +18,10 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request)
     {
+        if (auth()->check()) {
+            return errorify(trans('message.auth.login.error.already_login'));
+        }
+
         $credentials = $request->only(['username', 'password']);
         if (!$token = auth()->attempt($credentials)) {
             return errorify(trans('message.auth.login.error.credentials'));

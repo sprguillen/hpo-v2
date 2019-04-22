@@ -15,7 +15,7 @@ class CheckUserIsAdmin
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user()->role != \App\Models\User::ROLE_ADMIN) {
+        if ($request->user()->isNotAdmin) {
             auth()->logout();
             session()->flush();
 

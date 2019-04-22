@@ -12,10 +12,21 @@ return [
     'auth' => [
       'login' => [
         'error' => [
-          'credentials' => 'Email or password does not match.'
+          'credentials' => 'Email or password does not match.',
+          'already_login' => 'You are already logged in.',
         ],
-        'success' => 'You are logged in. Please wait.'
+        'success' => 'You are logged in. Please wait.',
       ],
     ],
 
+    /**
+     * Admin messages
+     */
+    'admin' => [
+        'client' => [
+            'store' => [
+                'success' => 'New client has been created.',
+            ]
+        ]
+    ],
 ];

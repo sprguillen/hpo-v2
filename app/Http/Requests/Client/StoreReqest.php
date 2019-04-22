@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Client;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreReqest extends FormRequest
 {
@@ -13,7 +14,7 @@ class StoreReqest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->isAdmin();
+        return auth()->user()->admin();
     }
 
     /**
@@ -24,7 +25,14 @@ class StoreReqest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'email' => 'required|email|unique:users',
+            'firstName' => 'required',
+            'lastName' => 'required',
+            'password' => 'required|confirmed',
+            'dispatchMode' => [
+                'required',
+                Rule::in(['send', 'online'])
+            ],
         ];
     }
 }
