@@ -26,3 +26,7 @@ $primary: #32c5d2;
   background-color: $primary;
   color: #fff;
 }
+
+.app-text-primary {
+  color: $primary !important;
+}

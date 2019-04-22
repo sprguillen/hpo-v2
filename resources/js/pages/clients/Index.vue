@@ -4,8 +4,9 @@
     <section>
       <div class="container-fluid main-container">
         <div class="column is-full page-content">
-          <div class="column is-full no-left-padding">
-            <b-button type="app-primary">Add Client</b-button>
+          <AddClient v-if="addMode" @hide="addMode = false" />
+          <div v-else class="column is-full no-left-padding">
+            <b-button type="app-primary" @click="addMode = true">Add Client</b-button>
           </div>
           <div class="column" />
           <div class="column" />
@@ -20,11 +21,13 @@
 <script>
 import Header from '@/components/global/Header'
 import Clients from '@/components/clients/Clients'
+import AddClient from '@/components/clients/AddClient'
 
 export default {
   components: {
     Header,
-    Clients
+    Clients,
+    AddClient
   },
   data() {
     return {
@@ -43,7 +46,13 @@ export default {
           'created_date': '19 days ago',
           'actions': null
         }
-      ]
+      ],
+      addMode: false
+    }
+  },
+  methods: {
+    testClick() {
+      console.log('hey')
     }
   }
 }

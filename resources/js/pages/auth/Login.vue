@@ -51,7 +51,7 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
-import validationMixin from '../../mixins/validation'
+import validationMixin from '@/mixins/validation'
 
 export default {
   mixins: [validationMixin],

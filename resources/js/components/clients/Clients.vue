@@ -2,7 +2,9 @@
   <section class="clients-list">
     <h1>CLIENTS LIST</h1>
     <hr />
-    <b-input v-model="form.search" placeholder="Search Client"></b-input>
+    <b-field grouped>
+      <b-input v-model="form.search" placeholder="Search Client"></b-input>
+    </b-field>
     <b-table :data="clients">
       <template slot-scope="props">
         <b-table-column field="username" label="Client">
