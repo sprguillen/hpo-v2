@@ -24,9 +24,11 @@ return [
      */
     'admin' => [
         'client' => [
-            'store' => [
-                'success' => 'New client has been created.',
-            ]
+            'success' => [
+                'store' => 'New client has been created.',
+                'update' => ':email client has been updated.',
+                'delete' => 'Client has been deleted.',
+            ],
         ]
     ],
 ];

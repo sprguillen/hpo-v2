@@ -63,6 +63,17 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
+     * Fetch random data base on `table` data given
+     *
+     * @param  string $tableName
+     * @return object
+     */
+    public function findRandomData($tableName)
+    {
+        return DB::table($tableName)->orderByRaw('RAND()')->first();
+    }
+
+    /**
      * Get response body on `GET` request
      *
      * @param  [type] $response [description]

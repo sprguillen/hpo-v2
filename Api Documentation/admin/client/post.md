@@ -14,6 +14,19 @@ Store client
 
 **Code** : `200 OK`
 
+**Post Data**
+
+```json
+{
+    "email": "sample@email.com",
+    "username": "username",
+    "first_name": "$firstName",
+    "last_name": "lastName",
+    "password": "secret",
+    "password_confirmation": "secret",
+}
+```
+
 **Content examples**
 
 ```json

@@ -62,7 +62,7 @@ class LoginTest extends TestCase
             'username' => $randomUser->username,
             'password' => 'secret'
         ]);
-
+        
         $response
             ->assertStatus(self::RESPONSE_SUCCESS)
             ->assertJson([

@@ -33,8 +33,8 @@ Route::namespace('Api')->group(function() {
             Route::prefix('client')->group(function() {
                 Route::name('api.admin.client')->get('', 'ClientController@index');
                 Route::name('api.admin.client.store')->post('store', 'ClientController@store');
-                Route::name('api.admin.client.update')->post('update/{id}', 'ClientController@update');
-                Route::name('api.admin.client.destroy')->post('destroy/{id}', 'ClientController@destroy');
+                Route::name('api.admin.client.update')->post('{id}/update', 'ClientController@update');
+                Route::name('api.admin.client.destroy')->post('{id}/destroy', 'ClientController@destroy');
             });
         });
     });

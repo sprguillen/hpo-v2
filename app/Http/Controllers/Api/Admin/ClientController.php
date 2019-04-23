@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
+use Hash;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\StoreReqest;
+use App\Http\Requests\Client\UpdateRequest;
 
 class ClientController extends Controller
 {
@@ -31,15 +33,15 @@ class ClientController extends Controller
     {
         $client = new User();
         $client->email = $request->email;
-        $client->password = $request->password;
-        $client->first_name = $request->firstName;
-        $client->last_name = $request->lastName;
-        $client->username = $this->createUserName($request->email); // get username based on email
+        $client->username = $request->username;
+        $client->password = Hash::make($request->password);
+        $client->first_name = $request->first_name;
+        $client->last_name = $request->last_name;
         $client->type = 'client';
         $client->role = User::ROLE_CLIENT;
         $client->save();
 
-        return successful(trans('admin.client.store.success'), [
+        return successful(trans('message.admin.client.success.store'), [
             'client' => $client,
         ]);
     }
@@ -68,9 +70,18 @@ class ClientController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
+        $client = User::findOrFail($request->id);
+        $client->email = $request->email;
+        $client->username = $request->username;
+        $client->first_name = $request->first_name;
+        $client->last_name = $request->last_name;
+        $client->save();
 
+        return successful(trans('message.admin.client.success.update', ['email' => $request->email]), [
+            'client' => $client,
+        ]);
     }
 
     /**
@@ -78,7 +89,7 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy(Request $request, $id)
     {
 
     }
