@@ -26,9 +26,9 @@ class BaseRequest extends FormRequest
     {
         if ($this->expectsJson()) {
             $response = new JsonResponse([
-                'message' => trans('error.validation'),
+                'success' => false,
+                'message' => trans('validation.error'),
                 'errors' => $validator->errors(),
-                'success' => false
             ], 422);
 
             throw new ValidationException($validator, $response);

@@ -79,6 +79,7 @@ class AdminClientTest extends TestCase
 
         // Find random client
         $client = $this->findRandomData('users');
+        $name = $client->first_name . ' ' . $client->last_name;
 
         $newFirstName = $this->faker->firstName;
         $newLastName = $this->faker->lastName;
@@ -90,12 +91,12 @@ class AdminClientTest extends TestCase
             'first_name' => $newFirstName,
             'last_name' => $newLastName,
         ]);
-        // dd($response);
+
         $response
             ->assertStatus(self::RESPONSE_SUCCESS)
             ->assertJson([
                 'success' => true,
-                'message' => trans('message.admin.client.success.update', ['email' => $client->email]),
+                'message' => trans('message.admin.client.success.update', ['name' => $name]),
                 'client' => [
                     'id' => $client->id,
                     'email' => $client->email,
@@ -103,5 +104,67 @@ class AdminClientTest extends TestCase
                     'last_name' => $newLastName,
                 ],
             ]);
+    }
+
+    /**
+     * @test
+     */
+    public function cannotUpdateClientIfIdGivenDoesNotExist()
+    {
+        $this->loggedUserAsAdmin();
+        $this->actingAs($this->user, 'api');
+
+        // Client does not exist
+        $client_id = '23123ao3231';
+
+        $newFirstName = $this->faker->firstName;
+        $newLastName = $this->faker->lastName;
+
+        $response = $this->json('POST', route('api.admin.client.update', ['id' => $client_id]), [
+            'id' => $client_id,
+            'email' => $this->faker->email,
+            'username' => $newFirstName,
+            'first_name' => $newFirstName,
+            'last_name' => $newLastName,
+        ]);
+
+        $response
+            ->assertStatus(self::RESPONSE_CLIENT_ERROR)
+            ->assertJsonValidationErrors(['id']);
+    }
+
+    /**
+     * @test
+     */
+    public function canDestroyClient()
+    {
+        $this->loggedUserAsAdmin();
+        $this->actingAs($this->user, 'api');
+
+        // Client
+        $client = User::client()->first();
+
+        $response = $this->json('POST', route('api.admin.client.destroy', ['id' => $client->id]));
+
+        $response
+            ->assertStatus(self::RESPONSE_SUCCESS)
+            ->assertJson([
+                'success' => true,
+                'message' => trans('message.admin.client.success.destroy'),
+            ]);
+    }
+
+    /**
+     * @test
+     */
+    public function cannotDeleteIfClientIdIsNotFound()
+    {
+        $this->loggedUserAsAdmin();
+        $this->actingAs($this->user, 'api');
+        // Client
+        $client_id = '13231o321p32';
+        $response = $this->json('POST', route('api.admin.client.destroy', ['id' => $client_id]));
+        $response
+            ->assertStatus(self::RESPONSE_NOT_FOUND);
     }
 }

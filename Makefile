@@ -24,7 +24,7 @@ update:
 	php artisan cache:clear
 	php artisan migrate
 	yarn
-	npm run prod
+	make testApi
 
 refresh:
 	php artisan cache:clear

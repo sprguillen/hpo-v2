@@ -27,7 +27,7 @@ class LoginTest extends TestCase
             ->assertJsonValidationErrors(['username'])
             ->assertJson([
                 'success' => false,
-                'message' => trans('error.validation'),
+                'message' => trans('validation.error'),
             ]);
     }
 
@@ -62,7 +62,7 @@ class LoginTest extends TestCase
             'username' => $randomUser->username,
             'password' => 'secret'
         ]);
-        
+
         $response
             ->assertStatus(self::RESPONSE_SUCCESS)
             ->assertJson([

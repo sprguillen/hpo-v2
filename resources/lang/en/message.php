@@ -26,8 +26,8 @@ return [
         'client' => [
             'success' => [
                 'store' => 'New client has been created.',
-                'update' => ':email client has been updated.',
-                'delete' => 'Client has been deleted.',
+                'update' => ':name client has been updated.',
+                'destroy' => 'Client has been deleted.',
             ],
         ]
     ],

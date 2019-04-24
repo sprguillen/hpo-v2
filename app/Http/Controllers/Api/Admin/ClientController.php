@@ -73,13 +73,14 @@ class ClientController extends Controller
     public function update(UpdateRequest $request, $id)
     {
         $client = User::findOrFail($request->id);
+        $name = $client->first_name . ' ' . $client->last_name;
         $client->email = $request->email;
         $client->username = $request->username;
         $client->first_name = $request->first_name;
         $client->last_name = $request->last_name;
         $client->save();
 
-        return successful(trans('message.admin.client.success.update', ['email' => $request->email]), [
+        return successful(trans('message.admin.client.success.update', ['name' => $name]), [
             'client' => $client,
         ]);
     }
@@ -91,6 +92,8 @@ class ClientController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-
+        $client = User::findOrFail($id);
+        $client->delete();
+        return successful(trans('message.admin.client.success.destroy'));
     }
 }
