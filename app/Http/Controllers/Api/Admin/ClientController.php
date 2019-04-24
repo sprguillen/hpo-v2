@@ -37,7 +37,6 @@ class ClientController extends Controller
         $client->password = Hash::make($request->password);
         $client->first_name = $request->first_name;
         $client->last_name = $request->last_name;
-        $client->type = 'client';
         $client->role = User::ROLE_CLIENT;
         $client->save();
 
