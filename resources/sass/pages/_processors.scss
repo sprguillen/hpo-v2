@@ -1,6 +1,6 @@
 @import '../variables';
 
-.clients {
+.processors {
   width: 100%;
   position: fixed;
   top: 0;
@@ -27,10 +27,6 @@
 
   .portlet {
     border: 1px solid #e7ecf1;
-  }
-
-  hr {
-    background-color: #e7ecf1;
   }
 
   h1 {

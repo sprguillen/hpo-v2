@@ -1,20 +1,14 @@
 <template>
-  <section class="clients-list">
-    <h1>CLIENTS LIST</h1>
+  <section class="processors-list">
+    <h1>PROCESSORS LIST</h1>
     <hr />
     <b-field grouped>
-      <b-input v-model="form.search" placeholder="Search Client"></b-input>
+      <b-input v-model="form.search" placeholder="Search Processor"></b-input>
     </b-field>
-    <b-table :data="clients">
+    <b-table :data="processors">
       <template slot-scope="props">
         <b-table-column field="username" label="Client">
-          <router-link :to="{ name: 'client_details', params: { id: 'test' } }"  class="client-link">{{ props.row.username }}</router-link>
-        </b-table-column>
-        <b-table-column field="name" label="Name" width="700">
-          {{ props.row.name }}
-        </b-table-column>
-        <b-table-column field="dispatch_mode" label="Dispatch Mode">
-          {{ props.row.dispatch_mode }}
+          {{ props.row.username }}
         </b-table-column>
         <b-table-column field="created_date" label="Date Added">
           {{ props.row.created_date }}
@@ -30,7 +24,7 @@
 <script>
 export default {
   props: {
-    clients: {
+    processors: {
       type: Array,
       required: true
     }
@@ -45,5 +39,5 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  @import "../../../sass/components/clients/clients.scss";
+  @import "../../../sass/components/processors/list.scss";
 </style>

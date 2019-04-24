@@ -3,6 +3,8 @@ import Login from '@/pages/auth/Login'
 import Dashboard from '@/pages/Dashboard'
 import Clients from '@/pages/clients/Index'
 import ClientDetails from '@/pages/clients/Details'
+import Processors from '@/pages/Processors'
+import Services from '@/pages/services/Index'
 import store from '@/store'
 
 const router = new VueRouter({
@@ -28,6 +30,22 @@ const router = new VueRouter({
       path: '/clients/:id',
       name: 'client_details',
       component: ClientDetails,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/services',
+      name: 'services',
+      component: Services,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/processors',
+      name: 'processors',
+      component: Processors,
       meta: {
         requiresAuth: true
       }

@@ -15,7 +15,7 @@ Vue.use(VeeValidate)
 Vue.use(VueCookies)
 
 const toastedOptions = {
-  position: 'top-center',
+  position: 'top-right',
   duration: 5000
 }
 
