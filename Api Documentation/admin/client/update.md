@@ -33,7 +33,7 @@ Store client
 ```json
 {
     "success":true,
-    "message":":name client has been updated.",
+    "message":":FirstName_LastName client has been updated.",
     "client":{
         "id":33,
         "code":null,
