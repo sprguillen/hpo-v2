@@ -1,11 +1,10 @@
 
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=Oswald');
 
 // Variables
 @import 'variables';
-
-$primary: #32c5d2;
 
 $btn-primary: $primary;
 
@@ -17,6 +16,7 @@ $btn-primary: $primary;
 }
 
 // Bulma
+
 @import '~bulma/sass/utilities/_all';
 
 

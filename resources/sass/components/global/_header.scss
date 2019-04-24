@@ -1,0 +1,57 @@
+@import '../../variables';
+
+.page-header {
+  margin-top: 1rem;
+  padding: 0;
+  border-bottom: none;
+  text-transform: uppercase;
+
+  .navbar {
+    margin-bottom: 0;
+    background: $body-bg;
+    padding: 0 1rem;
+  }
+
+  .company-logo {
+    height: 50px;
+    float: left;
+  }
+
+  .topbar-actions {
+    .button-action {
+      background: #333c43;
+      color: $primary;
+      font-size: 0.8rem;
+    }
+
+    .button {
+      border-color: #333c43;
+    }
+
+    .dropdown-class {
+      padding: 8px 20px;
+      color: #606e7a;
+      background: #242b31;
+    }
+  }
+}
+
+.navbar-item.main-nav {
+  color: #636e77;
+  font-size: 18px;
+  font-weight: 400;
+  padding: 14px 33px;
+  background: #39424a;
+  text-decoration: none;
+  margin-right: 2px;
+
+  &:hover {
+    background: $primary;
+    color: white;
+  }
+
+  .active {
+    background: #f9f9f9!important;
+    color: #2a3239!important;
+  }
+}

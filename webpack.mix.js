@@ -1,4 +1,4 @@
-const mix = require('laravel-mix');
+const mix = require('laravel-mix')
 
 /*
  |--------------------------------------------------------------------------
@@ -10,8 +10,17 @@ const mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
-mix.sass('resources/sass/app.scss', 'public/css')
-  .options({ processCssUrls: false });
+
+mix.extend('alias', new class {
+  webpackConfig(webpackConfig) {
+    webpackConfig.resolve.alias = {
+      'vue$': 'vue/dist/vue.esm.js',
+      '@': __dirname + '/resources/js'
+    }
+  }
+})
+
+mix.alias()
 
 mix.js('resources/js/app.js', 'public/js')
-  .js('resources/js/bootstrap.js', 'public/js');
+  .sass('resources/sass/app.scss', 'public/css')

@@ -2,9 +2,9 @@
 import _ from 'lodash'
 import PopperJs from 'popper.js'
 import $ from 'jquery'
+import { getCookie } from './utils/cookie'
 
 import 'bootstrap'
-import { getCookie } from './utils/cookies'
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

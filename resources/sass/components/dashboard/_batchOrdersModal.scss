@@ -1,0 +1,25 @@
+@import '../../variables';
+
+.batch-modal {
+  header.modal-card-head {
+    background: $green;
+  }
+
+  h3 {
+    font-size: 2rem;
+  }
+
+  .modal-actions {
+    width: 100%;
+  }
+
+  .close-button {
+    float: right;
+    position: relative;
+    right: 0.6rem;
+  }
+
+  footer.modal-card-foot {
+    padding: 10px;
+  }
+}

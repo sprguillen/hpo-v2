@@ -11,14 +11,20 @@
       </header>
       <div class="card-content">
         <form @submit.prevent="submit">
-          <b-field>
+          <b-field :type="{'is-danger': errors.has('username')}"
+            :message="errors.first('username')">
             <b-input v-model="form.username"
+              v-validate="rules.username"
+              name="username"
               placeholder="Username"
               icon="account">
             </b-input>
           </b-field>
-          <b-field>
+          <b-field :type="{'is-danger': errors.has('password')}"
+            :message="errors.first('password')">
             <b-input v-model="form.password"
+              v-validate="rules.password"
+              name="password"
               type="password"
               placeholder="Password"
               icon="lock">
@@ -45,34 +51,48 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
+import validationMixin from '@/mixins/validation'
 
 export default {
+  mixins: [validationMixin],
   data() {
     return {
       form: {
-        username: '',
-        password: ''
+        username: null,
+        password: null
+      },
+      rules: {
+        username: {
+          required: true
+        },
+        password: {
+          required: true
+        }
       }
     }
   },
   methods: {
     ...mapActions('auth', [ 'login' ]),
     async submit() {
-      const payload = {
-        username: this.form.username,
-        password: this.form.password
-      }
 
-      try {
-        await this.login(payload)
-        this.$router.push('dashboard')
-      } catch (e) {
-        this.$toasted.error(e.message)
+      const result = await this.validateBeforeSubmit()
+      if (result) {
+        const payload = {
+          username: this.form.username,
+          password: this.form.password
+        }
+
+        try {
+          await this.login(payload)
+          this.$router.push({ name: 'dashboard' })
+        } catch (e) {
+          this.$toasted.error(e.message)
+        }
       }
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-  @import "../../../sass/auth/login.scss";
+  @import "../../../sass/pages/auth/login.scss";
 </style>
