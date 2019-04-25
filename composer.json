@@ -12,6 +12,7 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
+        "tightenco/ziggy": "^0.6.9",
         "tymon/jwt-auth": "1.0.*"
     },
     "require-dev": {
@@ -40,6 +41,9 @@
             "database/seeds",
             "database/factories",
             "app/Models"
+        ],
+        "files": [
+          "app/Helpers/helpers.php"
         ]
     },
     "autoload-dev": {

@@ -175,6 +175,11 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ShortCodeServiceProvider::class,
+        App\Providers\AiderServiceProvider::class,
+
+        /**
+         * Vendors service provider
+         */
     ],
 
     /*
