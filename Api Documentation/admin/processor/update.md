@@ -1,13 +1,13 @@
-# Client Update
+# Processor Update
 
 #### (**Admin Only**)
 
 Store client
 
-**URL** : `/api/admin/client/:id/update`
+**URL** : `/api/admin/processor/:id/update`
 
 **Params**
-1. **id** = user/client id
+1. **id** = user/processor id
 
 **Method** : `POST`
 
@@ -33,12 +33,12 @@ Store client
 ```json
 {
     "success":true,
-    "message":":FirstName_LastName client has been updated.",
-    "client":{
+    "message":":FirstName_LastName processor has been updated.",
+    "processor":{
         "id":33,
         "code":null,
         "global_prefix":null,
-        "role":0,
+        "role":1,
         "username":"SofiaKihn",
         "email":"charlie.padberg@gmail.com",
         "api_token":null,

@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Client;
+namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class StoreReqest extends FormRequest
+class SendResetPasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +13,7 @@ class StoreReqest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->admin();
+        return true;
     }
 
     /**
@@ -25,11 +24,7 @@ class StoreReqest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email|unique:users',
-            'username' => 'required|unique:users',
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'password' => 'required|confirmed',
+            'email' => 'required|email|exists:users',
         ];
     }
 }

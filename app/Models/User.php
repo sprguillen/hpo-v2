@@ -13,6 +13,9 @@ class User extends Authenticatable implements JWTSubject
 
     const ROLE_ADMIN = 10;
     const ROLE_CLIENT = 0;
+    const ROLE_PROCESSOR = 1;
+    const ROLE_PATIENT = 2;
+    const ROLE_STAFF = 3;
 
     /**
      * The attributes that are mass assignable.
@@ -73,6 +76,17 @@ class User extends Authenticatable implements JWTSubject
      */
     public function scopeClient($query) {
         return $query->where('role', self::ROLE_CLIENT);
+    }
+
+    /**
+     * Get users that are `processors` role
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     * @author goper
+     */
+    public function scopeProcessor($query) {
+        return $query->where('role', self::ROLE_PROCESSOR);
     }
 
     /**

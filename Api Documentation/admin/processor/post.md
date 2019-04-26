@@ -1,10 +1,10 @@
-# Client Create
+# Processor Create
 
 #### (**Admin Only**)
 
-Store client
+Store processor type user
 
-**URL** : `/api/admin/client/store`
+**URL** : `/api/admin/processor/store`
 
 **Method** : `POST`
 
@@ -32,13 +32,13 @@ Store client
 ```json
 {
     "success":true,
-    "message":"New client has been created.",
-    "client": {
+    "message":"New processor has been created.",
+    "processor": {
         "email":"murray.nicola@hayes.com",
         "username":"MatildeSenger",
         "first_name":"Matilde",
         "last_name":"Senger",
-        "role":0,
+        "role":1,
         "updated_at":"2019-04-24 14:43:03",
         "created_at":"2019-04-24 14:43:03",
         "id":60

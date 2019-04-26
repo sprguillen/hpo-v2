@@ -68,9 +68,15 @@ abstract class TestCase extends BaseTestCase
      * @param  string $tableName
      * @return object
      */
-    public function findRandomData($tableName)
+    public function findRandomData($tableName, $where = [])
     {
-        return DB::table($tableName)->orderByRaw('RAND()')->first();
+        $query = DB::table($tableName);
+
+        if (!empty($where)) {
+            $query->where($where);
+        }
+
+        return $query->orderByRaw('RAND()')->first();
     }
 
     /**

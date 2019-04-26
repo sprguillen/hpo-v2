@@ -20,6 +20,12 @@ Route::namespace('Api')->group(function() {
     Route::prefix('auth')->namespace('Auth')->group(function() {
         Route::post('login', 'AuthController@login')->name('login');
         Route::post('register', 'AuthController@register')->name('register');
+
+        Route::prefix('password/reset')->group(function() {
+            Route::post('', 'PasswordController@resetPassword')->name('reset.password');
+            Route::post('send', 'PasswordController@sendResetPassword')->name('send.reset.password');
+        });
+
     });
 
     /**
@@ -29,12 +35,21 @@ Route::namespace('Api')->group(function() {
         Route::prefix('admin')
             ->middleware('admin')
             ->namespace('Admin')->group(function() {
+
             // Client
             Route::prefix('client')->group(function() {
                 Route::name('api.admin.client')->get('', 'ClientController@index');
                 Route::name('api.admin.client.store')->post('store', 'ClientController@store');
                 Route::name('api.admin.client.update')->post('{id}/update', 'ClientController@update');
                 Route::name('api.admin.client.destroy')->post('{id}/destroy', 'ClientController@destroy');
+            });
+
+            // Processor
+            Route::prefix('processor')->group(function() {
+                Route::name('api.admin.processor')->get('', 'ProcessorController@index');
+                Route::name('api.admin.processor.store')->post('store', 'ProcessorController@store');
+                Route::name('api.admin.processor.update')->post('{id}/update', 'ProcessorController@update');
+                Route::name('api.admin.processor.destroy')->post('{id}/destroy', 'ProcessorController@destroy');
             });
         });
     });

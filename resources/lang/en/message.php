@@ -29,6 +29,13 @@ return [
                 'update' => ':name client has been updated.',
                 'destroy' => 'Client has been deleted.',
             ],
-        ]
+        ],
+        'processor' => [
+            'success' => [
+                'store' => 'New processor has been created.',
+                'update' => ':name processor has been updated.',
+                'destroy' => 'Processor has been deleted.',
+            ],
+        ],
     ],
 ];
