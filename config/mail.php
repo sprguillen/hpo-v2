@@ -57,7 +57,17 @@ return [
 
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'name' => env('MAIL_FROM_NAME', 'Admin'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Global "Rely To" Address
+    |--------------------------------------------------------------------------
+    */
+    'reply_to' => [
+        'address' => 'example@example.com',
+        'name' => 'Admin Etrs',
     ],
 
     /*

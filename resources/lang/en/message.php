@@ -10,13 +10,19 @@ return [
     */
 
     'auth' => [
-      'login' => [
-        'error' => [
-          'credentials' => 'Email or password does not match.',
-          'already_login' => 'You are already logged in.',
+        'login' => [
+            'error' => [
+                'credentials' => 'Email or password does not match.',
+                'already_login' => 'You are already logged in.',
+            ],
+            'success' => 'You are logged in. Please wait.',
         ],
-        'success' => 'You are logged in. Please wait.',
-      ],
+        'password' => [
+            'reset' => [
+                'send' => 'An email has been sent to :email.',
+                'success' => 'Your\'e password has been reset.',
+            ]
+        ],
     ],
 
     /**

@@ -21,9 +21,10 @@ Route::namespace('Api')->group(function() {
         Route::post('login', 'AuthController@login')->name('login');
         Route::post('register', 'AuthController@register')->name('register');
 
-        Route::prefix('password/reset')->group(function() {
+        Route::prefix('reset/password')->group(function() {
+            Route::post('send', 'PasswordController@sendResetPassword')->name('reset.password.send');
+            Route::post('{token}/form', 'PasswordController@resetPasswordForm')->name('reset.password.form');
             Route::post('', 'PasswordController@resetPassword')->name('reset.password');
-            Route::post('send', 'PasswordController@sendResetPassword')->name('send.reset.password');
         });
 
     });
