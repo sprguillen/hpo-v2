@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use Validator;
+use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -23,20 +24,32 @@ class AuthController extends Controller
         }
 
         $credentials = $request->only(['username', 'password']);
-        if (!$token = auth()->attempt($credentials)) {
+        if (!auth()->attempt($credentials)) {
             return errorify(trans('message.auth.login.error.credentials'));
         }
 
+        $user = auth()->user();
+        $tokenResult = $user->createToken('Personal Access Token');
+        $token = $tokenResult->token;
+
+        if ($request->remember_me)
+            $token->expires_at = Carbon::now()->addWeeks(1);
+
+        $token->save();
+
         return successful(trans('message.auth.login.success'), [
             'access_token' => [
-                'token' => $token,
-                'token_type' => 'bearer',
-                'expires_in' => auth()->factory()->getTTL() * 60
+                'token' => $tokenResult->accessToken,
+                'token_type' => 'Bearer',
+                'expires_at' => Carbon::parse(
+                    $tokenResult->token->expires_at
+                )->toDateTimeString()
             ],
             'logged_in_user' => [
                 'username' => auth()->user()->username,
                 'id' => auth()->user()->id
-            ]
+            ],
+            'csrf_token' => csrf_token(),
         ]);
     }
 
@@ -49,8 +62,10 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
-        auth()->logout();
-        session()->flush();
+        $request->user()->token()->revoke();
+        auth('web')->logout();
+        // auth()->logout();
+        // session()->flush();
 
         return redirect('/');
     }

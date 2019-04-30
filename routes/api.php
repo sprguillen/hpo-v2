@@ -32,7 +32,7 @@ Route::namespace('Api')->group(function() {
     /**
      * Admin Routes
      */
-    Route::middleware('auth')->group(function() {
+    Route::middleware('auth:api')->group(function() {
         Route::prefix('admin')
             ->middleware('admin')
             ->namespace('Admin')->group(function() {

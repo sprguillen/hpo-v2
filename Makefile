@@ -4,7 +4,7 @@ setup:
 	php artisan key:generate
 	yarn
 	make authorize
-	php artisan jwt:secret
+	php artisan passport:install
 
 authorize:
 	rm -rf ./storage/logs/laravel.log
@@ -31,6 +31,7 @@ refresh:
 	php artisan config:clear
 	php artisan view:clear
 	php artisan route:clear
+	php artisan optimize:clear
 	composer dump-autoload
 
 migrate:
@@ -41,3 +42,7 @@ testApi:
 
 testSpecific:
 	./vendor/bin/phpunit --filter {${class}}
+
+setupPassport:
+	php artisan passport:install
+	php artisan passport:client --client

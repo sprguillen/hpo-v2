@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Laravel\Passport\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, HasApiTokens;
 
     const ROLE_ADMIN = 10;
     const ROLE_CLIENT = 0;
@@ -43,6 +43,7 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $hidden = [
         'password',
+        'remember_token'
     ];
 
     /**
@@ -119,18 +120,6 @@ class User extends Authenticatable implements JWTSubject
     public function getIsNotAdminAttribute()
     {
         return !$this->isAdmin();
-    }
-
-
-
-    public function getJWTIdentifier()
-    {
-      return $this->getKey();
-    }
-
-    public function getJWTCustomClaims()
-    {
-      return [];
     }
 
     /**

@@ -54,7 +54,6 @@ class UserSeeder extends Seeder
         $user = new User();
         $user->code = str_random(20);
         $user->global_prefix = '';
-        $user->type = 'client';
         $user->username = $faker->userName;
         $user->email = $faker->freeEmail;
         $user->password = Hash::make('secret');

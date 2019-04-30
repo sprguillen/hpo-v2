@@ -1,5 +1,9 @@
 # RESTAPIDocs
 
+## Api Request Setup
+#### Important! [Please Read...](config.md)
+
+
 ## Open Endpoints
 
 Open endpoints require no Authentication.
