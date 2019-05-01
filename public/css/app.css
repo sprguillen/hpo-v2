@@ -10692,6 +10692,18 @@ a.text-dark:focus {
   }
 }
 
+.has-gray-background {
+  background-color: #f9f9f9;
+}
+
+.footer .content {
+  bottom: 15px;
+  left: 0;
+  position: fixed;
+  right: 0;
+  z-index: 30;
+}
+
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);

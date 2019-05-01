@@ -25,6 +25,6 @@ if (token) {
 
 let authToken = getCookie('auth_token')
 
-if (auth) {
+if (authToken) {
   axios.defaults.headers.common['Authorization'] = authToken;
 }

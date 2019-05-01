@@ -1,4 +1,4 @@
-<template>
+ <template>
   <div class="column portlet">
     <section class="add-client">
       <h1 class="float-left">CLIENT REGISTRATION</h1>
@@ -36,7 +36,7 @@
           <b-field :type="{'is-danger': errors.has('first-name')}"
             :message="errors.first('first-name')">
             <b-input
-              v-model="form.firstName"
+              v-model="form.first_name"
               v-validate="rules.firstName"
               name="first-name"
               placeholder="First Name"
@@ -46,7 +46,7 @@
           <b-field :type="{'is-danger': errors.has('last-name')}"
             :message="errors.first('last-name')">
             <b-input
-              v-model="form.lastName"
+              v-model="form.last_name"
               v-validate="rules.lastName"
               name="last-name"
               placeholder="Last Name"
@@ -60,6 +60,7 @@
             <b-input
               v-model="form.password"
               v-validate="rules.password"
+              ref="password"
               name="password"
               placeholder="Password"
               type="password"
@@ -69,7 +70,7 @@
           <b-field :type="{'is-danger': errors.has('confirm-password')}"
             :message="errors.first('confirm-password')">
             <b-input
-              v-model="form.confirmPassword"
+              v-model="form.password_confirmation"
               v-validate="rules.confirmPassword"
               name="confirm-password"
               placeholder="Confirm Password"
@@ -90,6 +91,7 @@
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex' 
 import validationMixin from '@/mixins/validation'
 
 export default {
@@ -121,16 +123,26 @@ export default {
       form: {
         username: null,
         email: null,
-        firstName: null,
-        lastName: null,
+        first_name: null,
+        last_name: null,
         password: null,
-        confirmPassword: null
+        password_confirmation: null
       }
     }
   },
   methods: {
+    ...mapActions('client', ['addClient']),
     async submit() {
       const result = await this.validateBeforeSubmit()
+
+      try {
+        const data = await this.addClient(this.form)
+        if (data.success) {
+          this.$toasted.success(data.message)
+        }
+      } catch (e) {
+        this.$toasted.error(e.message)
+      }
     }
   }
 }

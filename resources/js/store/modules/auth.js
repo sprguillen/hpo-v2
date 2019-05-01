@@ -39,7 +39,7 @@ const actions = {
     }
   },
 
-  logout({ state }, payload) {
+  logout({ state }) {
     VueCookies.remove('auth_token')
     VueCookies.remove('current_user')
 
