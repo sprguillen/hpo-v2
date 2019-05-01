@@ -1,0 +1,11 @@
+@import '../../variables';
+
+.test-announcement {
+  .no-left-padding {
+    padding-left: 0;
+  }
+
+  .no-top-padding {
+    padding-top: 0;
+  }
+}

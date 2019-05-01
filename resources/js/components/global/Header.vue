@@ -68,7 +68,7 @@
               <b-icon icon="hospital"></b-icon>
               <span>Services</span>
             </router-link>
-            <router-link to="/system" class="navbar-item main-nav" :style="activeStyle('system')">
+            <router-link to="/system-configurations" class="navbar-item main-nav" :style="activeStyle('system')">
               <b-icon icon="settings"></b-icon>
               <span>System</span>
             </router-link>

@@ -6,4 +6,4 @@
 <link rel="stylesheet" href="//cdn.materialdesignicons.com/2.5.94/css/materialdesignicons.min.css">
 <link href="{{ mix('css/app.css') }}" type="text/css" rel="stylesheet" />
 <link href="{{ URL::asset('css/styles.css') }}" type="text/css" rel="stylesheet" />
-<meta name="csrf-token" value="{{ csrf_token() }}" />
+<meta name="csrf-token" content="{{ csrf_token() }}" />

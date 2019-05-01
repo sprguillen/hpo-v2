@@ -1,0 +1,45 @@
+@import '../variables';
+
+.system {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: $body-bg;
+
+  section .main-container {
+    padding-left: 1.95rem;
+    padding-right: 1.95rem;
+  }
+
+  .no-left-padding {
+    padding-left: 0;
+  }
+
+  .page-content {
+    padding: 30px;
+    min-height: 500px;
+    margin-bottom: 15px;
+    background: #fff;
+  }
+
+  .portlet {
+    border: 1px solid #e7ecf1;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .breadcrumb {
+    padding: 0;
+    background-color: #fff;
+  }
+
+  .tabs li.system-active a {
+    color: $primary;
+    border-bottom-color: $primary;
+  }
+}
