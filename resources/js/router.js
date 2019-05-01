@@ -5,6 +5,7 @@ import Clients from '@/pages/clients/Index'
 import ClientDetails from '@/pages/clients/Details'
 import Processors from '@/pages/Processors'
 import Services from '@/pages/services/Index'
+import ServiceDetails from '@/pages/services/Details'
 import store from '@/store'
 
 const router = new VueRouter({
@@ -38,6 +39,14 @@ const router = new VueRouter({
       path: '/services',
       name: 'services',
       component: Services,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/services/:id',
+      name: 'service_details',
+      component: ServiceDetails,
       meta: {
         requiresAuth: true
       }

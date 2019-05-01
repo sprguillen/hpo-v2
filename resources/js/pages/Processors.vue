@@ -4,10 +4,10 @@
     <section>
       <div class="container-fluid main-container">
         <div class="column is-full page-content">
-          <AddProcessor v-if="addMode" @hide="addMode = false" />
-          <div v-else class="column is-full no-left-padding">
-            <b-button type="app-primary" @click="addMode = true" icon-right="plus">Add Processor</b-button>
+          <div class="column is-full no-left-padding">
+            <b-button v-if="!addMode" type="app-primary" @click="addMode = true" icon-right="plus">Add Processor</b-button>
           </div>
+          <AddProcessor v-if="addMode" @hide="addMode = false" />
           <div class="column" />
           <div class="column" />
           <div class="column portlet">

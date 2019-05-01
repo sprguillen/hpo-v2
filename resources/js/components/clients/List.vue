@@ -5,7 +5,7 @@
     <b-field grouped>
       <b-input v-model="form.search" placeholder="Search Client"></b-input>
     </b-field>
-    <b-table :data="clients">
+    <b-table :data="clients" bordered striped hoverable>
       <template slot-scope="props">
         <b-table-column field="username" label="Client">
           <router-link :to="{ name: 'client_details', params: { id: 'test' } }"  class="client-link">{{ props.row.username }}</router-link>
