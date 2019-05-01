@@ -55,3 +55,11 @@ if (!function_exists('success_data'))
         return appHelper()->successData($message, $extra, $status);
     }
 }
+
+if (!function_exists('passport_client_credentials'))
+{
+    function passport_client_credentials()
+    {
+        return appHelper()->passportClientCredentials();
+    }
+}

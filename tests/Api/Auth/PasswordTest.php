@@ -4,6 +4,7 @@ namespace Tests\Api\Auth;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Passport\Passport;
 use Tests\TestCase;
 use App\Models\User;
 

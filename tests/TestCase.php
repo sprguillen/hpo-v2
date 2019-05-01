@@ -3,6 +3,7 @@
 namespace Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Laravel\Passport\Passport;
 use App\Models\User;
 use DB;
 
@@ -38,7 +39,6 @@ abstract class TestCase extends BaseTestCase
             $email = $randomUser->email;
         }
         $this->user = User::where('email', $email)->first();
-        auth()->login($this->user);
     }
 
     /**

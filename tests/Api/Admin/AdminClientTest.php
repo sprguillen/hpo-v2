@@ -4,6 +4,7 @@ namespace Tests\Api\Admin;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Passport\Passport;
 use Tests\TestCase;
 use App\Models\User;
 
@@ -17,7 +18,7 @@ class AdminClientTest extends TestCase
     public function canGetClientList()
     {
         $this->loggedUserAsAdmin();
-        $this->actingAs($this->user, 'api');
+        Passport::actingAs($this->user);
 
         $response = $this->json('GET', route('api.admin.client'));
 
@@ -40,7 +41,7 @@ class AdminClientTest extends TestCase
     public function canStoreNewClient()
     {
         $this->loggedUserAsAdmin();
-        $this->actingAs($this->user, 'api');
+        Passport::actingAs($this->user);
 
         $email = $this->faker->email;
         $firstName = $this->faker->firstName;
@@ -76,7 +77,7 @@ class AdminClientTest extends TestCase
     public function canUpdateClientData()
     {
         $this->loggedUserAsAdmin();
-        $this->actingAs($this->user, 'api');
+        Passport::actingAs($this->user);
 
         // Find random client
         $client = $this->findRandomData('users', ['role' => User::ROLE_CLIENT]);
@@ -113,7 +114,7 @@ class AdminClientTest extends TestCase
     public function cannotUpdateClientIfIdGivenDoesNotExist()
     {
         $this->loggedUserAsAdmin();
-        $this->actingAs($this->user, 'api');
+        Passport::actingAs($this->user);
 
         // Client does not exist
         $client_id = '23123ao3231';
@@ -140,7 +141,7 @@ class AdminClientTest extends TestCase
     public function canDestroyClient()
     {
         $this->loggedUserAsAdmin();
-        $this->actingAs($this->user, 'api');
+        Passport::actingAs($this->user);
 
         // Client
         $client = User::client()->first();
@@ -161,7 +162,7 @@ class AdminClientTest extends TestCase
     public function cannotDeleteIfClientIdIsNotFound()
     {
         $this->loggedUserAsAdmin();
-        $this->actingAs($this->user, 'api');
+        Passport::actingAs($this->user);
         // Client
         $client_id = '13231o321p32';
         $response = $this->json('POST', route('api.admin.client.destroy', ['id' => $client_id]));

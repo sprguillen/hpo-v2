@@ -36,6 +36,7 @@ refresh:
 
 migrate:
 	php artisan migrate:fresh --seed
+	php artisan passport:install
 
 testApi:
 	./vendor/bin/phpunit ./tests/Api/.

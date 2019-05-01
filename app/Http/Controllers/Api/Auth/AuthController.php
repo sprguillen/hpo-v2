@@ -6,10 +6,13 @@ use Validator;
 use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use Laravel\Passport\Http\Controllers\AccessTokenController;
+use Psr\Http\Message\ServerRequestInterface;
 
-class AuthController extends Controller
+class AuthController extends AccessTokenController
 {
     /**
      * Login
@@ -17,40 +20,25 @@ class AuthController extends Controller
      * @param  LoginRequest $request
      * @return response
      */
-    public function login(LoginRequest $request)
+    public function login(ServerRequestInterface $serverRequest, LoginRequest $request)
     {
         if (auth()->check()) {
             return errorify(trans('message.auth.login.error.already_login'));
         }
 
-        $credentials = $request->only(['username', 'password']);
-        if (!auth()->attempt($credentials)) {
-            return errorify(trans('message.auth.login.error.credentials'));
+        $issueToken = $this->issueToken($serverRequest);
+        
+        if ($issueToken->status() == Response::HTTP_OK) {
+            $tokenResult = json_decode($issueToken->getContent(), true);
+
+            return successful(trans('message.auth.login.success'), [
+                'access_token' => $tokenResult['access_token'],
+                'refresh_token' => $tokenResult['refresh_token']
+            ]);
         }
 
-        $user = auth()->user();
-        $tokenResult = $user->createToken('Personal Access Token');
-        $token = $tokenResult->token;
+        return errorify(trans('message.auth.login.error.credentials'));
 
-        if ($request->remember_me)
-            $token->expires_at = Carbon::now()->addWeeks(1);
-
-        $token->save();
-
-        return successful(trans('message.auth.login.success'), [
-            'access_token' => [
-                'token' => $tokenResult->accessToken,
-                'token_type' => 'Bearer',
-                'expires_at' => Carbon::parse(
-                    $tokenResult->token->expires_at
-                )->toDateTimeString()
-            ],
-            'logged_in_user' => [
-                'username' => auth()->user()->username,
-                'id' => auth()->user()->id
-            ],
-            'csrf_token' => csrf_token(),
-        ]);
     }
 
     /**
@@ -63,10 +51,20 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $request->user()->token()->revoke();
-        auth('web')->logout();
+        // auth('web')->logout();
         // auth()->logout();
         // session()->flush();
 
         return redirect('/');
+    }
+
+    /**
+     * Get user access_token
+     *
+     * @return response
+     */
+    public function userToken()
+    {
+        # code...
     }
 }

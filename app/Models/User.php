@@ -135,4 +135,14 @@ class User extends Authenticatable
     public function isAdmin() {
         return $this->role == self::ROLE_ADMIN;
     }
+    /**
+     * Find the user instance for the given username.
+     *
+     * @param  string  $username
+     * @return \App\User
+     */
+    public function findForPassport($username)
+    {
+       return $this->where('username', $username)->first();
+    }
 }

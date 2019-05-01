@@ -53,6 +53,8 @@ Route::namespace('Api')->group(function() {
                 Route::name('api.admin.processor.destroy')->post('{id}/destroy', 'ProcessorController@destroy');
             });
         });
+
+        Route::name('api.user.token')->get('auth/user/token', 'Auth\AuthController@userToken');
     });
 
 });

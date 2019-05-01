@@ -16,8 +16,14 @@ class CheckUserIsAdmin
     public function handle($request, Closure $next)
     {
         if ($request->user()->isNotAdmin) {
-            auth()->logout();
-            session()->flush();
+            if ($request->expectsJson()) {
+                
+                $request->user()->token()->revoke();
+            } else {
+                auth()->logout();
+                session()->flush();
+            }
+
 
             return redirect()->route('home', ['any' => '']);
         }
