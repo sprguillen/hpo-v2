@@ -6,6 +6,7 @@ import ClientDetails from '@/pages/clients/Details'
 import Processors from '@/pages/Processors'
 import Services from '@/pages/services/Index'
 import ServiceDetails from '@/pages/services/Details'
+import System from '@/pages/System'
 import store from '@/store'
 
 const router = new VueRouter({
@@ -55,6 +56,14 @@ const router = new VueRouter({
       path: '/processors',
       name: 'processors',
       component: Processors,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/system-configurations',
+      name: 'system',
+      component: System,
       meta: {
         requiresAuth: true
       }
