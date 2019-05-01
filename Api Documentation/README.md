@@ -1,5 +1,9 @@
 # RESTAPIDocs
 
+## Api Request Setup
+#### Important! [Please Read...](config.md)
+
+
 ## Open Endpoints
 
 Open endpoints require no Authentication.
@@ -17,3 +21,8 @@ Each endpoint manipulates or displays information related to the Admin whose
 Token is provided with the request:
 
 * [Client info](admin/client/client.md)
+* [Processor info](admin/processor/processor.md)
+
+### Backend Models
+
+* [User table](models/user.md)

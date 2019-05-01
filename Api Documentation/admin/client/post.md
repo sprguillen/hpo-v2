@@ -38,7 +38,6 @@ Store client
         "username":"MatildeSenger",
         "first_name":"Matilde",
         "last_name":"Senger",
-        "type":"client",
         "role":0,
         "updated_at":"2019-04-24 14:43:03",
         "created_at":"2019-04-24 14:43:03",

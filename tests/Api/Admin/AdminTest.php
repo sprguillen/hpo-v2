@@ -4,6 +4,7 @@ namespace Tests\Api\Admin;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Passport\Passport;
 use Tests\TestCase;
 use App\Models\User;
 
@@ -17,7 +18,7 @@ class AdminTest extends TestCase
     public function canAccessToAdminRoutes()
     {
         $this->loggedUserAsAdmin();
-        $this->actingAs($this->user, 'api');
+        Passport::actingAs($this->user);
 
         $response = $this->json('GET', route('api.admin.client'));
 
@@ -37,9 +38,10 @@ class AdminTest extends TestCase
     public function cannotAccessIfUserIsNotAdmin()
     {
         $this->loggedUserClient();
-        $this->actingAs($this->user, 'api');
+        Passport::actingAs($this->user);
 
         $response = $this->json('GET', route('api.admin.client'));
+
         $response
             ->assertStatus(self::RESPONSE_REDIRECTION);
     }

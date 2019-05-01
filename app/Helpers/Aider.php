@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Illuminate\Http\JsonResponse;
+use DB;
 
 class Aider
 {
@@ -97,5 +98,15 @@ class Aider
         return $this->jsonify(false, array_merge([
             'message' => $message
         ], $extra), $status);
+    }
+
+    /**
+     * Get passport client credentials
+     *
+     * @return array
+     */
+    public function passportClientCredentials()
+    {
+        return DB::table('oauth_clients')->where('password_client', 1)->first();
     }
 }

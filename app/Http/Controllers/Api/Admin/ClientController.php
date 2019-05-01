@@ -6,7 +6,7 @@ use Hash;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Client\StoreReqest;
+use App\Http\Requests\Client\StoreRequest;
 use App\Http\Requests\Client\UpdateRequest;
 
 class ClientController extends Controller
@@ -29,7 +29,7 @@ class ClientController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreReqest $request)
+    public function store(StoreRequest $request)
     {
         $client = new User();
         $client->email = $request->email;

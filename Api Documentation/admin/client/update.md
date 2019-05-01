@@ -38,7 +38,6 @@ Store client
         "id":33,
         "code":null,
         "global_prefix":null,
-        "type":"client",
         "role":0,
         "username":"SofiaKihn",
         "email":"charlie.padberg@gmail.com",

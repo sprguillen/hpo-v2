@@ -180,6 +180,7 @@ return [
         /**
          * Vendors service provider
          */
+        Laravel\Passport\PassportServiceProvider::class,
     ],
 
     /*
@@ -233,5 +234,10 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
+
+    /*--------------------------------------------------------------------------
+    | Custom configs
+    |--------------------------------------------------------------------------
+    */
 
 ];

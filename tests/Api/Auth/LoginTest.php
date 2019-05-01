@@ -4,6 +4,7 @@ namespace Tests\Api\Auth;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Passport\Passport;
 use Tests\TestCase;
 use App\Models\User;
 use JWTAuth;
@@ -56,25 +57,27 @@ class LoginTest extends TestCase
      */
     public function canLogin()
     {
-        $randomUser = User::orderByRaw('RAND()')->first();
+        $passportCredentials = passport_client_credentials();
+
+        $user = User::orderByRaw('RAND()')->first();
 
         $response = $this->json('POST', route('login'), [
-            'username' => $randomUser->username,
-            'password' => 'secret'
+            'username' => $user->username,
+            'password' => 'secret',
+            'client_id' => $passportCredentials->id,
+            'client_secret' => $passportCredentials->secret,
+            'grant_type' => 'password'
         ]);
 
+        $responseData = $response->getOriginalContent();
+        
         $response
             ->assertStatus(self::RESPONSE_SUCCESS)
             ->assertJson([
                 'success' => true,
                 'message' => trans('message.auth.login.success'),
-                'access_token' => [
-                    'token_type' => 'bearer',
-                ],
-                'logged_in_user' => [
-                    'username' => $randomUser->username,
-                    'id' => $randomUser->id
-                ]
+                'access_token' => $responseData['access_token'],
+                'refresh_token' => $responseData['refresh_token']
             ]);
     }
 
@@ -84,10 +87,14 @@ class LoginTest extends TestCase
     public function cannotPostLoginIfUserIsAlreadyLoggedIn()
     {
         $this->loggedUserClient();
-        $this->actingAs($this->user, 'api');
+        Passport::actingAs($this->user);
+
         $response = $this->json('POST', route('login'), [
             'username' => $this->user->username,
-            'password' => 'secret'
+            'password' => 'secret',
+            'client_id' => env('PASSPORT_CLIENT_ID'),
+            'client_secret' => env('PASSPORT_CLIENT_SECRET'),
+            'grant_type' => 'password'
         ]);
 
         $response

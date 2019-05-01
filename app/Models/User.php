@@ -4,15 +4,18 @@ namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Laravel\Passport\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, HasApiTokens;
 
     const ROLE_ADMIN = 10;
     const ROLE_CLIENT = 0;
+    const ROLE_PROCESSOR = 1;
+    const ROLE_PATIENT = 2;
+    const ROLE_STAFF = 3;
 
     /**
      * The attributes that are mass assignable.
@@ -40,6 +43,7 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $hidden = [
         'password',
+        'remember_token'
     ];
 
     /**
@@ -76,6 +80,17 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
+     * Get users that are `processors` role
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     * @author goper
+     */
+    public function scopeProcessor($query) {
+        return $query->where('role', self::ROLE_PROCESSOR);
+    }
+
+    /**
      * Is the current user an admin
      *
      * @return boolean
@@ -107,18 +122,6 @@ class User extends Authenticatable implements JWTSubject
         return !$this->isAdmin();
     }
 
-
-
-    public function getJWTIdentifier()
-    {
-      return $this->getKey();
-    }
-
-    public function getJWTCustomClaims()
-    {
-      return [];
-    }
-
     /**
      * Custom methods
      */
@@ -131,5 +134,15 @@ class User extends Authenticatable implements JWTSubject
      */
     public function isAdmin() {
         return $this->role == self::ROLE_ADMIN;
+    }
+    /**
+     * Find the user instance for the given username.
+     *
+     * @param  string  $username
+     * @return \App\User
+     */
+    public function findForPassport($username)
+    {
+       return $this->where('username', $username)->first();
     }
 }

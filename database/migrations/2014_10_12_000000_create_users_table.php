@@ -27,6 +27,7 @@ class CreateUsersTable extends Migration
             $table->string('contact_number', 45)->nullable();
             $table->string('business_name', 45)->nullable();
             $table->string('business_address')->nullable();
+            $table->string('remember_token', 100)->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

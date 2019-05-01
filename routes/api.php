@@ -20,15 +20,23 @@ Route::namespace('Api')->group(function() {
     Route::prefix('auth')->namespace('Auth')->group(function() {
         Route::post('login', 'AuthController@login')->name('login');
         Route::post('register', 'AuthController@register')->name('register');
+
+        Route::prefix('reset/password')->group(function() {
+            Route::post('send', 'PasswordController@sendResetPassword')->name('reset.password.send');
+            Route::post('{token}/form', 'PasswordController@resetPasswordForm')->name('reset.password.form');
+            Route::post('', 'PasswordController@resetPassword')->name('reset.password');
+        });
+
     });
 
     /**
      * Admin Routes
      */
-    Route::middleware('auth')->group(function() {
+    Route::middleware('auth:api')->group(function() {
         Route::prefix('admin')
             ->middleware('admin')
             ->namespace('Admin')->group(function() {
+
             // Client
             Route::prefix('client')->group(function() {
                 Route::name('api.admin.client')->get('', 'ClientController@index');
@@ -36,7 +44,17 @@ Route::namespace('Api')->group(function() {
                 Route::name('api.admin.client.update')->post('{id}/update', 'ClientController@update');
                 Route::name('api.admin.client.destroy')->post('{id}/destroy', 'ClientController@destroy');
             });
+
+            // Processor
+            Route::prefix('processor')->group(function() {
+                Route::name('api.admin.processor')->get('', 'ProcessorController@index');
+                Route::name('api.admin.processor.store')->post('store', 'ProcessorController@store');
+                Route::name('api.admin.processor.update')->post('{id}/update', 'ProcessorController@update');
+                Route::name('api.admin.processor.destroy')->post('{id}/destroy', 'ProcessorController@destroy');
+            });
         });
+
+        Route::name('api.user.token')->get('auth/user/token', 'Auth\AuthController@userToken');
     });
 
 });
