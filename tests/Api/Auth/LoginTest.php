@@ -70,15 +70,20 @@ class LoginTest extends TestCase
         ]);
 
         $responseData = $response->getOriginalContent();
-        
+
         $response
             ->assertStatus(self::RESPONSE_SUCCESS)
             ->assertJson([
                 'success' => true,
                 'message' => trans('message.auth.login.success'),
                 'access_token' => $responseData['access_token'],
-                'refresh_token' => $responseData['refresh_token']
+                'refresh_token' => $responseData['refresh_token'],
             ]);
+
+        // Check if response has `logged_in_user`
+        $responseUser = $responseData['logged_in_user'];
+        $this->assertArrayHasKey('logged_in_user', $responseData);
+        $this->assertSame($user->id, $responseUser->id);
     }
 
     /**

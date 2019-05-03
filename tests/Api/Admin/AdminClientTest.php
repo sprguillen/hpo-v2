@@ -23,6 +23,7 @@ class AdminClientTest extends TestCase
         $response = $this->json('GET', route('api.admin.client'));
 
         $data = $response->getData();
+
         $response
             ->assertStatus(self::RESPONSE_SUCCESS)
             ->assertJson([
@@ -56,7 +57,7 @@ class AdminClientTest extends TestCase
             'password' => 'secret',
             'password_confirmation' => 'secret',
         ]);
-
+        
         $response
             ->assertStatus(self::RESPONSE_SUCCESS)
             ->assertJson([
