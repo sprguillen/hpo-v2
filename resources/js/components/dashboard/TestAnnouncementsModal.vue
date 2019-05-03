@@ -1,10 +1,14 @@
 <template>
-  <b-modal class="announcements-modal" :active.sync="open" has-modal-card>
+  <b-modal
+    class="announcements-modal"
+    :active.sync="open"
+    has-modal-card
+  >
     <div class="card">
       <header class="modal-card-head">
-         <p class="modal-card-title">
-          <b-icon icon="alert-circle"></b-icon> Batch Order Summary
-         </p>
+        <p class="modal-card-title">
+          <b-icon icon="alert-circle" /> Batch Order Summary
+        </p>
       </header>
       <div class="modal-card-body">
         <div class="columns">
@@ -47,7 +51,12 @@
       </div>
       <footer class="modal-card-foot">
         <div class="modal-actions">
-          <b-button type="is-danger close-button" @click="$emit('close')">Close</b-button>
+          <b-button
+            type="is-danger close-button"
+            @click="$emit('close')"
+          >
+            Close
+          </b-button>
         </div>
       </footer>
     </div>

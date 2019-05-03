@@ -10,6 +10,18 @@ const mix = require('laravel-mix')
  | file for the application as well as bundling up all the JS files.
  |
  */
+mix.webpackConfig({
+  module: {
+    rules: [
+      {
+        enforce: 'pre',
+        test: /\.(js|vue)$/,
+        loader: 'eslint-loader',
+        exclude: /node_modules/
+      }
+    ]
+  }
+})
 
 mix.extend('alias', new class {
   webpackConfig(webpackConfig) {

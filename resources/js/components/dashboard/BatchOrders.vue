@@ -6,35 +6,72 @@
         <span class="order-type">{{ type }} Batch Orders</span>
       </div>
       <div class="column is-half">
-        <b-pagination :total="orders.length" :order="'is-right'" per-page="5" size="is-small" simple></b-pagination>
+        <b-pagination
+          :total="orders.length"
+          :order="'is-right'"
+          per-page="5"
+          size="is-small"
+          simple
+        />
       </div>
     </div>
-    <b-table :data="orders" bordered striped narrowed hoverable>
+    <b-table
+      :data="orders"
+      bordered
+      striped
+      narrowed
+      hoverable
+    >
       <template slot-scope="props">
-        <b-table-column field="batchNo" label="Batch no." numeric>
+        <b-table-column
+          field="batchNo"
+          label="Batch no."
+          numeric
+        >
           {{ props.row.batchNo }}
         </b-table-column>
-        <b-table-column field="numberOfTests" label="No. of tests">
+        <b-table-column
+          field="numberOfTests"
+          label="No. of tests"
+        >
           {{ props.row.numberOfTests }}
         </b-table-column>
-        <b-table-column field="numberOfPatients" label="No. of patients">
+        <b-table-column
+          field="numberOfPatients"
+          label="No. of patients"
+        >
           {{ props.row.numberOfPatients }}
         </b-table-column>
-        <b-table-column field="totalCost" label="Total Cost">
+        <b-table-column
+          field="totalCost"
+          label="Total Cost"
+        >
           P{{ props.row.totalCost }}
         </b-table-column>
-        <b-table-column field="status" label="Status">
+        <b-table-column
+          field="status"
+          label="Status"
+        >
           {{ props.row.status }}
         </b-table-column>
-        <b-table-column field="actions" label="Actions">
-          <b-button type="is-success" @click="openBatchModal(props.row)">View</b-button>
+        <b-table-column
+          field="actions"
+          label="Actions"
+        >
+          <b-button
+            type="is-success"
+            @click="openBatchModal(props.row)"
+          >
+            View
+          </b-button>
         </b-table-column>
       </template>
     </b-table>
     <BatchOrdersModal
       :open="isModalActive"
       :details="currentOrder"
-      @close="isModalActive = false" />
+      @close="isModalActive = false"
+    />
   </section>
 </template>
 <script>

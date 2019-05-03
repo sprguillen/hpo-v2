@@ -6,17 +6,32 @@
         <div class="column is-full page-content">
           <div class="column portlet">
             <section>
-              <h1 class="float-left">SYSTEM CONFIGURATIONS</h1>
+              <h1 class="float-left">
+                SYSTEM CONFIGURATIONS
+              </h1>
               <div class="tabs float-right">
                 <ul>
-                  <li @click="activeTab = 'testAnnouncements'" :class="isActive('testAnnouncements')"><a>Test Announcements</a></li>
-                  <li @click="activeTab = 'patientTypes'"><a>Patient Types</a></li>
-                  <li @click="activeTab = 'dispatchers'"><a>Dispatchers</a></li>
-                  <li @click="activeTab = 'sources'"><a>Sources</a></li>
-                  <li @click="activeTab = 'globalPrefix'"><a>Global Prefix</a></li>
+                  <li
+                    :class="isActive('testAnnouncements')"
+                    @click="activeTab = 'testAnnouncements'"
+                  >
+                    <a>Test Announcements</a>
+                  </li>
+                  <li @click="activeTab = 'patientTypes'">
+                    <a>Patient Types</a>
+                  </li>
+                  <li @click="activeTab = 'dispatchers'">
+                    <a>Dispatchers</a>
+                  </li>
+                  <li @click="activeTab = 'sources'">
+                    <a>Sources</a>
+                  </li>
+                  <li @click="activeTab = 'globalPrefix'">
+                    <a>Global Prefix</a>
+                  </li>
                 </ul>
               </div>
-              <div class="clearfix"></div>
+              <div class="clearfix" />
             </section>
             <TestAnnouncements v-if="activeTab === 'testAnnouncements'" />
           </div>

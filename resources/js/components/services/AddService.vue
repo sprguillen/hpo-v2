@@ -1,51 +1,65 @@
 <template>
   <div class="column portlet">
     <section class="add-service">
-      <h1 class="float-left">SERVICE REGISTRATION</h1>
+      <h1 class="float-left">
+        SERVICE REGISTRATION
+      </h1>
       <b-button
         icon-left="close"
+        class="float-right app-text-primary"
         @click="$emit('hide')"
-        class="float-right app-text-primary">
-      </b-button>
+      />
       <div class="clearfix" />
-      <hr />
+      <hr>
       <form @submit.prevent="submit">
-        <b-field label="Code" :type="{'is-danger': errors.has('code')}"
-          :message="errors.first('code')">
+        <b-field
+          label="Code"
+          :type="{'is-danger': errors.has('code')}"
+          :message="errors.first('code')"
+        >
           <b-input
             v-model="form.code"
             v-validate="rules.code"
             name="code"
             placeholder="Code"
-            icon="key">
-          </b-input>
+            icon="key"
+          />
         </b-field>
-        <b-field label="Name" :type="{'is-danger': errors.has('name')}"
-          :message="errors.first('name')">
+        <b-field
+          label="Name"
+          :type="{'is-danger': errors.has('name')}"
+          :message="errors.first('name')"
+        >
           <b-input
             v-model="form.name"
             v-validate="rules.name"
             name="name"
             placeholder="Name"
-            icon="tag">
-          </b-input>
+            icon="tag"
+          />
         </b-field>
-        <b-field label="Default Cost" :type="{'is-danger': errors.has('default-cost')}"
-          :message="errors.first('default-cost')">
+        <b-field
+          label="Default Cost"
+          :type="{'is-danger': errors.has('default-cost')}"
+          :message="errors.first('default-cost')"
+        >
           <b-input
             v-model="form.default_cost"
             v-validate="rules.defaultCost"
             name="default-cost"
             placeholder="Default Cost"
-            icon="currency-usd">
-          </b-input>
+            icon="currency-usd"
+          />
         </b-field>
-        <hr />
+        <hr>
         <b-button
           tag="input"
           class="float-right"
           type="app-primary"
-          native-type="submit">Save</b-button>
+          native-type="submit"
+        >
+          Save
+        </b-button>
         <div class="clearfix" />
       </form>
     </section>

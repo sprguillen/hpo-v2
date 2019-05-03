@@ -4,11 +4,20 @@
       <h4>TEST/SERVICE ANNOUNCEMENTS</h4>
     </div>
     <div class="columns-is-full">
-      <div v-for="(line, index) in splitAnnouncements" :key="index" class="columns">
-        <div v-for="announcement in line"
+      <div
+        v-for="(line, index) in splitAnnouncements"
+        :key="index"
+        class="columns"
+      >
+        <div
+          v-for="announcement in line"
           :key="announcement.topic"
-          class="column is-one-quarter">
-          <div class="topic" @click="openAnnouncementModal(announcement)">
+          class="column is-one-quarter"
+        >
+          <div
+            class="topic"
+            @click="openAnnouncementModal(announcement)"
+          >
             <span>{{ announcement.topic }}</span>
           </div>
         </div>
@@ -17,7 +26,8 @@
     <TestAnnouncementsModal
       :open="isModalActive"
       :announcement="currentAnnouncement"
-      @close="isModalActive = false" />
+      @close="isModalActive = false"
+    />
   </section>
 </template>
 <script>

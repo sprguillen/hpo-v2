@@ -5,10 +5,26 @@
       <div class="container-fluid main-container">
         <div class="column is-full page-content">
           <div class="column is-full no-left-padding">
-            <b-button type="app-primary" v-if="!addMode" @click="addMode = true" icon-right="plus">Add a Service</b-button>
-            <b-button type="app-primary" @click="importFile" icon-right="cloud-download">Import</b-button>
+            <b-button
+              v-if="!addMode"
+              type="app-primary"
+              icon-right="plus"
+              @click="addMode = true"
+            >
+              Add a Service
+            </b-button>
+            <b-button
+              type="app-primary"
+              icon-right="cloud-download"
+              @click="importFile"
+            >
+              Import
+            </b-button>
           </div>
-          <AddService v-if="addMode" @hide="addMode = false" />
+          <AddService
+            v-if="addMode"
+            @hide="addMode = false"
+          />
           <div class="column" />
           <div class="column" />
           <div class="column portlet">

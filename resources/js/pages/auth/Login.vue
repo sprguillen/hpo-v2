@@ -1,7 +1,10 @@
 <template>
   <div class="login">
     <div class="logo">
-      <img class="company-logo" src="/images/logo.png">
+      <img
+        class="company-logo"
+        src="/images/logo.png"
+      >
     </div>
     <div class="content card">
       <header class="card-header">
@@ -11,27 +14,35 @@
       </header>
       <div class="card-content">
         <form @submit.prevent="submit">
-          <b-field :type="{'is-danger': errors.has('username')}"
-            :message="errors.first('username')">
-            <b-input v-model="form.username"
+          <b-field
+            :type="{'is-danger': errors.has('username')}"
+            :message="errors.first('username')"
+          >
+            <b-input
+              v-model="form.username"
               v-validate="rules.username"
               name="username"
               placeholder="Username"
-              icon="account">
-            </b-input>
+              icon="account"
+            />
           </b-field>
-          <b-field :type="{'is-danger': errors.has('password')}"
-            :message="errors.first('password')">
-            <b-input v-model="form.password"
+          <b-field
+            :type="{'is-danger': errors.has('password')}"
+            :message="errors.first('password')"
+          >
+            <b-input
+              v-model="form.password"
               v-validate="rules.password"
               name="password"
               type="password"
               placeholder="Password"
-              icon="lock">
-            </b-input>
+              icon="lock"
+            />
           </b-field>
           <div class="form-actions">
-            <button class="btn btn-custom btn-primary">Log In</button>
+            <button class="btn btn-custom btn-primary">
+              Log In
+            </button>
           </div>
         </form>
       </div>
@@ -41,7 +52,10 @@
     </div>
     <footer class="footer">
       <div class="has-text-centered email">
-        <a href="mailto:help@hi-precision.com.ph" target="_top">Email help@hi-precision.com.ph for help</a>
+        <a
+          href="mailto:help@hi-precision.com.ph"
+          target="_top"
+        >Email help@hi-precision.com.ph for help</a>
         <div class="copyright">
           Copyright © 2016 Hi-Precision Diagnostics
         </div>

@@ -6,7 +6,10 @@
         <div class="column is-full page-content">
           <div class="column is-full no-left-padding">
             <router-link to="/clients">
-              <b-button type="is-danger" icon-left="keyboard-backspace">
+              <b-button
+                type="is-danger"
+                icon-left="keyboard-backspace"
+              >
                 Back
               </b-button>
             </router-link>

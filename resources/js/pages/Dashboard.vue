@@ -5,11 +5,18 @@
       <div class="container-fluid main-container">
         <div class="column is-full page-content">
           <div class="column is-full no-left-padding">
-            <h1 class="float-left">HI-PRECISION ORDERING SYSTEM</h1>
-            <nav class="breadcrumb float-right has-bullet-separator" aria-label="breadcrumbs">
+            <h1 class="float-left">
+              HI-PRECISION ORDERING SYSTEM
+            </h1>
+            <nav
+              class="breadcrumb float-right has-bullet-separator"
+              aria-label="breadcrumbs"
+            >
               <ul>
                 <li><a>HOME</a></li>
-                <li class="active">DASHBOARD</li>
+                <li class="active">
+                  DASHBOARD
+                </li>
               </ul>
             </nav>
           </div>
@@ -18,7 +25,10 @@
           <div class="column">
             <div class="columns">
               <div class="column is-half side-borders">
-                <BatchOrders :orders="draftOrders" type="Draft" />
+                <BatchOrders
+                  :orders="draftOrders"
+                  type="Draft"
+                />
               </div>
               <div class="column">
                 <TestAnnouncements :announcements="announcements" />
@@ -28,7 +38,10 @@
           <div class="column">
             <div class="columns">
               <div class="column is-half side-borders">
-                <BatchOrders :orders="confirmedOrders" type="Confirmed" />
+                <BatchOrders
+                  :orders="confirmedOrders"
+                  type="Confirmed"
+                />
               </div>
             </div>
           </div>

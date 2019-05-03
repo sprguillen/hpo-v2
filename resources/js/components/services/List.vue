@@ -1,36 +1,80 @@
 <template>
   <section class="services-list">
     <h1>SERVICES LIST</h1>
-    <hr />
+    <hr>
     <b-field grouped>
-      <b-select v-model="form.filter" placeholder="No source">
-        <option v-for="option in options"
-          :key="option.value" :value="option.value">
+      <b-select
+        v-model="form.filter"
+        placeholder="No source"
+      >
+        <option
+          v-for="option in options"
+          :key="option.value"
+          :value="option.value"
+        >
           {{ option.text }}
         </option>
       </b-select>
-      <b-input v-model="form.search" placeholder="Search Processor"></b-input>
+      <b-input
+        v-model="form.search"
+        placeholder="Search Processor"
+      />
     </b-field>
-    <b-table :data="services" bordered striped hoverable>
+    <b-table
+      :data="services"
+      bordered
+      striped
+      hoverable
+    >
       <template slot-scope="props">
-        <b-table-column field="code" label="Code">
-          <router-link :to="{ name: 'service_details', params: { id: 'test' } }"  class="service-link">{{ props.row.code }}</router-link>
+        <b-table-column
+          field="code"
+          label="Code"
+        >
+          <router-link
+            :to="{ name: 'service_details', params: { id: 'test' } }"
+            class="service-link"
+          >
+            {{ props.row.code }}
+          </router-link>
         </b-table-column>
-        <b-table-column field="name" label="Name" width="700">
+        <b-table-column
+          field="name"
+          label="Name"
+          width="700"
+        >
           {{ props.row.name }}
         </b-table-column>
-        <b-table-column field="default_cost" label="Default cost">
+        <b-table-column
+          field="default_cost"
+          label="Default cost"
+        >
           {{ props.row.default_cost }}
         </b-table-column>
-        <b-table-column field="no_clients" label="No. of clients" width="110">
+        <b-table-column
+          field="no_clients"
+          label="No. of clients"
+          width="110"
+        >
           {{ props.row.no_clients }}
         </b-table-column>
-        <b-table-column field="no_orders" label="No. of orders" width="100">
+        <b-table-column
+          field="no_orders"
+          label="No. of orders"
+          width="100"
+        >
           {{ props.row.no_orders }}
         </b-table-column>
-        <b-table-column field="actions" label="Actions">
-          <b-button type="app-primary">Edit</b-button>
-          <b-button type="is-danger">Archive</b-button>
+        <b-table-column
+          field="actions"
+          label="Actions"
+        >
+          <b-button type="app-primary">
+            Edit
+          </b-button>
+          <b-button type="is-danger">
+            Archive
+          </b-button>
         </b-table-column>
       </template>
     </b-table>

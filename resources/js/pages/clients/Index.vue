@@ -5,9 +5,19 @@
       <div class="container-fluid main-container">
         <div class="column is-full page-content">
           <div class="column is-full no-left-padding">
-            <b-button v-if="!addMode" type="app-primary" @click="addMode = true" icon-right="plus">Add Client</b-button>
+            <b-button
+              v-if="!addMode"
+              type="app-primary"
+              icon-right="plus"
+              @click="addMode = true"
+            >
+              Add Client
+            </b-button>
           </div>
-          <AddClient v-if="addMode" @hide="addMode = false" />
+          <AddClient
+            v-if="addMode"
+            @hide="addMode = false"
+          />
           <div class="column" />
           <div class="column" />
           <div class="column portlet">
