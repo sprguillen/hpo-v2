@@ -1,38 +1,41 @@
 import Vue from 'vue'
 import VueCookies from 'vue-cookies'
 import axios from 'axios'
+import { CLIENT_ID, CLIENT_SECRET, GRANT_TYPE } from '../../utils/constants'
 
 Vue.use(VueCookies)
 
 const state = {
-  currentLoggedInUser: VueCookies.get('current_user'),
-  accessToken: VueCookies.get('auth_token')
+  accessToken: VueCookies.get('access_token'),
+  refreshToken: VueCookies.get('refresh_token')
 }
 
 const getters = {
-  getCurrentLoggedInUser: state => state.currentLoggedInUser,
-  getAccessToken: state => state.accessToken
+  getAccessToken: state => state.accessToken,
+  getRefreshToken: state => state.refreshToken
 }
 
 const mutations = {
-  setCurrentLoggedInUser: (state, user) => {
-    state.currentLoggedInUser = user
+  setAccessToken: (state, accessToken) => {
+    state.accessToken = accessToken
   },
-  setAccessToken: (state, token) => {
-    state.accessToken = token
+  setRefreshToken: (state, refreshToken) => {
+    state.refreshToken = refreshToken
   }
 }
 
 const actions = {
   async login({ commit }, payload) {
     try {
+      payload.grant_type = GRANT_TYPE
+      payload.client_id = CLIENT_ID
+      payload.client_secret = CLIENT_SECRET
       const { data } = await axios.post('/api/auth/login', payload)
+      VueCookies.set('access_token', data.access_token)
+      VueCookies.set('refresh_token', data.refresh_token)
 
-      VueCookies.set('auth_token', data.access_token.token)
-      VueCookies.set('current_user', data.logged_in_user.username)
-
-      commit('setCurrentLoggedInUser', data.logged_in_user.username)
-      commit('setAccessToken', data.access_token.token)
+      commit('setAccessToken', data.access_token)
+      commit('setRefreshToken', data.refresh_token)
     } catch (e) {
       const { data } = e.response
       throw data
@@ -40,11 +43,11 @@ const actions = {
   },
 
   logout({ state }) {
-    VueCookies.remove('auth_token')
-    VueCookies.remove('current_user')
+    VueCookies.remove('access_token')
+    VueCookies.remove('refresh_token')
 
-    state.currentLoggedInUser = null;
     state.accessToken = null;
+    state.refreshToken = null;
   }
 }
 

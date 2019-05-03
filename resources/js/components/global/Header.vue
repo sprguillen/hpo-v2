@@ -31,7 +31,7 @@
               <b-dropdown position="is-bottom-left" aria-role="menu">
                 <b-button class="navbar-item button-action" slot="trigger">
                   <b-icon icon="account"></b-icon>
-                  <span>Hi, {{ getCurrentLoggedInUser }}</span>
+                  <span>Hi, </span>
                   <b-icon icon="menu-down"></b-icon>
                 </b-button>
 
@@ -83,7 +83,7 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default {
   computed: {
-    ...mapGetters('auth', [ 'getCurrentLoggedInUser' ])
+    // ...mapGetters('auth', [ 'getCurrentLoggedInUser' ])
   },
   methods: {
     ...mapActions('auth', [ 'logout' ]),

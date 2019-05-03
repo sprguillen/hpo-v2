@@ -2168,11 +2168,11 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     open: {
       type: Boolean,
-      "default": false
+      default: false
     },
     details: {
       type: Array,
-      "default": []
+      default: []
     }
   }
 });
@@ -2330,7 +2330,7 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     open: {
       type: Boolean,
-      "default": false
+      default: false
     },
     announcement: {
       type: Object,
@@ -2442,7 +2442,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('auth', ['getCurrentLoggedInUser'])),
+  computed: {// ...mapGetters('auth', [ 'getCurrentLoggedInUser' ])
+  },
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('auth', ['logout']), {
     exit: function exit() {
       this.logout();
@@ -37851,7 +37852,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ValidationObserver", function() { return ValidationObserver; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "withValidation", function() { return withValidation; });
 /**
-  * vee-validate v2.2.2
+  * vee-validate v2.2.4
   * (c) 2019 Abdelrahman Awad
   * @license MIT
   */
@@ -38244,6 +38245,17 @@ var toArray = function (arrayLike) {
 };
 
 /**
+ * Converts an array-like object to array and place other elements in an array
+ */
+var ensureArray = function (arrayLike) {
+  if (Array.isArray(arrayLike)) {
+    return [].concat( arrayLike );
+  }
+  var array = toArray(arrayLike);
+  return isEmptyArray(array) ? [arrayLike] : array;
+};
+
+/**
  * Assign polyfill from the mdn.
  */
 var assign = function (target) {
@@ -38499,6 +38511,14 @@ var includes = function (collection, item) {
 
 var isEmptyArray = function (arr) {
   return Array.isArray(arr) && arr.length === 0;
+};
+
+var defineNonReactive = function (obj, prop, value) {
+  Object.defineProperty(obj, prop, {
+    configurable: false,
+    writable: true,
+    value: value
+  });
 };
 
 // 
@@ -39266,7 +39286,7 @@ Resolver.generate = function generate (el, binding, vnode) {
     listen: !binding.modifiers.disable,
     bails: binding.modifiers.bails ? true : (binding.modifiers.continues === true ? false : undefined),
     scope: Resolver.resolveScope(el, binding, vnode),
-    vm: Resolver.makeVM(vnode.context),
+    vm: vnode.context,
     expression: binding.value,
     component: vnode.componentInstance,
     classes: options.classes,
@@ -39327,28 +39347,6 @@ Resolver.resolveInitialValue = function resolveInitialValue (vnode) {
   var model = vnode.data.model || find(vnode.data.directives, function (d) { return d.name === 'model'; });
 
   return model && model.value;
-};
-
-/**
- * Creates a non-circular partial VM instance from a Vue instance.
- * @param {*} vm
- */
-Resolver.makeVM = function makeVM (vm) {
-  return {
-    get $el () {
-      return vm.$el;
-    },
-    get $refs () {
-      return vm.$refs;
-    },
-    $watch: vm.$watch ? vm.$watch.bind(vm) : function () {},
-    $validator: vm.$validator ? {
-      errors: vm.$validator.errors,
-      validate: vm.$validator.validate.bind(vm.$validator),
-      update: vm.$validator.update.bind(vm.$validator),
-      _resolveField: vm.$validator._base._resolveField.bind(vm.$validator)
-    } : null
-  };
 };
 
 /**
@@ -39670,10 +39668,10 @@ var Field = function Field (options) {
   this.id = uniqId();
   this.el = options.el;
   this.updated = false;
-  this.dependencies = [];
   this.vmId = options.vmId;
-  this.watchers = [];
-  this.events = [];
+  defineNonReactive(this, 'dependencies', []);
+  defineNonReactive(this, 'watchers', []);
+  defineNonReactive(this, 'events', []);
   this.delay = 0;
   this.rules = {};
   this.forceRequired = false;
@@ -39684,8 +39682,8 @@ var Field = function Field (options) {
   this.validity = options.validity;
   this.aria = options.aria;
   this.flags = options.flags || createFlags();
-  this.vm = options.vm;
-  this.componentInstance = options.component;
+  defineNonReactive(this, 'vm', options.vm);
+  defineNonReactive(this, 'componentInstance', options.component);
   this.ctorConfig = this.componentInstance ? getPath('$options.$_veeValidate', this.componentInstance) : undefined;
   this.update(options);
   // set initial value.
@@ -40204,6 +40202,8 @@ Field.prototype.addValueListeners = function addValueListeners () {
       args[0] = this$1.value;
     }
 
+    this$1.flags.pending = true;
+    this$1._cancellationToken = token;
     this$1.validator.validate(("#" + (this$1.id)), args[0]);
   };
 
@@ -40228,17 +40228,14 @@ Field.prototype.addValueListeners = function addValueListeners () {
 
     if (ctx && expression) {
       var debouncedFn = debounce(fn, this.delay[inputEvent], token);
-      var unwatch = ctx.$watch(expression, function () {
-          var args = [], len = arguments.length;
-          while ( len-- ) args[ len ] = arguments[ len ];
-
-        this$1.flags.pending = true;
-        this$1._cancellationToken = token;
-        debouncedFn.apply(void 0, args);
-      });
+      var unwatch = ctx.$watch(expression, debouncedFn);
       this.watchers.push({
         tag: 'input_model',
-        unwatch: unwatch
+        unwatch: function () {
+          this$1.vm.$nextTick(function () {
+            unwatch();
+          });
+        }
       });
 
       // filter out input event as it is already handled by the watcher API.
@@ -40249,17 +40246,9 @@ Field.prototype.addValueListeners = function addValueListeners () {
   // Add events.
   events.forEach(function (e) {
     var debouncedFn = debounce(fn, this$1.delay[e], token);
-    var validate = function () {
-        var args = [], len = arguments.length;
-        while ( len-- ) args[ len ] = arguments[ len ];
 
-      this$1.flags.pending = true;
-      this$1._cancellationToken = token;
-      debouncedFn.apply(void 0, args);
-    };
-
-    this$1._addComponentEventListener(e, validate);
-    this$1._addHTMLEventListener(e, validate);
+    this$1._addComponentEventListener(e, debouncedFn);
+    this$1._addHTMLEventListener(e, debouncedFn);
   });
 };
 
@@ -40362,6 +40351,10 @@ var FieldBag = function FieldBag (items) {
   if ( items === void 0 ) items = [];
 
   this.items = items || [];
+  this.itemsById = this.items.reduce(function (itemsById, item) {
+    itemsById[item.id] = item;
+    return itemsById;
+  }, {});
 };
 
 var prototypeAccessors$2 = { length: { configurable: true } };
@@ -40390,6 +40383,14 @@ prototypeAccessors$2.length.get = function () {
  */
 FieldBag.prototype.find = function find$1 (matcher) {
   return find(this.items, function (item) { return item.matches(matcher); });
+};
+
+/**
+ * Finds the field with the given id, using a plain object as a map to link
+ * ids to items faster than by looping over the array and matching.
+ */
+FieldBag.prototype.findById = function findById (id) {
+  return this.itemsById[id] || null;
 };
 
 /**
@@ -40426,6 +40427,7 @@ FieldBag.prototype.remove = function remove (matcher) {
 
   var index = this.items.indexOf(item);
   this.items.splice(index, 1);
+  delete this.itemsById[item.id];
 
   return item;
 };
@@ -40442,11 +40444,12 @@ FieldBag.prototype.push = function push (item) {
     throw createError('Field id must be defined.');
   }
 
-  if (this.find({ id: item.id })) {
+  if (this.findById(item.id)) {
     throw createError(("Field with id " + (item.id) + " is already added."));
   }
 
   this.items.push(item);
+  this.itemsById[item.id] = item;
 };
 
 Object.defineProperties( FieldBag.prototype, prototypeAccessors$2 );
@@ -40595,6 +40598,14 @@ ScopedValidator.prototype.flag = function flag () {
   return (ref = this._base).flag.apply(ref, args.concat( [this.id] ));
 };
 
+ScopedValidator.prototype._resolveField = function _resolveField () {
+    var ref;
+
+    var args = [], len = arguments.length;
+    while ( len-- ) args[ len ] = arguments[ len ];
+  return (ref = this._base)._resolveField.apply(ref, args);
+};
+
 Object.defineProperties( ScopedValidator.prototype, prototypeAccessors$3 );
 
 var VALIDATOR = null;
@@ -40710,7 +40721,7 @@ function findField (el, context) {
     return null;
   }
 
-  return context.$validator.fields.find({ id: el._veeValidateId });
+  return context.$validator.fields.findById(el._veeValidateId);
 }
 var directive = {
   bind: function bind (el, binding, vnode) {
@@ -41133,7 +41144,7 @@ Validator.prototype.validateAll = function validateAll (values, ref) {
     providedValues = true;
   } else if (Array.isArray(values)) {
     matcher = values.map(function (key) {
-      return { name: key, vmId: vmId };
+      return typeof key === 'object' ? Object.assign({ vmId: vmId }, key) : { name: key, vmId: vmId };
     });
   } else {
     matcher = { scope: null, vmId: vmId };
@@ -41465,7 +41476,7 @@ Validator.prototype._createFieldError = function _createFieldError (field, rule,
  */
 Validator.prototype._resolveField = function _resolveField (name, scope, uid) {
   if (name[0] === '#') {
-    return this.fields.find({ id: name.slice(1) });
+    return this.fields.findById(name.slice(1));
   }
 
   if (!isNullOrUndefined(scope)) {
@@ -41693,17 +41704,23 @@ I18nDictionary.prototype.setDateFormat = function setDateFormat (locale, value) 
 
 I18nDictionary.prototype.getMessage = function getMessage (_, key, data) {
   var path = (this.rootKey) + ".messages." + key;
+  var dataOptions = data;
+
+  if (Array.isArray(data)) {
+    dataOptions = [].concat.apply([], data);
+  }
+
   if (this.i18n.te(path)) {
-    return this.i18n.t(path, data);
+    return this.i18n.t(path, dataOptions);
   }
 
   // fallback to the fallback message
   if (this.i18n.te(path, this.i18n.fallbackLocale)) {
-    return this.i18n.t(path, this.i18n.fallbackLocale, data);
+    return this.i18n.t(path, this.i18n.fallbackLocale, dataOptions);
   }
 
   // fallback to the root message
-  return this.i18n.t(((this.rootKey) + ".messages._default"), data);
+  return this.i18n.t(((this.rootKey) + ".messages._default"), dataOptions);
 };
 
 I18nDictionary.prototype.getAttribute = function getAttribute (_, key, fallback) {
@@ -46976,12 +46993,12 @@ var validate$a = function (value, ref) {
   var decimals = ref.decimals; if ( decimals === void 0 ) decimals = '*';
   var separator = ref.separator; if ( separator === void 0 ) separator = '.';
 
-  if (Array.isArray(value)) {
-    return value.every(function (val) { return validate$a(val, { decimals: decimals, separator: separator }); });
+  if (isNullOrUndefined(value) || value === '') {
+    return false;
   }
 
-  if (value === null || value === undefined || value === '') {
-    return false;
+  if (Array.isArray(value)) {
+    return value.every(function (val) { return validate$a(val, { decimals: decimals, separator: separator }); });
   }
 
   // if is 0.
@@ -46999,7 +47016,7 @@ var validate$a = function (value, ref) {
   var parsedValue = parseFloat(value);
 
   // eslint-disable-next-line
-    return parsedValue === parsedValue;
+  return parsedValue === parsedValue;
 };
 
 var paramNames$a = ['decimals', 'separator'];
@@ -47024,6 +47041,8 @@ var digits = {
   validate: validate$b
 };
 
+var imageRegex = /\.(jpg|svg|jpeg|png|bmp|gif)$/i;
+
 var validateImage = function (file, width, height) {
   var URL = window.URL || window.webkitURL;
   return new Promise(function (resolve) {
@@ -47041,17 +47060,11 @@ var validate$c = function (files, ref) {
   var width = ref[0];
   var height = ref[1];
 
-  var list = [];
-  for (var i = 0; i < files.length; i++) {
-    // if file is not an image, reject.
-    if (! /\.(jpg|svg|jpeg|png|bmp|gif)$/i.test(files[i].name)) {
-      return false;
-    }
-
-    list.push(files[i]);
+  var images = ensureArray(files).filter(function (file) { return imageRegex.test(file.name); });
+  if (images.length === 0) {
+    return false;
   }
-
-  return Promise.all(list.map(function (file) { return validateImage(file, width, height); }));
+  return Promise.all(images.map(function (image) { return validateImage(image, width, height); }));
 };
 
 var dimensions = {
@@ -47404,18 +47417,25 @@ module.exports = exports['default'];
 
 var isEmail = unwrapExports(isEmail_1);
 
-var validate$d = function (value, options) {
-  if ( options === void 0 ) options = {};
+function objectWithoutProperties (obj, exclude) { var target = {}; for (var k in obj) if (Object.prototype.hasOwnProperty.call(obj, k) && exclude.indexOf(k) === -1) target[k] = obj[k]; return target; }
 
-  if (options.multiple) {
-    value = value.split(',').map(function (emailStr) { return emailStr.trim(); });
+var validate$d = function (value, ref) {
+  if ( ref === void 0 ) ref = {};
+  var multiple = ref.multiple; if ( multiple === void 0 ) multiple = false;
+  var rest = objectWithoutProperties( ref, ["multiple"] );
+  var options = rest;
+
+  if (multiple && !Array.isArray(value)) {
+    value = String(value).split(',').map(function (emailStr) { return emailStr.trim(); });
   }
+
+  var validatorOptions = assign({}, options);
 
   if (Array.isArray(value)) {
-    return value.every(function (val) { return isEmail(String(val), options); });
+    return value.every(function (val) { return isEmail(String(val), validatorOptions); });
   }
 
-  return isEmail(String(value), options);
+  return isEmail(String(value), validatorOptions);
 };
 
 var email = {
@@ -47450,15 +47470,14 @@ var excluded = {
 
 var validate$g = function (files, extensions) {
   var regex = new RegExp((".(" + (extensions.join('|')) + ")$"), 'i');
-
-  return files.every(function (file) { return regex.test(file.name); });
+  return ensureArray(files).every(function (file) { return regex.test(file.name); });
 };
 
 var ext = {
   validate: validate$g
 };
 
-var validate$h = function (files) { return files.every(function (file) { return /\.(jpg|svg|jpeg|png|bmp|gif)$/i.test(file.name); }); };
+var validate$h = function (files) { return (Array.isArray(files) ? files : [files]).every(function (file) { return /\.(jpg|svg|jpeg|png|bmp|gif)$/i.test(file.name); }); };
 
 var image = {
   validate: validate$h
@@ -47556,11 +47575,11 @@ var validate$n = function (value, ref) {
   var length = ref[0];
   var max = ref[1]; if ( max === void 0 ) max = undefined;
 
-  length = Number(length);
-  if (value === undefined || value === null) {
+  if (isNullOrUndefined(value)) {
     return false;
   }
 
+  length = Number(length);
   if (typeof value === 'number') {
     value = String(value);
   }
@@ -47579,7 +47598,7 @@ var length = {
 var validate$o = function (value, ref) {
   var length = ref[0];
 
-  if (value === undefined || value === null) {
+  if (isNullOrUndefined(value)) {
     return length >= 0;
   }
 
@@ -47597,7 +47616,7 @@ var max = {
 var validate$p = function (value, ref) {
   var max = ref[0];
 
-  if (value === null || value === undefined || value === '') {
+  if (isNullOrUndefined(value) || value === '') {
     return false;
   }
 
@@ -47614,8 +47633,7 @@ var max_value = {
 
 var validate$q = function (files, mimes) {
   var regex = new RegExp(((mimes.join('|').replace('*', '.+')) + "$"), 'i');
-
-  return files.every(function (file) { return regex.test(file.type); });
+  return ensureArray(files).every(function (file) { return regex.test(file.type); });
 };
 
 var mimes = {
@@ -47625,7 +47643,7 @@ var mimes = {
 var validate$r = function (value, ref) {
   var length = ref[0];
 
-  if (value === undefined || value === null) {
+  if (isNullOrUndefined(value)) {
     return false;
   }
 
@@ -47643,7 +47661,7 @@ var min = {
 var validate$s = function (value, ref) {
   var min = ref[0];
 
-  if (value === null || value === undefined || value === '') {
+  if (isNullOrUndefined(value) || value === '') {
     return false;
   }
 
@@ -47704,16 +47722,12 @@ var validate$v = function (value, ref) {
   if ( ref === void 0 ) ref = [];
   var invalidateFalse = ref[0]; if ( invalidateFalse === void 0 ) invalidateFalse = false;
 
-  if (isEmptyArray(value)) {
+  if (isNullOrUndefined(value) || isEmptyArray(value)) {
     return false;
   }
 
   // incase a field considers `false` as an empty value like checkboxes.
   if (value === false && invalidateFalse) {
-    return false;
-  }
-
-  if (value === undefined || value === null) {
     return false;
   }
 
@@ -47768,15 +47782,8 @@ var validate$x = function (files, ref) {
   if (isNaN(size)) {
     return false;
   }
-
   var nSize = Number(size) * 1024;
-  for (var i = 0; i < files.length; i++) {
-    if (files[i].size > nSize) {
-      return false;
-    }
-  }
-
-  return true;
+  return ensureArray(files).every(function (file) { return file.size <= nSize; });
 };
 
 var size = {
@@ -47944,11 +47951,13 @@ var validate$y = function (value, options) {
     value = '';
   }
 
+  var validatorOptions = assign({}, options);
+
   if (Array.isArray(value)) {
-    return value.every(function (val) { return isURL(val, options); });
+    return value.every(function (val) { return isURL(val, validatorOptions); });
   }
 
-  return isURL(value, options);
+  return isURL(value, validatorOptions);
 };
 
 var url = {
@@ -48537,7 +48546,7 @@ var ValidationProvider = {
       var args = [], len = arguments.length;
       while ( len-- ) args[ len ] = arguments[ len ];
 
-      if (args[0]) {
+      if (args.length > 0) {
         this.syncValue(args[0]);
       }
 
@@ -48558,6 +48567,9 @@ var ValidationProvider = {
         bails: this.bails
       }).then(function (result) {
         this$1.setFlags({ pending: false });
+        if (!this$1.isRequired) {
+          this$1.setFlags({ valid: result.valid, invalid: !result.valid });
+        }
 
         return result;
       });
@@ -48837,7 +48849,7 @@ function withValidation (component, ctxToProps) {
   return hoc;
 }
 
-var version = '2.2.2';
+var version = '2.2.4';
 
 Object.keys(Rules).forEach(function (rule) {
   Validator.extend(rule, Rules[rule].validate, assign({}, Rules[rule].options, { paramNames: Rules[rule].paramNames }));
@@ -50099,9 +50111,7 @@ var render = function() {
                         [
                           _c("b-icon", { attrs: { icon: "account" } }),
                           _vm._v(" "),
-                          _c("span", [
-                            _vm._v("Hi, " + _vm._s(_vm.getCurrentLoggedInUser))
-                          ]),
+                          _c("span", [_vm._v("Hi, ")]),
                           _vm._v(" "),
                           _c("b-icon", { attrs: { icon: "menu-down" } })
                         ],
@@ -70082,6 +70092,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_cookies__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_cookies__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _utils_constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utils/constants */ "./resources/js/utils/constants.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -70091,25 +70102,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vue_cookies__WEBPACK_IMPORTED_MODULE_2___default.a);
 var state = {
-  currentLoggedInUser: vue_cookies__WEBPACK_IMPORTED_MODULE_2___default.a.get('current_user'),
-  accessToken: vue_cookies__WEBPACK_IMPORTED_MODULE_2___default.a.get('auth_token')
+  accessToken: vue_cookies__WEBPACK_IMPORTED_MODULE_2___default.a.get('access_token'),
+  refreshToken: vue_cookies__WEBPACK_IMPORTED_MODULE_2___default.a.get('refresh_token')
 };
 var getters = {
-  getCurrentLoggedInUser: function getCurrentLoggedInUser(state) {
-    return state.currentLoggedInUser;
-  },
   getAccessToken: function getAccessToken(state) {
     return state.accessToken;
+  },
+  getRefreshToken: function getRefreshToken(state) {
+    return state.refreshToken;
   }
 };
 var mutations = {
-  setCurrentLoggedInUser: function setCurrentLoggedInUser(state, user) {
-    state.currentLoggedInUser = user;
+  setAccessToken: function setAccessToken(state, accessToken) {
+    state.accessToken = accessToken;
   },
-  setAccessToken: function setAccessToken(state, token) {
-    state.accessToken = token;
+  setRefreshToken: function setRefreshToken(state, refreshToken) {
+    state.refreshToken = refreshToken;
   }
 };
 var actions = {
@@ -70125,31 +70137,34 @@ var actions = {
             case 0:
               commit = _ref.commit;
               _context.prev = 1;
-              _context.next = 4;
+              payload.grant_type = _utils_constants__WEBPACK_IMPORTED_MODULE_4__["GRANT_TYPE"];
+              payload.client_id = _utils_constants__WEBPACK_IMPORTED_MODULE_4__["CLIENT_ID"];
+              payload.client_secret = _utils_constants__WEBPACK_IMPORTED_MODULE_4__["CLIENT_SECRET"];
+              _context.next = 7;
               return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post('/api/auth/login', payload);
 
-            case 4:
+            case 7:
               _ref2 = _context.sent;
               data = _ref2.data;
-              vue_cookies__WEBPACK_IMPORTED_MODULE_2___default.a.set('auth_token', data.access_token.token);
-              vue_cookies__WEBPACK_IMPORTED_MODULE_2___default.a.set('current_user', data.logged_in_user.username);
-              commit('setCurrentLoggedInUser', data.logged_in_user.username);
-              commit('setAccessToken', data.access_token.token);
-              _context.next = 16;
+              vue_cookies__WEBPACK_IMPORTED_MODULE_2___default.a.set('access_token', data.access_token);
+              vue_cookies__WEBPACK_IMPORTED_MODULE_2___default.a.set('refresh_token', data.refresh_token);
+              commit('setAccessToken', data.access_token);
+              commit('setRefreshToken', data.refresh_token);
+              _context.next = 19;
               break;
 
-            case 12:
-              _context.prev = 12;
+            case 15:
+              _context.prev = 15;
               _context.t0 = _context["catch"](1);
               _data = _context.t0.response.data;
               throw _data;
 
-            case 16:
+            case 19:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[1, 12]]);
+      }, _callee, null, [[1, 15]]);
     }));
 
     function login(_x, _x2) {
@@ -70160,10 +70175,10 @@ var actions = {
   }(),
   logout: function logout(_ref3) {
     var state = _ref3.state;
-    vue_cookies__WEBPACK_IMPORTED_MODULE_2___default.a.remove('auth_token');
-    vue_cookies__WEBPACK_IMPORTED_MODULE_2___default.a.remove('current_user');
-    state.currentLoggedInUser = null;
+    vue_cookies__WEBPACK_IMPORTED_MODULE_2___default.a.remove('access_token');
+    vue_cookies__WEBPACK_IMPORTED_MODULE_2___default.a.remove('refresh_token');
     state.accessToken = null;
+    state.refreshToken = null;
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -70314,6 +70329,24 @@ var actions = {
   mutations: mutations,
   actions: actions
 });
+
+/***/ }),
+
+/***/ "./resources/js/utils/constants.js":
+/*!*****************************************!*\
+  !*** ./resources/js/utils/constants.js ***!
+  \*****************************************/
+/*! exports provided: CLIENT_ID, CLIENT_SECRET, GRANT_TYPE */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CLIENT_ID", function() { return CLIENT_ID; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CLIENT_SECRET", function() { return CLIENT_SECRET; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GRANT_TYPE", function() { return GRANT_TYPE; });
+var CLIENT_ID = 2;
+var CLIENT_SECRET = 'r95x3KcvNuEQNVQSEYA6mTD27N3NbgkoLujf581S';
+var GRANT_TYPE = 'password';
 
 /***/ }),
 
