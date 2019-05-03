@@ -22,7 +22,7 @@ class UserTest extends TestCase
 
         $response = $this->json('GET', route('api.user.me'));
         $data = $response->getData();
-        
+
         $response
             ->assertStatus(self::RESPONSE_SUCCESS)
             ->assertJson([

@@ -7,7 +7,6 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 use App\Models\User;
-use JWTAuth;
 
 class LoginTest extends TestCase
 {

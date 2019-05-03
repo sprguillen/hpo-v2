@@ -24,7 +24,10 @@ Token is provided with the request:
 * [Processor info](admin/processor/processor.md)
 
 ### User related
-* [User data](user/index.md)
+
+* [Get User data](user/index.md)
+* [Reset Password](user/password.md)
+
 
 ## Backend Models
 
