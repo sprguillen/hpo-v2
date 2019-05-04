@@ -23,6 +23,12 @@ Token is provided with the request:
 * [Client info](admin/client/client.md)
 * [Processor info](admin/processor/processor.md)
 
-### Backend Models
+### User related
+
+* [Get User data](user/index.md)
+* [Reset Password](user/password.md)
+
+
+## Backend Models
 
 * [User table](models/user.md)

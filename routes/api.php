@@ -18,21 +18,32 @@ Route::namespace('Api')->group(function() {
 
     //** Auth routes
     Route::prefix('auth')->namespace('Auth')->group(function() {
-        Route::post('login', 'AuthController@login')->name('login');
-        Route::post('register', 'AuthController@register')->name('register');
+        Route::name('login')->post('login', 'AuthController@login');
+        Route::name('register')->post('register', 'AuthController@register');
 
         Route::prefix('reset/password')->group(function() {
-            Route::post('send', 'PasswordController@sendResetPassword')->name('reset.password.send');
-            Route::post('{token}/form', 'PasswordController@resetPasswordForm')->name('reset.password.form');
-            Route::post('', 'PasswordController@resetPassword')->name('reset.password');
+            Route::name('reset.password.send')->post('send', 'PasswordController@sendResetPassword');
+            Route::name('reset.password.form')->get('{token}/form', 'PasswordController@resetPasswordForm');
+            Route::name('reset.password')->post('', 'PasswordController@resetPassword');
         });
 
     });
 
     /**
-     * Admin Routes
+     * Authenticated Users Routes
      */
     Route::middleware('auth:api')->group(function() {
+
+        /**
+         * User routes
+         */
+        Route::prefix('user')->namespace('User')->group(function() {
+            Route::name('api.user.me')->get('me', 'IndexController@index');
+        });
+
+        /**
+         * Admin Routes
+         */
         Route::prefix('admin')
             ->middleware('admin')
             ->namespace('Admin')->group(function() {
@@ -58,16 +69,3 @@ Route::namespace('Api')->group(function() {
     });
 
 });
-
-
-// Sources
-Route::post('source/add', 'API\SourceController@add');
-
-// Dispatchers
-Route::post('dispatcher/add', 'API\DispatcherController@add');
-
-// Patients
-Route::post('patient/type/add', 'API\PatientController@addType');
-
-// Services
-Route::post('service/add', 'API\ServiceController@add');

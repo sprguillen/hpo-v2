@@ -27,13 +27,17 @@ class AuthController extends AccessTokenController
         }
 
         $issueToken = $this->issueToken($serverRequest);
-        
+
         if ($issueToken->status() == Response::HTTP_OK) {
             $tokenResult = json_decode($issueToken->getContent(), true);
 
+            $user = User::where('username', $request->username)->first()->toArray();
+
             return successful(trans('message.auth.login.success'), [
                 'access_token' => $tokenResult['access_token'],
-                'refresh_token' => $tokenResult['refresh_token']
+                'refresh_token' => $tokenResult['refresh_token'],
+                'expires_in' => $tokenResult['expires_in'],
+                'logged_in_user' => (object)$user,
             ]);
         }
 

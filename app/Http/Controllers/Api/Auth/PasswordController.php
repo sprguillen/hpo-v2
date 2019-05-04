@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use Mail;
+use Hash;
 use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\PasswordReset;
 use App\Mail\Auth\ResetUserPassword;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Http\Requests\Auth\SendResetPasswordRequest;
 
 class PasswordController extends Controller
@@ -37,22 +39,30 @@ class PasswordController extends Controller
     }
 
     /**
-     * Reset user password - show reset password form
+     * Show reset password form
      *
-     * @param sttring $token 
+     * @param sttring $token
+     * @return view
      */
     public function resetPasswordForm($token)
     {
         $passwordReset = PasswordReset::where('token', $token)->firstOrFail();
-        return redirect()->route('home');
+        return redirect()->route('home', ['any' => 'reset-password/' . $token]);
     }
 
     /**
      * Reset password
      *
+     * @return response
      */
-    public function resetPassword()
+    public function resetPassword(ResetPasswordRequest $request)
     {
-        # code...
+        $passwordReset = PasswordReset::where('token', $request->token)->firstOrFail();
+
+        $user = User::where('email', $passwordReset->email)->firstOrFail();
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return successful(trans('passwords.reset'));
     }
 }
