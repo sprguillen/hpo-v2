@@ -5,6 +5,7 @@ namespace Tests\Api\Admin;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Passport\Passport;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 use App\Models\User;
 
@@ -57,7 +58,7 @@ class AdminClientTest extends TestCase
             'password' => 'secret',
             'password_confirmation' => 'secret',
         ]);
-        
+
         $response
             ->assertStatus(self::RESPONSE_SUCCESS)
             ->assertJson([
@@ -169,5 +170,150 @@ class AdminClientTest extends TestCase
         $response = $this->json('POST', route('api.admin.client.destroy', ['id' => $client_id]));
         $response
             ->assertStatus(self::RESPONSE_NOT_FOUND);
+    }
+
+    /**
+     * @test
+     */
+    public function canSearchClient()
+    {
+        $this->loggedUserAsAdmin();
+        Passport::actingAs($this->user);
+        $key = 'a';
+        $response = $this->json('GET', route('api.admin.client.search', ['key' => $key]));
+
+        $data = $response->getData();
+
+        $response
+            ->assertStatus(self::RESPONSE_SUCCESS)
+            ->assertJson([
+                'success' => true,
+                'message' => '',
+            ]);
+
+        $this->assertNotEmpty($data->clients);
+        $this->paginationTest($data->clients);
+
+        $sampleResult = $data->clients->data[0];
+        $name = $sampleResult->first_name . ' ' . $sampleResult->last_name;
+
+        $isFound = false;
+        if (Str::contains($name, $key))
+            $isFound = true;
+        elseif (Str::contains($sampleResult->email, $key))
+            $isFound = true;
+
+        $this->assertTrue($isFound);
+    }
+
+    /**
+     * @test
+     */
+    public function canSearchOnFirstName()
+    {
+        $this->loggedUserAsAdmin();
+        Passport::actingAs($this->user);
+
+        // Search from database - find firstname
+        $randomUser = $this->findRandomData('users', ['role' => User::ROLE_CLIENT]);
+        $key = substr($randomUser->first_name, 0, 3);
+        $response = $this->json('GET', route('api.admin.client.search', ['key' => $key]));
+
+        $data = $response->getData();
+
+        $response
+            ->assertStatus(self::RESPONSE_SUCCESS)
+            ->assertJson([
+                'success' => true,
+                'message' => '',
+            ]);
+
+        $this->assertNotEmpty($data->clients);
+        $this->paginationTest($data->clients);
+
+        $sampleResult = $data->clients->data[0];
+        $name = $sampleResult->first_name;
+
+        $isFound = false;
+        if (Str::contains($name, $key))
+            $isFound = true;
+        elseif (Str::contains($sampleResult->email, $key))
+            $isFound = true;
+
+        $this->assertTrue($isFound);
+    }
+
+    /**
+     * @test
+     */
+    public function canSearchOnLastName()
+    {
+        $this->loggedUserAsAdmin();
+        Passport::actingAs($this->user);
+
+        // Search from database - find last_name
+        $randomUser = $this->findRandomData('users', ['role' => User::ROLE_CLIENT]);
+        $key = substr($randomUser->last_name, 0, 3);
+        $response = $this->json('GET', route('api.admin.client.search', ['key' => $key]));
+
+        $data = $response->getData();
+
+        $response
+            ->assertStatus(self::RESPONSE_SUCCESS)
+            ->assertJson([
+                'success' => true,
+                'message' => '',
+            ]);
+
+        $this->assertNotEmpty($data->clients);
+        $this->paginationTest($data->clients);
+
+        $sampleResult = $data->clients->data[0];
+        $name = $sampleResult->last_name;
+
+        $isFound = false;
+        if (Str::contains($name, $key))
+            $isFound = true;
+        elseif (Str::contains($sampleResult->email, $key))
+            $isFound = true;
+
+        $this->assertTrue($isFound);
+    }
+
+    /**
+     * @test
+     */
+    public function canSearchOnFullName()
+    {
+        $this->loggedUserAsAdmin();
+        Passport::actingAs($this->user);
+
+        // Search from database - find last_name
+        $randomUser = $this->findRandomData('users', ['role' => User::ROLE_CLIENT]);
+        $key = $randomUser->first_name . ' ' . $randomUser->last_name;
+        $response = $this->json('GET', route('api.admin.client.search', ['key' => $key]));
+
+        $data = $response->getData();
+
+        $response
+            ->assertStatus(self::RESPONSE_SUCCESS)
+            ->assertJson([
+                'success' => true,
+                'message' => '',
+            ]);
+
+        $this->assertNotEmpty($data->clients);
+        $this->paginationTest($data->clients);
+
+        $sampleResult = $data->clients->data[0];
+        $fullName = $sampleResult->first_name . ' ' . $sampleResult->last_name;
+
+        $isFound = false;
+        if (Str::contains($fullName, $key))
+            $isFound = true;
+        elseif (Str::contains($sampleResult->email, $key))
+            $isFound = true;
+
+        $this->assertTrue($isFound);
     }
 }
