@@ -1,10 +1,10 @@
-# Client list
+# Search client
 
 #### (**Admin Only**)
 
-Used to collect client list
+Used to search client using name (`first_name`, `last_name`) or `email`.
 
-**URL** : `/api/admin/client`
+**URL** : `/api/admin/client/search/{$key}`
 
 **Method** : `GET`
 

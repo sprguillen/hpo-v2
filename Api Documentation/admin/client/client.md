@@ -6,3 +6,4 @@
 * [Client create](post.md)
 * [Client update](update.md)
 * [Client delete](delete.md)
+* [Client search](search.md)
