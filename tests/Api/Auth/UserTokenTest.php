@@ -17,6 +17,7 @@ class UserTokenTest extends TestCase
      */
     public function cannotGetUserTokenIfUserIsNotLoggedIn()
     {
+        $this->assertTrue(true);
         // $user = $this->findRandomData('users');
         //
         // $response = $this->json('POST', route('reset.password.send'), [
