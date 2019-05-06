@@ -25,6 +25,17 @@ $btn-primary: $primary;
 // Components
 @import "components/footer";
 
+html {
+  min-height: 100%;
+}
+
+body {
+  font-size: 14px;
+  font-family: 'Oswald', sans-serif !important;
+  min-height: 100vh;
+  overflow: auto;
+}
+
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);

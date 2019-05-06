@@ -8,6 +8,9 @@ export default {
         this.$toasted.error('Please fill out the required fields')
         return false
       }
+    },
+    clearErrors() {
+      this.$validator.reset()
     }
   }
 }

@@ -150,12 +150,12 @@ export default {
         }
       },
       form: {
-        username: null,
-        email: null,
-        first_name: null,
-        last_name: null,
-        password: null,
-        password_confirmation: null
+        username: '',
+        email: '',
+        first_name: '',
+        last_name: '',
+        password: '',
+        password_confirmation: ''
       }
     }
   },
@@ -168,10 +168,20 @@ export default {
         const data = await this.addClient(this.form)
         if (data.success) {
           this.$toasted.success(data.message)
+          this.clearForm()
+          this.clearErrors()
         }
       } catch (e) {
         this.$toasted.error(e.message)
       }
+    },
+    clearForm() {
+      this.form.username = ''
+      this.form.email = ''
+      this.form.first_name = ''
+      this.form.last_name = ''
+      this.form.password = ''
+      this.form.password_confirmation = ''
     }
   }
 }

@@ -20,7 +20,7 @@
           label="Client"
         >
           <router-link
-            :to="{ name: 'client_details', params: { id: 'test' } }"
+            :to="{ name: 'client_details', params: { id: props.row.id } }"
             class="client-link"
           >
             {{ props.row.username }}
@@ -31,19 +31,13 @@
           label="Name"
           width="700"
         >
-          {{ props.row.name }}
+          {{ props.row.first_name }} {{ props.row.last_name }}
         </b-table-column>
         <b-table-column
-          field="dispatch_mode"
-          label="Dispatch Mode"
-        >
-          {{ props.row.dispatch_mode }}
-        </b-table-column>
-        <b-table-column
-          field="created_date"
+          field="created_at"
           label="Date Added"
         >
-          {{ props.row.created_date }}
+          {{ props.row.created_at }}
         </b-table-column>
         <b-table-column
           field="actions"
@@ -58,13 +52,35 @@
         </b-table-column>
       </template>
     </b-table>
+    <div class="pagination-controls mt-2">
+      <b-button
+        type="is-danger"
+        :disabled="current === 1"
+        @click="prev()"
+      >
+        Previous
+      </b-button>
+      <b-button
+        type="is-danger"
+        :disabled="current === getLastPage"
+        @click="next()"
+      >
+        Next
+      </b-button>
+    </div>
   </section>
 </template>
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   props: {
     clients: {
       type: Array,
+      required: true
+    },
+    current: {
+      type: Number,
       required: true
     }
   },
@@ -73,6 +89,17 @@ export default {
       form: {
         search: null
       }
+    }
+  },
+  computed: {
+    ...mapGetters('client', ['getLastPage'])
+  },
+  methods: {
+    next() {
+      this.$emit('next')
+    },
+    prev() {
+      this.$emit('prev')
     }
   }
 }

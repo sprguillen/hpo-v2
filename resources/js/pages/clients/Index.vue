@@ -18,10 +18,13 @@
             v-if="addMode"
             @hide="addMode = false"
           />
-          <div class="column" />
-          <div class="column" />
           <div class="column portlet">
-            <List :clients="clientsList" />
+            <List
+              :clients="getClients"
+              :current="page"
+              @next="next()"
+              @prev="prev()"
+            />
           </div>
         </div>
       </div>
@@ -29,6 +32,7 @@
   </div>
 </template>
 <script>
+import { mapActions, mapGetters } from 'vuex'
 import Header from '@/components/global/Header'
 import List from '@/components/clients/List'
 import AddClient from '@/components/clients/AddClient'
@@ -41,21 +45,33 @@ export default {
   },
   data() {
     return {
-      clientsList: [
-        {
-          'username': 'acemcvdlm20140285',
-          'name': 'Ace Medical Center (Valenzuela)',
-          'dispatch_mode': 'ONLINE',
-          'created_date': '3 months ago'
-        },
-        {
-          'username': 'pathorecepqc0220',
-          'name': 'ST. LUKES MEDICAL CTR. QUEZON CITY',
-          'dispatch_mode': 'ONLINE',
-          'created_date': '19 days ago'
-        }
-      ],
-      addMode: false
+      clientsList: [],
+      addMode: false,
+      page: 1
+    }
+  },
+  computed: {
+    ...mapGetters('client', ['getClients'])
+  },
+  async beforeMount() {
+    this.callGetClient()
+  },
+  methods: {
+    ...mapActions('client', ['getClient']),
+    async callGetClient() {
+      const params = {
+        page: this.page
+      }
+      await this.getClient(params)
+    },
+    async next() {
+      this.page++
+      this.callGetClient()
+    },
+    async prev() {
+      console.log('prev')
+      this.page--
+      this.callGetClient()
     }
   }
 }
