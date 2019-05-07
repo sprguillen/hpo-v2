@@ -6,20 +6,18 @@
       </h1>
       <b-button
         icon-left="close"
-        class="float-right app-text-primary"
+        class="float-right app-text-primary hide-button"
         @click="$emit('hide')"
       />
       <div class="clearfix" />
       <hr>
       <form @submit.prevent="submit">
-        <b-field
-          label="Account Details"
-          horizontal
-          grouped
-        >
+        <b-field grouped>
           <b-field
+            label="Username"
             :type="{'is-danger': errors.has('username')}"
             :message="errors.first('username')"
+            expanded
           >
             <b-input
               v-model="form.username"
@@ -30,8 +28,10 @@
             />
           </b-field>
           <b-field
+            label="Email Address"
             :type="{'is-danger': errors.has('email')}"
             :message="errors.first('email')"
+            expanded
           >
             <b-input
               v-model="form.email"
@@ -42,14 +42,12 @@
             />
           </b-field>
         </b-field>
-        <b-field
-          label="Full Name"
-          horizontal
-          grouped
-        >
+        <b-field grouped>
           <b-field
+            label="First Name"
             :type="{'is-danger': errors.has('first-name')}"
             :message="errors.first('first-name')"
+            expanded
           >
             <b-input
               v-model="form.firstName"
@@ -60,8 +58,10 @@
             />
           </b-field>
           <b-field
+            label="Last Name"
             :type="{'is-danger': errors.has('last-name')}"
             :message="errors.first('last-name')"
+            expanded
           >
             <b-input
               v-model="form.lastName"
@@ -72,14 +72,12 @@
             />
           </b-field>
         </b-field>
-        <b-field
-          label="Set password"
-          horizontal
-          grouped
-        >
+        <b-field grouped>
           <b-field
+            label="Password"
             :type="{'is-danger': errors.has('password')}"
             :message="errors.first('password')"
+            expanded
           >
             <b-input
               v-model="form.password"
@@ -91,8 +89,10 @@
             />
           </b-field>
           <b-field
+            label="Confirm Password"
             :type="{'is-danger': errors.has('confirm-password')}"
             :message="errors.first('confirm-password')"
+            expanded
           >
             <b-input
               v-model="form.confirmPassword"
@@ -107,13 +107,11 @@
         <hr>
         <b-button
           tag="input"
-          class="float-right"
           type="app-primary"
           native-type="submit"
         >
           Save
         </b-button>
-        <div class="clearfix" />
       </form>
     </section>
   </div>
