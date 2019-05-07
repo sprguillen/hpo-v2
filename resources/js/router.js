@@ -25,7 +25,8 @@ const router = new VueRouter({
       name: 'clients',
       component: Clients,
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        forAdmin: true
       }
     },
     {
@@ -33,7 +34,8 @@ const router = new VueRouter({
       name: 'client_details',
       component: ClientDetails,
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        forAdmin: true
       }
     },
     {
@@ -41,7 +43,8 @@ const router = new VueRouter({
       name: 'services',
       component: Services,
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        forAdmin: true
       }
     },
     {
@@ -49,7 +52,8 @@ const router = new VueRouter({
       name: 'service_details',
       component: ServiceDetails,
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        forAdmin: true
       }
     },
     {
@@ -57,7 +61,8 @@ const router = new VueRouter({
       name: 'processors',
       component: Processors,
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        forAdmin: true
       }
     },
     {
@@ -65,7 +70,8 @@ const router = new VueRouter({
       name: 'system',
       component: System,
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        forAdmin: true
       }
     },
     {
@@ -81,14 +87,21 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   let authToken = store.getters['auth/getAccessToken']
+  let userRole = store.getters['auth/getUserRole']
   
-  if (to.matched.some(record => record.meta.requiresAuth)) {
+  if (to.meta.requiresAuth) {
     if (!authToken) {
       next({ path: '/login' })
+    } else if (to.meta.forAdmin) {
+      if (userRole == 10) {
+        next()
+      } else {
+        next({ path: '/' })
+      }
     } else {
       next()
     }
-  } else if(to.matched.some(record => record.meta.guest)) {
+  } else if (to.meta.guest) {
     if (!authToken) {
       next()
     } else {

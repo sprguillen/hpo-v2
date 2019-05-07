@@ -59,7 +59,7 @@
                   class="navbar-item button-action"
                 >
                   <b-icon icon="account" />
-                  <span>Hi, </span>
+                  <span>Hi, {{ getUserName }}</span>
                   <b-icon icon="menu-down" />
                 </b-button>
 
@@ -94,6 +94,7 @@
               <span>Dashboard</span>
             </router-link>
             <router-link
+              v-if="getUserRole == 10"
               to="/clients"
               class="navbar-item main-nav"
               :style="activeStyle('clients')"
@@ -102,6 +103,7 @@
               <span>Clients</span>
             </router-link>
             <router-link
+              v-if="getUserRole == 10"
               to="/processors"
               class="navbar-item main-nav"
               :style="activeStyle('processors')"
@@ -118,6 +120,34 @@
               <span>Batch Orders</span>
             </router-link>
             <router-link
+              v-if="getUserRole == 0"
+              to="/patients"
+              class="navbar-item main-nav"
+              :style="activeStyle('patients')"
+            >
+              <b-icon icon="puzzle" />
+              <span>Patients</span>
+            </router-link>
+            <router-link
+              v-if="getUserRole == 0"
+              to="/staff"
+              class="navbar-item main-nav"
+              :style="activeStyle('staff')"
+            >
+              <b-icon icon="account-multiple" />
+              <span>Staff</span>
+            </router-link>
+            <router-link
+              v-if="getUserRole == 0"
+              to="/settings"
+              class="navbar-item main-nav"
+              :style="activeStyle('settings')"
+            >
+              <b-icon icon="settings" />
+              <span>Settings</span>
+            </router-link>
+            <router-link
+              v-if="getUserRole == 10"
               to="/services"
               class="navbar-item main-nav"
               :style="activeStyle('services')"
@@ -126,6 +156,7 @@
               <span>Services</span>
             </router-link>
             <router-link
+              v-if="getUserRole == 10"
               to="/system-configurations"
               class="navbar-item main-nav"
               :style="activeStyle('system')"
@@ -144,10 +175,10 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default {
   computed: {
-    // ...mapGetters('auth', [ 'getCurrentLoggedInUser' ])
+    ...mapGetters('auth', ['getUserName', 'getUserRole'])
   },
   methods: {
-    ...mapActions('auth', [ 'logout' ]),
+    ...mapActions('auth', ['logout']),
     exit() {
       this.logout()
       this.$router.push({ name: 'login' })
