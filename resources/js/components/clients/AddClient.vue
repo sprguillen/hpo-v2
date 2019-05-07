@@ -6,7 +6,7 @@
       </h1>
       <b-button
         icon-left="close"
-        class="float-right app-text-primary"
+        class="float-right app-text-primary hide-button"
         @click="$emit('hide')"
       />
       <div class="clearfix" />

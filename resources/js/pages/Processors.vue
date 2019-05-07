@@ -18,9 +18,10 @@
             v-if="addMode"
             @hide="addMode = false"
           />
-          <div class="column" />
-          <div class="column" />
-          <div class="column portlet">
+          <div
+            class="column portlet"
+            :class="addMode ? 'mt-4' : null"
+          >
             <List :processors="processorsList" />
           </div>
         </div>
