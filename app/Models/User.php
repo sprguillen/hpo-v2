@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DB;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laravel\Passport\HasApiTokens;
@@ -144,5 +145,18 @@ class User extends Authenticatable
     public function findForPassport($username)
     {
        return $this->where('username', $username)->first();
+    }
+
+    /**
+     * Find users by full name
+     *
+     * @param  QueryBuilder $query                              the query builder to use
+     * @param  String $name                                     the name to look for
+     * @return QueryBuilder
+     * @author goper
+     */
+    public function scopeFindByName($query, $name)
+    {
+        return $query->where(DB::raw("CONCAT(`first_name`, ' ', `last_name`)"), 'LIKE', '%' . $name . '%')->orWhere("email","like","%$name%");
     }
 }

@@ -95,4 +95,16 @@ class ClientController extends Controller
         $client->delete();
         return successful(trans('message.admin.client.success.destroy'));
     }
+
+    /**
+     * Search client based on key
+     *
+     * @param  string $key
+     * @return response
+     */
+    public function search($key)
+    {
+        $clients = User::client()->findByName($key)->paginate(10);
+        return success_data(compact('clients'));
+    }
 }

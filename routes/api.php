@@ -54,6 +54,7 @@ Route::namespace('Api')->group(function() {
                 Route::name('api.admin.client.store')->post('store', 'ClientController@store');
                 Route::name('api.admin.client.update')->post('{id}/update', 'ClientController@update');
                 Route::name('api.admin.client.destroy')->post('{id}/destroy', 'ClientController@destroy');
+                Route::name('api.admin.client.search')->get('search/{key}', 'ClientController@search');
             });
 
             // Processor
