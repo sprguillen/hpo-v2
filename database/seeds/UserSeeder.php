@@ -16,9 +16,8 @@ class UserSeeder extends Seeder
         $faker = Faker::create();
 
         // Create client
-        for ($i=0; $i < 10; $i++) {
+        for ($i=0; $i < 30; $i++) {
             $user = new User();
-            $user->code = str_random(20);
             $user->global_prefix = '';
             $user->username = $faker->userName;
             $user->email = $faker->freeEmail;
@@ -30,12 +29,15 @@ class UserSeeder extends Seeder
             $user->business_address = $faker->address;
             $user->is_active = true;
             $user->save();
+
+            $update = User::find($user->id);
+            $update->code = int_to_code($user->id);
+            $update->save();
         }
 
         // create processor user
-        for ($i=0; $i < 10; $i++) {
+        for ($i=0; $i < 30; $i++) {
             $user = new User();
-            $user->code = str_random(20);
             $user->global_prefix = '';
             $user->username = $faker->userName;
             $user->email = $faker->freeEmail;
@@ -48,11 +50,14 @@ class UserSeeder extends Seeder
             $user->is_active = true;
             $user->role = User::ROLE_PROCESSOR;
             $user->save();
+
+            $update = User::find($user->id);
+            $update->code = int_to_code($user->id);
+            $update->save();
         }
 
         // Seed admin
         $user = new User();
-        $user->code = str_random(20);
         $user->global_prefix = '';
         $user->username = $faker->userName;
         $user->email = $faker->freeEmail;
@@ -65,5 +70,8 @@ class UserSeeder extends Seeder
         $user->business_address = $faker->address;
         $user->is_active = true;
         $user->save();
+        $update = User::find($user->id);
+        $update->code = int_to_code($user->id);
+        $update->save();
     }
 }

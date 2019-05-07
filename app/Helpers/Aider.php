@@ -2,11 +2,15 @@
 
 namespace App\Helpers;
 
+use App\Helpers\ShortCodeGenerator;
 use Illuminate\Http\JsonResponse;
 use DB;
 
 class Aider
 {
+
+    use ShortCodeGenerator;
+    
     /**
     * Return json response
     *

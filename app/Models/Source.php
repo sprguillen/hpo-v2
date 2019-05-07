@@ -12,6 +12,7 @@ class Source extends Model
      * @var array
      */
     protected $fillable = [
-        'code', 'name'
+        'code',
+        'name'
     ];
 }

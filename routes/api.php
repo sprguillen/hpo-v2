@@ -42,6 +42,11 @@ Route::namespace('Api')->group(function() {
         });
 
         /**
+         * Client routes
+         */
+        
+
+        /**
          * Admin Routes
          */
         Route::prefix('admin')
