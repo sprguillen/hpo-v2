@@ -46,13 +46,24 @@ const actions = {
     }
   },
 
-  async getClient({ commit }, params) {
+  async fetchClients({ commit }, params) {
     let url = '/api/admin/client'
     if (params.page) {
       url += `?page=${params.page}`
     }
     try {
       const { data } = await axios.get(url)
+      commit('setClients', data.clients.data)
+      commit('setLastPage', data.clients.last_page)
+    } catch (e) {
+      const { data } = e.response
+      throw data
+    }
+  },
+
+  async searchClients({ commit }, params) {
+    try {
+      const { data } = await axios.get(`/api/admin/client/search/${params.key}`)
       commit('setClients', data.clients.data)
       commit('setLastPage', data.clients.last_page)
     } catch (e) {

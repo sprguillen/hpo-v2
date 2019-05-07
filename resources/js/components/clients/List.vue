@@ -6,6 +6,7 @@
       <b-input
         v-model="form.search"
         placeholder="Search Client"
+        @input="search()"
       />
     </b-field>
     <b-table
@@ -100,6 +101,9 @@ export default {
     },
     prev() {
       this.$emit('prev')
+    },
+    search() {
+      this.$emit('search', this.form.search)
     }
   }
 }

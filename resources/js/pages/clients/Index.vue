@@ -24,6 +24,7 @@
               :current="page"
               @next="next()"
               @prev="prev()"
+              @search="search"
             />
           </div>
         </div>
@@ -33,6 +34,7 @@
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import debounce from 'lodash.debounce'
 import Header from '@/components/global/Header'
 import List from '@/components/clients/List'
 import AddClient from '@/components/clients/AddClient'
@@ -57,22 +59,31 @@ export default {
     this.callGetClient()
   },
   methods: {
-    ...mapActions('client', ['getClient']),
+    ...mapActions('client', ['fetchClients', 'searchClients']),
     async callGetClient() {
       const params = {
         page: this.page
       }
-      await this.getClient(params)
+      await this.fetchClients(params)
     },
     async next() {
       this.page++
-      this.callGetClient()
+      await this.callGetClient()
     },
     async prev() {
-      console.log('prev')
       this.page--
-      this.callGetClient()
-    }
+      await this.callGetClient()
+    },
+    search: debounce(async function(value) {
+      if (value) {
+        const params = {
+          key: value
+        }
+        await this.searchClients(params)
+      } else {
+        await this.callGetClient()
+      }
+    }, 500)
   }
 }
 </script>
