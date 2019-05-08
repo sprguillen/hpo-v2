@@ -38,7 +38,7 @@
           field="created_at"
           label="Date Added"
         >
-          {{ props.row.created_at }}
+          {{ props.row.created_at | relativeTime }}
         </b-table-column>
         <b-table-column
           field="actions"
@@ -73,8 +73,12 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import { relativeTime } from '@/filters/date'
 
 export default {
+  filters: {
+    relativeTime
+  },
   props: {
     clients: {
       type: Array,

@@ -166,12 +166,19 @@ export default {
       try {
         const data = await this.addClient(this.form)
         if (data.success) {
-          this.$toasted.success(data.message)
+          this.$toast.open({
+            message: data.message,
+            type: 'is-success'
+          })
           this.clearForm()
           this.clearErrors()
+          this.$emit('success')
         }
       } catch (e) {
-        this.$toasted.error(e.message)
+        this.$toast.open({
+          message: e.message,
+          type: 'is-danger'
+        })
       }
     },
     clearForm() {

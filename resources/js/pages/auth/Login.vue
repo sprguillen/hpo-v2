@@ -100,7 +100,10 @@ export default {
           await this.login(payload)
           this.$router.push({ name: 'dashboard' })
         } catch (e) {
-          this.$toasted.error(e.message)
+          this.$toast.open({
+            message: e.message,
+            type: 'is-danger'
+          })
         }
       }
     }

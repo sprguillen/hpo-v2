@@ -92,7 +92,10 @@ export default {
     }
   },
   created() {
-    this.$toasted.success('Welcome')
+    this.$toast.open({
+      message: 'Welcome',
+      type: 'is-success'
+    })
   }
 }
 </script>

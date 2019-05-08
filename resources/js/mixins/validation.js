@@ -5,7 +5,10 @@ export default {
       if (result) {
         return true
       } else {
-        this.$toasted.error('Please fill out the required fields')
+        this.$toast.open({
+          message: 'Please fill out the required fields',
+          type: 'is-danger'
+        })
         return false
       }
     },

@@ -17,12 +17,18 @@
           <AddProcessor
             v-if="addMode"
             @hide="addMode = false"
+            @success="callFetchProcessor"
           />
           <div
             class="column portlet"
             :class="addMode ? 'mt-4' : null"
           >
-            <List :processors="processorsList" />
+            <List
+              :processors="getProcessors"
+              :current="page"
+              @next="next"
+              @prev="prev"
+            />
           </div>
         </div>
       </div>
@@ -30,6 +36,7 @@
   </div>
 </template>
 <script>
+import { mapActions, mapGetters } from 'vuex'
 import Header from '@/components/global/Header'
 import List from '@/components/processors/List'
 import AddProcessor from '@/components/processors/AddProcessor'
@@ -42,17 +49,31 @@ export default {
   },
   data() {
     return {
-      processorsList: [
-        {
-          'username': 'marylizatibre8146',
-          'created_date': '3 months ago'
-        },
-        {
-          'username': 'tinzpineda6713',
-          'created_date': '19 days ago'
-        }
-      ],
-      addMode: false
+      addMode: false,
+      page: 1
+    }
+  },
+  computed: {
+    ...mapGetters('processor', ['getProcessors'])
+  },
+  async beforeMount() {
+    this.callFetchProcessor()
+  },
+  methods: {
+    ...mapActions('processor', ['fetchProcessors']),
+    async callFetchProcessor() {
+      const params = {
+        page: this.page
+      }
+      await this.fetchProcessors(params)
+    },
+    async next() {
+      this.page++
+      await this.callFetchProcessor()
+    },
+    async prev() {
+      this.page--
+      await this.callFetchProcessor()
     }
   }
 }

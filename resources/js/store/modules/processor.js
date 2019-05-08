@@ -13,13 +13,13 @@ axios.interceptors.request.use((config) => {
 })
 
 const state = {
-  clients: [],
+  processors: [],
   lastPage: 1
 }
 
 const getters = {
-  getClients: state => {
-    return state.clients
+  getProcessors: state => {
+    return state.processors
   },
   getLastPage: state => {
     return state.lastPage
@@ -27,8 +27,8 @@ const getters = {
 }
 
 const mutations = {
-  setClients: (state, clients) => {
-    state.clients = clients
+  setProcessors: (state, processors) => {
+    state.processors = processors
   },
   setLastPage: (state, lastPage) => {
     state.lastPage = lastPage
@@ -36,9 +36,9 @@ const mutations = {
 }
 
 const actions = {
-  async addClient({}, payload) {
+  async addProcessor({}, payload) {
     try {
-      const { data } = await axios.post('/api/admin/client/store', payload)
+      const { data } = await axios.post('/api/admin/processor/store', payload)
       return data
     } catch (e) {
       const { data } = e.response
@@ -46,31 +46,31 @@ const actions = {
     }
   },
 
-  async fetchClients({ commit }, params) {
-    let url = '/api/admin/client'
+  async fetchProcessors({ commit }, params) {
+    let url = '/api/admin/processor'
     if (params.page) {
       url += `?page=${params.page}`
     }
     try {
       const { data } = await axios.get(url)
-      commit('setClients', data.clients.data)
-      commit('setLastPage', data.clients.last_page)
+      commit('setProcessors', data.processors.data)
+      commit('setLastPage', data.processors.last_page)
     } catch (e) {
       const { data } = e.response
       throw data
     }
   },
 
-  async searchClients({ commit }, params) {
-    try {
-      const { data } = await axios.get(`/api/admin/client/search/${params.key}`)
-      commit('setClients', data.clients.data)
-      commit('setLastPage', data.clients.last_page)
-    } catch (e) {
-      const { data } = e.response
-      throw data
-    }
-  }
+  // async searchProcessors({ commit }, params) {
+  //   try {
+  //     const { data } = await axios.get(`/api/admin/processor/search/${params.key}`)
+  //     commit('setProcessors', data.processors.data)
+  //     commit('setLastPage', data.processors.last_page)
+  //   } catch (e) {
+  //     const { data } = e.response
+  //     throw data
+  //   }
+  // }
 }
 
 export default {

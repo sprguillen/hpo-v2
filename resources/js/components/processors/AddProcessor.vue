@@ -50,7 +50,7 @@
             expanded
           >
             <b-input
-              v-model="form.firstName"
+              v-model="form.first_name"
               v-validate="rules.firstName"
               name="first-name"
               placeholder="First Name"
@@ -64,7 +64,7 @@
             expanded
           >
             <b-input
-              v-model="form.lastName"
+              v-model="form.last_name"
               v-validate="rules.lastName"
               name="last-name"
               placeholder="Last Name"
@@ -80,6 +80,7 @@
             expanded
           >
             <b-input
+              ref="password"
               v-model="form.password"
               v-validate="rules.password"
               name="password"
@@ -95,7 +96,7 @@
             expanded
           >
             <b-input
-              v-model="form.confirmPassword"
+              v-model="form.password_confirmation"
               v-validate="rules.confirmPassword"
               name="confirm-password"
               placeholder="Confirm Password"
@@ -117,6 +118,7 @@
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex'
 import validationMixin from '@/mixins/validation'
 
 export default {
@@ -146,18 +148,45 @@ export default {
         }
       },
       form: {
-        username: null,
-        email: null,
-        firstName: null,
-        lastName: null,
-        password: null,
-        confirmPassword: null
+        username: '',
+        email: '',
+        first_name: '',
+        last_name: '',
+        password: '',
+        password_confirmation: ''
       }
     }
   },
   methods: {
+    ...mapActions('processor', ['addProcessor']),
     async submit() {
       const result = await this.validateBeforeSubmit()
+
+      try {
+        const data = await this.addProcessor(this.form)
+        if (data.success) {
+          this.$toast.open({
+            message: data.message,
+            type: 'is-success'
+          })
+          this.clearForm()
+          this.clearErrors()
+          this.$emit('success')
+        }
+      } catch (e) {
+        this.$toast.open({
+          message: e.message,
+          type: 'is-danger'
+        })
+      }
+    },
+    clearForm() {
+      this.form.username = ''
+      this.form.email = ''
+      this.form.first_name = ''
+      this.form.last_name = ''
+      this.form.password = ''
+      this.form.password_confirmation = ''
     }
   }
 }

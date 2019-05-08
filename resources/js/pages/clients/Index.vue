@@ -17,6 +17,7 @@
           <AddClient
             v-if="addMode"
             @hide="addMode = false"
+            @success="callFetchClient"
           />
           <div
             class="column portlet"
@@ -50,7 +51,6 @@ export default {
   },
   data() {
     return {
-      clientsList: [],
       addMode: false,
       page: 1
     }
@@ -59,11 +59,11 @@ export default {
     ...mapGetters('client', ['getClients'])
   },
   async beforeMount() {
-    this.callGetClient()
+    this.callFetchClient()
   },
   methods: {
     ...mapActions('client', ['fetchClients', 'searchClients']),
-    async callGetClient() {
+    async callFetchClient() {
       const params = {
         page: this.page
       }
@@ -71,11 +71,11 @@ export default {
     },
     async next() {
       this.page++
-      await this.callGetClient()
+      await this.callFetchClient()
     },
     async prev() {
       this.page--
-      await this.callGetClient()
+      await this.callFetchClient()
     },
     search: debounce(async function(value) {
       if (value) {
@@ -84,7 +84,7 @@ export default {
         }
         await this.searchClients(params)
       } else {
-        await this.callGetClient()
+        await this.callFetchClient()
       }
     }, 500)
   }
