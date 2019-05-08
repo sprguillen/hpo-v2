@@ -2,11 +2,6 @@
 
 .client-details {
   width: 100%;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
   background: $body-bg;
 
   section .main-container {
@@ -23,5 +18,28 @@
     min-height: 500px;
     margin-bottom: 15px;
     background: #fff;
+  }
+
+  .portlet {
+    border: 1px solid #e7ecf1;
+  }
+
+  hr {
+    background-color: #e7ecf1;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+
+  .tabs li.details-active a {
+    background-color: #fff;
+    border-color: #dbdbdb;
+    border-bottom-color: transparent !important;
+    color: $primary;
   }
 }
