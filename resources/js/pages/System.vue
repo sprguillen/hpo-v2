@@ -35,8 +35,11 @@
                 </ul>
               </div>
               <div class="clearfix" />
+              <component
+                :is="activeTab"
+                v-bind="dynamicProps"
+              />
             </section>
-            <component :is="activeTab" />
           </div>
         </div>
       </div>
@@ -56,7 +59,22 @@ export default {
   },
   data() {
     return {
+      patientTypesList: [
+        {
+          code: 'OP',
+          name: 'SEND IN'
+        }
+      ],
       activeTab: 'TestAnnouncements'
+    }
+  },
+  computed: {
+    dynamicProps() {
+      if (this.activeTab === 'PatientTypes') {
+        return { patientTypes: this.patientTypesList }
+      }
+
+      return null
     }
   },
   methods: {

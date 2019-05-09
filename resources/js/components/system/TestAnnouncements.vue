@@ -39,14 +39,12 @@
         <div class="column">
           <h2>Availability of Post</h2>
           <br>
-          <div class="column no-top-padding is-half">
-            <b-field label="Start/End">
-              <date-range-picker 
-                v-model="dateRange"
-                @update="onDateSelected"
-              />
-            </b-field>
-          </div>
+          <b-field label="Start/End">
+            <date-range-picker 
+              v-model="dateRange"
+              @update="onDateSelected"
+            />
+          </b-field>
         </div>
       </div>
     </div>

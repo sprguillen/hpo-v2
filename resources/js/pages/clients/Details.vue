@@ -107,7 +107,7 @@ export default {
   computed: {
     dynamicProps() {
       if (this.activeTab === 'Services') {
-        return {services: this.servicesList }
+        return { services: this.servicesList }
       } else {
         return { sources: this.sourcesList }
       }

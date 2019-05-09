@@ -27,15 +27,53 @@
             </b-field>
           </form>
         </div>
-        <br>
-        <div class="clearfix" />
       </div>
+      <b-table
+        :data="patientTypes"
+        bordered
+        striped
+        hoverable
+      >
+        <template slot-scope="props">
+          <b-table-column
+            field="code"
+            label="Code"
+            width="300"
+          >
+            {{ props.row.code }}
+          </b-table-column>
+          <b-table-column
+            field="name"
+            label="Name"
+            width="300"
+          >
+            {{ props.row.name }}
+          </b-table-column>
+          <b-table-column
+            field="actions"
+            label="Actions"
+            width="300"
+          >
+            <b-button type="is-success">
+              Send reset password
+            </b-button>
+            <b-button type="is-danger">
+              Archive
+            </b-button>
+          </b-table-column>
+        </template>
+      </b-table>
     </div>
   </section>
 </template>
 <script>
 export default {
-  
+  props: {
+    patientTypes: {
+      type: Array,
+      required: true
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
