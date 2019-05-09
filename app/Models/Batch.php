@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Batch extends Model
 {
-    const DRAFT = 0;
+    const STATUS_DRAFT = 0;
     const CONFIRMED = 1;
-    const ACCOMPLISHED = 2;
-    
+    const STATUS_ACCOMPLISHED = 2;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -19,9 +19,9 @@ class Batch extends Model
         'code',
         'source_id',
         'clinician_id',
+        'patient_type_id',
         'created_by',
         'dispatch_mode',
-        'patient_type',
         'payment_mode',
         'status',
         'slides',
@@ -38,6 +38,7 @@ class Batch extends Model
      * Get the batch source
      *
      * @author goper
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function source()
     {
@@ -48,7 +49,7 @@ class Batch extends Model
      * Get the batch clinician
      *
      * @author goper
-     * @return Relationships
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function clinician()
     {
@@ -59,10 +60,21 @@ class Batch extends Model
      * Get the user who created this batch
      *
      * @author goper
-     * @return Relationships
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function creator()
     {
         return $this->hasOne(User::class, 'id', 'created_by');
+    }
+
+    /**
+     * Get batch patient_type
+     *
+     * @author goper
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function patientType()
+    {
+        return $this->hasOne(PatientType::class, 'id', 'patient_type_id');
     }
 }

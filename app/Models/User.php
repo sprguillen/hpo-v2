@@ -159,4 +159,18 @@ class User extends Authenticatable
     {
         return $query->where(DB::raw("CONCAT(`first_name`, ' ', `last_name`)"), 'LIKE', '%' . $name . '%')->orWhere("email","like","%$name%");
     }
+
+    /**
+     * Relationships
+     */
+
+    /**
+     * Get user sources
+     *
+     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function sources()
+    {
+        return $this->belongsToMany(Sources::class, 'user_sources', 'user_id', 'source_id');
+    }
 }

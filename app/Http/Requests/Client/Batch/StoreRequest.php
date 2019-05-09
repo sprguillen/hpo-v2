@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Client;
+namespace App\Http\Requests\Client\Batch;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -14,7 +14,7 @@ class StoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->admin();
+        return auth()->user()->client();
     }
 
     /**
@@ -25,8 +25,10 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email|unique:users',
-            'username' => 'required|unique:users',
+            'source_id' => 'required|integer|exists:sources',
+            'patient_type_id' => 'required|integer|exists:patient_types',
+            'payment_mode' => 'required',
+            
             'first_name' => 'required',
             'last_name' => 'required',
             'password' => 'required|confirmed',

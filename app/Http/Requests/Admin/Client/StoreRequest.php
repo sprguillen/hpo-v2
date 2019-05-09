@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Client;
+namespace App\Http\Requests\Admin\Client;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,11 +25,11 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|exists:users',
-            'email' => 'required|email|unique:users,email,' . $this->id,
-            'username' => 'required|unique:users,username,' . $this->id,
+            'email' => 'required|email|unique:users',
+            'username' => 'required|unique:users',
             'first_name' => 'required',
             'last_name' => 'required',
+            'password' => 'required|confirmed',
         ];
     }
 }

@@ -12,6 +12,18 @@ class PatientType extends Model
      * @var array
      */
     protected $fillable = [
-        'code', 'name'
+        'code',
+        'name'
     ];
+
+    /**
+     * Get the batch
+     *
+     * @author goper
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function batch()
+    {
+        return $this->belongsTo(Batch::class);
+    }
 }

@@ -21,13 +21,13 @@ class Clinician extends Model
      */
 
     /**
-     * Get the user that is a clinician
+     * Get the batch
      *
      * @author goper
-     * @return Relationships
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-     public function user()
+     public function batch()
      {
-         return $this->belongsTo(User::class);
+         return $this->belongsTo(Batch::class);
      }
 }

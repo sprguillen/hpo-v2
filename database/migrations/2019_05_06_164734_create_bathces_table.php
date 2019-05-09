@@ -20,9 +20,9 @@ class CreateBathcesTable extends Migration
             $table->integer('source_id')->unsigned();
             $table->integer('clinician_id')->unsigned();
             $table->integer('created_by')->unsigned();
+            $table->integer('patient_type_id')->unsigned();
 
             $table->tinyInteger('dispatch_mode');
-            $table->tinyInteger('patient_type');
             $table->tinyInteger('payment_mode');
             $table->tinyInteger('status')->default(0);
             $table->integer('slides')->nullable();

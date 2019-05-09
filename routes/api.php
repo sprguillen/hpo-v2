@@ -44,7 +44,20 @@ Route::namespace('Api')->group(function() {
         /**
          * Client routes
          */
-        
+        Route::prefix('client')->namespace('Client')->group(function() {
+
+            /**
+             * Batch routes
+             */
+            Route::prefix('batch')->group(function() {
+                Route::name('api.client.batch')->get('', 'BatchController@index');
+                Route::name('api.client.batch.store')->post('store', 'BatchController@store');
+                Route::name('api.client.batch.update')->post('{id}/update', 'BatchController@update');
+                Route::name('api.client.batch.destroy')->post('{id}/destroy', 'BatchController@destroy');
+                Route::name('api.client.batch.search')->get('search/{key}', 'BatchController@search');
+            });
+
+        });
 
         /**
          * Admin Routes
@@ -65,9 +78,23 @@ Route::namespace('Api')->group(function() {
             // Processor
             Route::prefix('processor')->group(function() {
                 Route::name('api.admin.processor')->get('', 'ProcessorController@index');
+                Route::name('api.admin.processor.search')->get('search/{key}', 'ProcessorController@search');
                 Route::name('api.admin.processor.store')->post('store', 'ProcessorController@store');
                 Route::name('api.admin.processor.update')->post('{id}/update', 'ProcessorController@update');
                 Route::name('api.admin.processor.destroy')->post('{id}/destroy', 'ProcessorController@destroy');
+            });
+
+            // System
+            Route::prefix('system')->namespace('System')->group(function() {
+
+                // Source
+                Route::prefix('source')->group(function() {
+                    Route::name('api.admin.system.source')->get('', 'SourceController@index');
+                    Route::name('api.admin.system.source.store')->post('store', 'SourceController@store');
+                    Route::name('api.admin.system.source.update')->post('{id}/update', 'SourceController@update');
+                    Route::name('api.admin.system.source.destroy')->post('{id}/destroy', 'SourceController@destroy');
+                });
+
             });
         });
 

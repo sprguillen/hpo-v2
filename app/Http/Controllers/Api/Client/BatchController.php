@@ -1,15 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api\Admin;
+namespace App\Http\Controllers\Api\Client;
 
-use Hash;
-use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Client\StoreRequest;
-use App\Http\Requests\Admin\Client\UpdateRequest;
+use App\Models\Batch;
 
-class ClientController extends Controller
+class BatchController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +15,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients = User::client()->paginate(10);
+        $clients = Batch::paginate(10);
         return success_data(compact('clients'));
     }
 

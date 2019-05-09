@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 use App\Models\User;
+use Str;
 
 class AdminProcessorTest extends TestCase
 {
@@ -171,5 +172,42 @@ class AdminProcessorTest extends TestCase
         $response = $this->json('POST', route('api.admin.processor.destroy', ['id' => $client_id]));
         $response
             ->assertStatus(self::RESPONSE_NOT_FOUND);
+    }
+
+    /**
+     * @test
+     */
+    public function canSearchProcessorTypeOfUser()
+    {
+        $this->loggedUserAsAdmin();
+        Passport::actingAs($this->user);
+
+        // Search from database - find firstname
+        $randomUser = $this->findRandomData('users', ['role' => User::ROLE_PROCESSOR]);
+        $key = substr($randomUser->first_name, 0, 3);
+        $response = $this->json('GET', route('api.admin.processor.search', ['key' => $key]));
+
+        $data = $response->getData();
+
+        $response
+            ->assertStatus(self::RESPONSE_SUCCESS)
+            ->assertJson([
+                'success' => true,
+                'message' => '',
+            ]);
+
+        $this->assertNotEmpty($data->processors);
+        $this->paginationTest($data->processors);
+
+        $sampleResult = $data->processors->data[0];
+        $name = $sampleResult->first_name;
+
+        $isFound = false;
+        if (Str::contains($name, $key))
+            $isFound = true;
+        elseif (Str::contains($sampleResult->email, $key))
+            $isFound = true;
+
+        $this->assertTrue($isFound);
     }
 }
