@@ -29,6 +29,19 @@ class ProcessorController extends Controller
     }
 
     /**
+     * Search user type processors
+     *
+     * @author goper
+     * @param  string $key
+     * @return [type]
+     */
+    public function search($key)
+    {
+        $processors = User::processor()->findByName($key)->paginate(10);
+        return success_data(compact('processors'));
+    }
+
+    /**
      * Store
      *
      * @param \Illuminate\Http\Request $request

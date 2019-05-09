@@ -12,6 +12,32 @@ class Source extends Model
      * @var array
      */
     protected $fillable = [
-        'code', 'name'
+        'code',
+        'name'
     ];
+
+    /**
+     * Relationships
+     */
+
+    /**
+     * Get source batch
+     *
+     * @author goper
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function batch()
+    {
+        return $this->belongsTo(Batch::class);
+    }
+
+    /**
+     * Get user sources
+     *
+     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function user()
+    {
+        return $this->belongsToMany(User::class, 'user_sources', 'source_id', 'user_id');
+    }
 }

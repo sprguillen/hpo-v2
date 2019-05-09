@@ -3,6 +3,10 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Observers\BatchObserver;
+use App\Observers\UserObserver;
+use App\Models\Batch;
+use App\Models\User;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        User::observe(UserObserver::class);
+        Batch::observe(BatchObserver::class);
     }
 }

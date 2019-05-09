@@ -76,6 +76,47 @@ class AdminClientTest extends TestCase
     /**
      * @test
      */
+    public function newClientOrUserHaveNowACode()
+    {
+        $this->loggedUserAsAdmin();
+        Passport::actingAs($this->user);
+
+        $email = $this->faker->email;
+        $firstName = $this->faker->firstName;
+        $lastName = $this->faker->lastName;
+        $username = $firstName . $lastName;
+
+        $response = $this->json('POST', route('api.admin.client.store'), [
+            'email' => $email,
+            'username' => $username,
+            'first_name' => $firstName,
+            'last_name' => $lastName,
+            'password' => 'secret',
+            'password_confirmation' => 'secret',
+        ]);
+
+        $newClient = $this->getPostResponse($response)->client;
+
+        $response
+            ->assertStatus(self::RESPONSE_SUCCESS)
+            ->assertJson([
+                'success' => true,
+                'message' => trans('message.admin.client.success.store'),
+                'client' => [
+                    'email' => $email,
+                    'first_name' => $firstName,
+                    'last_name' => $lastName,
+                    'role' => User::ROLE_CLIENT,
+                ],
+            ]);
+
+        $this->assertEquals($newClient->code, int_to_code($newClient->id));
+        $this->assertEquals($newClient->id, code_to_int($newClient->code));
+    }
+
+    /**
+     * @test
+     */
     public function canUpdateClientData()
     {
         $this->loggedUserAsAdmin();

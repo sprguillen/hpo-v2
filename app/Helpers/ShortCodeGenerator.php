@@ -8,11 +8,12 @@ namespace App\Helpers;
  * This is based on Flickr's shortcode implementation.
  * Details here: http://www.flickr.com/groups/api/discuss/72157616713786392/
  */
-class ShortCode {
+trait ShortCodeGenerator {
+
   /**
    * Once set and used, this should never be changed.
    */
-  const ALPHABET = 'abcdefghijkmnopqrstuvwxyz123456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+  private $alphabet = 'abcdefghijkmnopqrstuvwxyz123456789';
 
   /**
    * Encodes an integer into a short code string.
@@ -23,11 +24,10 @@ class ShortCode {
    *
    * @return string
    */
-  public static function intToCode($num, $alphabet = null)
+  public function intToCode($num)
   {
-    if (!$alphabet) {
-      $alphabet = self::ALPHABET;
-    }
+    $alphabet = $this->alphabet;
+
     $baseCount = strlen($alphabet);
     $encoded   = '';
     while ($num >= $baseCount) {
@@ -53,11 +53,9 @@ class ShortCode {
    *
    * @return int
    */
-  public static function codeToInt($code, $alphabet = null)
+  public function codeToInt($code)
   {
-    if (!$alphabet) {
-      $alphabet = self::ALPHABET;
-    }
+    $alphabet = $this->alphabet;
 
     $decoded = 0;
     $multi   = 1;

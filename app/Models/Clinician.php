@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PatientType extends Model
+class Clinician extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,9 +12,13 @@ class PatientType extends Model
      * @var array
      */
     protected $fillable = [
-        'code',
-        'name'
+        'user_id',
+        'name',
     ];
+
+    /**
+     * Relationships
+     */
 
     /**
      * Get the batch
@@ -22,8 +26,8 @@ class PatientType extends Model
      * @author goper
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function batch()
-    {
-        return $this->belongsTo(Batch::class);
-    }
+     public function batch()
+     {
+         return $this->belongsTo(Batch::class);
+     }
 }

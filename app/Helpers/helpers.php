@@ -63,3 +63,19 @@ if (!function_exists('passport_client_credentials'))
         return appHelper()->passportClientCredentials();
     }
 }
+
+if (!function_exists('int_to_code'))
+{
+    function int_to_code($num)
+    {
+        return appHelper()->intToCode($num);
+    }
+}
+
+if (!function_exists('code_to_int'))
+{
+    function code_to_int($code)
+    {
+        return appHelper()->codeToInt($code);
+    }
+}

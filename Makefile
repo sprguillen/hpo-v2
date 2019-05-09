@@ -42,7 +42,7 @@ testApi:
 	./vendor/bin/phpunit ./tests/Api/.
 
 testSpecific:
-	./vendor/bin/phpunit --filter {${class}}
+	./vendor/bin/phpunit --filter ${class} tests/Api/${path}
 
 setupPassport:
 	php artisan passport:install

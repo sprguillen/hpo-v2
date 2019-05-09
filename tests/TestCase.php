@@ -116,4 +116,23 @@ abstract class TestCase extends BaseTestCase
         $this->assertTrue(is_array($data->data));
 
     }
+
+    /**
+     * Generate unique random data on table
+     *
+     * @author goper
+     * @param  string $table - table name
+     * @param  string $column - column name to be compared
+     * @param  string $type - faker type data
+     * @return string
+     */
+    public function getRandomUniqueData($table, $column, $type)
+    {
+        do {
+            $string = $this->faker->$type;
+            $count = DB::table($table)->where($column, $string)->count();
+        } while ($count > 0);
+        
+        return $string;
+    }
 }

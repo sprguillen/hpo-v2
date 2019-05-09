@@ -22,6 +22,7 @@ Token is provided with the request:
 
 * [Client info](admin/client/client.md)
 * [Processor info](admin/processor/processor.md)
+* [Source info](admin/system/source/source.md)
 
 ### User related
 

@@ -43,5 +43,14 @@ return [
                 'destroy' => 'Processor has been deleted.',
             ],
         ],
+        'system' => [
+            'source' => [
+                'success' => [
+                    'store' => 'New source has been created.',
+                    'update' => ':name source has been updated.',
+                    'destroy' => 'Source has been deleted.',
+                ],
+            ]
+        ]
     ],
 ];
