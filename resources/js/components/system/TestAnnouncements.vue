@@ -40,18 +40,10 @@
           <h2>Availability of Post</h2>
           <br>
           <div class="column no-top-padding is-half">
-            <b-field label="From">
-              <b-input
-                v-model="form.from"
-                name="from"
-                disabled
-              />
-            </b-field>
-            <b-field label="To">
-              <b-input
-                v-model="form.to"
-                name="to"
-                disabled
+            <b-field label="Start/End">
+              <date-range-picker 
+                v-model="dateRange"
+                @update="onDateSelected"
               />
             </b-field>
           </div>
@@ -61,14 +53,31 @@
   </section>
 </template>
 <script>
+import moment from 'moment'
+import DateRangePicker from 'vue2-daterange-picker'
 import validationMixin from '@/mixins/validation'
 
+import 'vue2-daterange-picker/dist/lib/vue-daterange-picker.min.css'
+
 export default {
+  components: {
+    DateRangePicker
+  },
   mixins: [validationMixin],
   data() {
+    let futureDate = new Date()
+    futureDate.setDate(futureDate.getDate() + 5)
+
     return {
       form: {
-        topic: null
+        topic: null,
+        content: null,
+        start: moment(new Date()).format('YYYY-MM-DD'),
+        end: moment(futureDate).format('YYYY-MM-DD')
+      },
+      dateRange: {
+        startDate: new Date(),
+        endDate: futureDate
       },
       rules: {
         topic: {
@@ -78,6 +87,12 @@ export default {
           required: true
         }
       }
+    }
+  },
+  methods: {
+    onDateSelected() {
+      this.form.start = moment(this.dateRange.startDate).format('YYYY-MM-DD')
+      this.form.end = moment(this.dateRange.endDate).format('YYYY-MM-DD')
     }
   }
 }

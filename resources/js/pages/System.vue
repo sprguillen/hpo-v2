@@ -12,12 +12,15 @@
               <div class="tabs float-right">
                 <ul>
                   <li
-                    :class="isActive('testAnnouncements')"
-                    @click="activeTab = 'testAnnouncements'"
+                    :class="isActive('TestAnnouncements')"
+                    @click="activeTab = 'TestAnnouncements'"
                   >
                     <a>Test Announcements</a>
                   </li>
-                  <li @click="activeTab = 'patientTypes'">
+                  <li
+                    :class="isActive('PatientTypes')"
+                    @click="activeTab = 'PatientTypes'"
+                  >
                     <a>Patient Types</a>
                   </li>
                   <li @click="activeTab = 'dispatchers'">
@@ -33,7 +36,7 @@
               </div>
               <div class="clearfix" />
             </section>
-            <TestAnnouncements v-if="activeTab === 'testAnnouncements'" />
+            <component :is="activeTab" />
           </div>
         </div>
       </div>
@@ -51,7 +54,7 @@ export default {
   },
   data() {
     return {
-      activeTab: 'testAnnouncements'
+      activeTab: 'TestAnnouncements'
     }
   },
   methods: {
