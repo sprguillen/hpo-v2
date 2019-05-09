@@ -1,7 +1,8 @@
 <template>
   <section class="clients-list">
-    <h1>CLIENTS LIST</h1>
-    <hr>
+    <div class="header-portlet">
+      <h1>CLIENTS LIST</h1>
+    </div>
     <b-field grouped>
       <b-input
         v-model="form.search"

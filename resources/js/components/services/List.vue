@@ -1,7 +1,8 @@
 <template>
   <section class="services-list">
-    <h1>SERVICES LIST</h1>
-    <hr>
+    <div class="header-portlet">
+      <h1>SERVICES LIST</h1>
+    </div>
     <b-field grouped>
       <b-select
         v-model="form.filter"

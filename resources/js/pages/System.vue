@@ -46,11 +46,13 @@
 <script>
 import Header from '@/components/global/Header'
 import TestAnnouncements from '@/components/system/TestAnnouncements'
+import PatientTypes from '@/components/system/PatientTypes'
 
 export default {
   components: {
     Header,
-    TestAnnouncements
+    TestAnnouncements,
+    PatientTypes
   },
   data() {
     return {

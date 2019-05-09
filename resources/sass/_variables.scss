@@ -30,3 +30,23 @@ $primary: #32c5d2;
 .app-text-primary {
   color: $primary !important;
 }
+
+.portlet {
+  border: 1px solid #e7ecf1;
+}
+
+h1 {
+  font-size: 1.5rem;
+  color: $primary;
+}
+
+h2 {
+  font-size: 1.2rem;
+  color: $primary;
+}
+
+.header-portlet {
+  border-bottom: 1px solid #eef1f5;
+  height: 2.5rem;
+  margin-bottom: 1.5rem;
+}

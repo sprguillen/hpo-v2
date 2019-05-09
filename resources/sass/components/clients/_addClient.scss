@@ -1,9 +1,5 @@
 @import '../../variables';
 
-h1 {
-  font-size: 1.5rem;
-}
-
 .is-pointer {
   cursor: pointer;
 }
@@ -12,11 +8,6 @@ h1 {
   width: 100%
 }
 
-hr {
-  width: 99.2%;
-}
-
-.hide-button {
-  position: relative;
-  left: -0.8rem;
+.pointer {
+  cursor: pointer
 }
