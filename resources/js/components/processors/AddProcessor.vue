@@ -1,118 +1,135 @@
 <template>
   <div class="column portlet">
     <section class="add-processor">
-      <h1 class="float-left">
-        PROCESSOR REGISTRATION
-      </h1>
-      <b-button
-        icon-left="close"
-        class="float-right app-text-primary hide-button"
-        @click="$emit('hide')"
-      />
-      <div class="clearfix" />
-      <hr>
+      <div class="column">
+        <div class="header-portlet">
+          <h1 class="float-left">
+            PROCESSOR REGISTRATION
+          </h1>
+          <b-icon
+            icon="close"
+            class="float-right app-text-primary pointer"
+            size="is-small"
+            @click.native="$emit('hide')"
+          />
+        </div>
+      </div>
       <form @submit.prevent="submit">
-        <b-field grouped>
-          <b-field
-            label="Username"
-            :type="{'is-danger': errors.has('username')}"
-            :message="errors.first('username')"
-            expanded
+        <div class="column">
+          <div class="columns">
+            <div class="column is-half">
+              <b-field
+                label="Username"
+                :type="{'is-danger': errors.has('username')}"
+                :message="errors.first('username')"
+                expanded
+              >
+                <b-input
+                  v-model="form.username"
+                  v-validate="rules.username"
+                  name="username"
+                  placeholder="Username"
+                  icon="account"
+                />
+              </b-field>
+            </div>
+            <div class="column is-half">
+              <b-field
+                label="Email Address"
+                :type="{'is-danger': errors.has('email')}"
+                :message="errors.first('email')"
+                expanded
+              >
+                <b-input
+                  v-model="form.email"
+                  v-validate="rules.email"
+                  name="email"
+                  placeholder="Email"
+                  icon="email"
+                />
+              </b-field>
+            </div>
+          </div>
+          <div class="columns">
+            <div class="column is-half">
+              <b-field
+                label="First Name"
+                :type="{'is-danger': errors.has('first-name')}"
+                :message="errors.first('first-name')"
+                expanded
+              >
+                <b-input
+                  v-model="form.first_name"
+                  v-validate="rules.firstName"
+                  name="first-name"
+                  placeholder="First Name"
+                  icon="account-card-details"
+                />
+              </b-field>
+            </div>
+            <div class="column is-half">
+              <b-field
+                label="Last Name"
+                :type="{'is-danger': errors.has('last-name')}"
+                :message="errors.first('last-name')"
+                expanded
+              >
+                <b-input
+                  v-model="form.last_name"
+                  v-validate="rules.lastName"
+                  name="last-name"
+                  placeholder="Last Name"
+                  icon="account-card-details"
+                />
+              </b-field>
+            </div>
+          </div>
+          <div class="columns">
+            <div class="column is-half">
+              <b-field
+                label="Password"
+                :type="{'is-danger': errors.has('password')}"
+                :message="errors.first('password')"
+                expanded
+              >
+                <b-input
+                  ref="password"
+                  v-model="form.password"
+                  v-validate="rules.password"
+                  name="password"
+                  placeholder="Password"
+                  type="password"
+                  icon="lock"
+                />
+              </b-field>
+            </div>
+            <div class="column is-half">
+              <b-field
+                label="Confirm Password"
+                :type="{'is-danger': errors.has('confirm-password')}"
+                :message="errors.first('confirm-password')"
+                expanded
+              >
+                <b-input
+                  v-model="form.password_confirmation"
+                  v-validate="rules.confirmPassword"
+                  name="confirm-password"
+                  placeholder="Confirm Password"
+                  type="password"
+                  icon="check"
+                />
+              </b-field>
+            </div>
+          </div>
+          <hr>
+          <b-button
+            tag="input"
+            type="app-primary"
+            native-type="submit"
           >
-            <b-input
-              v-model="form.username"
-              v-validate="rules.username"
-              name="username"
-              placeholder="Username"
-              icon="account"
-            />
-          </b-field>
-          <b-field
-            label="Email Address"
-            :type="{'is-danger': errors.has('email')}"
-            :message="errors.first('email')"
-            expanded
-          >
-            <b-input
-              v-model="form.email"
-              v-validate="rules.email"
-              name="email"
-              placeholder="Email"
-              icon="email"
-            />
-          </b-field>
-        </b-field>
-        <b-field grouped>
-          <b-field
-            label="First Name"
-            :type="{'is-danger': errors.has('first-name')}"
-            :message="errors.first('first-name')"
-            expanded
-          >
-            <b-input
-              v-model="form.first_name"
-              v-validate="rules.firstName"
-              name="first-name"
-              placeholder="First Name"
-              icon="account-card-details"
-            />
-          </b-field>
-          <b-field
-            label="Last Name"
-            :type="{'is-danger': errors.has('last-name')}"
-            :message="errors.first('last-name')"
-            expanded
-          >
-            <b-input
-              v-model="form.last_name"
-              v-validate="rules.lastName"
-              name="last-name"
-              placeholder="Last Name"
-              icon="account-card-details"
-            />
-          </b-field>
-        </b-field>
-        <b-field grouped>
-          <b-field
-            label="Password"
-            :type="{'is-danger': errors.has('password')}"
-            :message="errors.first('password')"
-            expanded
-          >
-            <b-input
-              ref="password"
-              v-model="form.password"
-              v-validate="rules.password"
-              name="password"
-              placeholder="Password"
-              type="password"
-              icon="lock"
-            />
-          </b-field>
-          <b-field
-            label="Confirm Password"
-            :type="{'is-danger': errors.has('confirm-password')}"
-            :message="errors.first('confirm-password')"
-            expanded
-          >
-            <b-input
-              v-model="form.password_confirmation"
-              v-validate="rules.confirmPassword"
-              name="confirm-password"
-              placeholder="Confirm Password"
-              type="password"
-              icon="check"
-            />
-          </b-field>
-        </b-field>
-        <hr>
-        <b-button
-          tag="input"
-          type="app-primary"
-          native-type="submit"
-        >
-          Save
-        </b-button>
+            Save
+          </b-button>
+        </div>
       </form>
     </section>
   </div>
