@@ -35,6 +35,14 @@ return [
                 'update' => ':name client has been updated.',
                 'destroy' => 'Client has been deleted.',
             ],
+            'manage' => [
+                'error' => [
+                    'invalid_payment_mode' => 'Invalid payment mode value, please enter between Cash or Charge.',
+                ],
+                'success' => [
+                    'update_payment_mode' => 'Client payment mode has been updated.',
+                ]
+            ]
         ],
         'processor' => [
             'success' => [

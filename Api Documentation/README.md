@@ -37,3 +37,19 @@ Token is provided with the request:
 ## Helper
 
 * [Pagination format](helper/pagination.md)
+
+## Response
+All responses, if error occur on the request **(especially on request validation)** it will always return `success:false` sample:
+
+```json
+{
+    "success":false,
+    "message":"The given data was invalid.",
+    "errors":{
+        "id":[
+            "The selected id is invalid."
+        ]
+    }
+}
+```
+> Sample error on update request if given id is not found or does not exist.

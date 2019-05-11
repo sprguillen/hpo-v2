@@ -3,9 +3,8 @@
 namespace App\Http\Requests\Admin\Client;
 
 use App\Http\Requests\BaseRequest;
-use Illuminate\Validation\Rule;
 
-class UpdateRequest extends BaseRequest
+class UpdatePaymentModeRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,10 +25,19 @@ class UpdateRequest extends BaseRequest
     {
         return [
             'id' => 'required|exists:users',
-            'email' => 'required|email|unique:users,email,' . $this->id,
-            'username' => 'required|unique:users,username,' . $this->id,
-            'first_name' => 'required',
-            'last_name' => 'required',
+            'payment_mode' => 'required|between:0,1',
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'payment_mode.between' => trans('message.admin.client.manage.error.invalid_payment_mode'),
         ];
     }
 }

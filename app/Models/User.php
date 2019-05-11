@@ -18,6 +18,9 @@ class User extends Authenticatable
     const ROLE_PATIENT = 2;
     const ROLE_STAFF = 3;
 
+    const PAYMENT_CASH = 0;
+    const PAYMENT_CHARGE = 1;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -35,6 +38,7 @@ class User extends Authenticatable
         'business_name',
         'business_address',
         'is_active',
+        'payment_mode',
     ];
 
     /**
@@ -157,6 +161,7 @@ class User extends Authenticatable
      */
     public function scopeFindByName($query, $name)
     {
+        $name = strtolower($name);
         return $query->where(DB::raw("CONCAT(`first_name`, ' ', `last_name`)"), 'LIKE', '%' . $name . '%')->orWhere("email","like","%$name%");
     }
 

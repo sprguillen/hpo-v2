@@ -4,7 +4,6 @@ namespace Tests\Api\Admin;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Laravel\Passport\Passport;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 use App\Models\User;
@@ -18,8 +17,7 @@ class AdminClientTest extends TestCase
      */
     public function canGetClientList()
     {
-        $this->loggedUserAsAdmin();
-        Passport::actingAs($this->user);
+        $this->asAdmin();
 
         $response = $this->json('GET', route('api.admin.client'));
 
@@ -42,8 +40,7 @@ class AdminClientTest extends TestCase
      */
     public function canStoreNewClient()
     {
-        $this->loggedUserAsAdmin();
-        Passport::actingAs($this->user);
+        $this->asAdmin();
 
         $email = $this->faker->email;
         $firstName = $this->faker->firstName;
@@ -78,8 +75,7 @@ class AdminClientTest extends TestCase
      */
     public function newClientOrUserHaveNowACode()
     {
-        $this->loggedUserAsAdmin();
-        Passport::actingAs($this->user);
+        $this->asAdmin();
 
         $email = $this->faker->email;
         $firstName = $this->faker->firstName;
@@ -119,8 +115,7 @@ class AdminClientTest extends TestCase
      */
     public function canUpdateClientData()
     {
-        $this->loggedUserAsAdmin();
-        Passport::actingAs($this->user);
+        $this->asAdmin();
 
         // Find random client
         $client = $this->findRandomData('users', ['role' => User::ROLE_CLIENT]);
@@ -156,8 +151,7 @@ class AdminClientTest extends TestCase
      */
     public function cannotUpdateClientIfIdGivenDoesNotExist()
     {
-        $this->loggedUserAsAdmin();
-        Passport::actingAs($this->user);
+        $this->asAdmin();
 
         // Client does not exist
         $client_id = '23123ao3231';
@@ -175,6 +169,10 @@ class AdminClientTest extends TestCase
 
         $response
             ->assertStatus(self::RESPONSE_CLIENT_ERROR)
+            ->assertJson([
+                'success' => false,
+                'message' => trans('validation.error')
+            ])
             ->assertJsonValidationErrors(['id']);
     }
 
@@ -183,8 +181,7 @@ class AdminClientTest extends TestCase
      */
     public function canDestroyClient()
     {
-        $this->loggedUserAsAdmin();
-        Passport::actingAs($this->user);
+        $this->asAdmin();
 
         // Client
         $client = User::client()->first();
@@ -204,8 +201,7 @@ class AdminClientTest extends TestCase
      */
     public function cannotDeleteIfClientIdIsNotFound()
     {
-        $this->loggedUserAsAdmin();
-        Passport::actingAs($this->user);
+        $this->asAdmin();
         // Client
         $client_id = '13231o321p32';
         $response = $this->json('POST', route('api.admin.client.destroy', ['id' => $client_id]));
@@ -218,8 +214,7 @@ class AdminClientTest extends TestCase
      */
     public function canSearchClient()
     {
-        $this->loggedUserAsAdmin();
-        Passport::actingAs($this->user);
+        $this->asAdmin();
         $key = 'a';
         $response = $this->json('GET', route('api.admin.client.search', ['key' => $key]));
 
@@ -241,7 +236,7 @@ class AdminClientTest extends TestCase
         $isFound = false;
         if (Str::contains($name, $key))
             $isFound = true;
-        elseif (Str::contains($sampleResult->email, $key))
+        elseif (Str::contains(strtolower($sampleResult->email), $key))
             $isFound = true;
 
         $this->assertTrue($isFound);
@@ -252,12 +247,12 @@ class AdminClientTest extends TestCase
      */
     public function canSearchOnFirstName()
     {
-        $this->loggedUserAsAdmin();
-        Passport::actingAs($this->user);
+        $this->asAdmin();
 
         // Search from database - find firstname
         $randomUser = $this->findRandomData('users', ['role' => User::ROLE_CLIENT]);
         $key = substr($randomUser->first_name, 0, 3);
+        $key = strtolower($key);
         $response = $this->json('GET', route('api.admin.client.search', ['key' => $key]));
 
         $data = $response->getData();
@@ -276,9 +271,9 @@ class AdminClientTest extends TestCase
         $name = $sampleResult->first_name;
 
         $isFound = false;
-        if (Str::contains($name, $key))
+        if (Str::contains(strtolower($name), $key))
             $isFound = true;
-        elseif (Str::contains($sampleResult->email, $key))
+        elseif (Str::contains(strtolower($sampleResult->email), $key))
             $isFound = true;
 
         $this->assertTrue($isFound);
@@ -289,12 +284,13 @@ class AdminClientTest extends TestCase
      */
     public function canSearchOnLastName()
     {
-        $this->loggedUserAsAdmin();
-        Passport::actingAs($this->user);
+        $this->asAdmin();
 
         // Search from database - find last_name
         $randomUser = $this->findRandomData('users', ['role' => User::ROLE_CLIENT]);
         $key = substr($randomUser->last_name, 0, 3);
+        $key = strtolower($key);
+
         $response = $this->json('GET', route('api.admin.client.search', ['key' => $key]));
 
         $data = $response->getData();
@@ -313,9 +309,11 @@ class AdminClientTest extends TestCase
         $name = $sampleResult->last_name;
 
         $isFound = false;
-        if (Str::contains($name, $key))
+        if (Str::contains(strtolower($name), $key))
             $isFound = true;
-        elseif (Str::contains($sampleResult->email, $key))
+        elseif (Str::contains(strtolower($sampleResult->email), $key))
+            $isFound = true;
+        elseif (Str::contains(strtolower($sampleResult->first_name), $key))
             $isFound = true;
 
         $this->assertTrue($isFound);
@@ -324,15 +322,15 @@ class AdminClientTest extends TestCase
     /**
      * @test
      */
-    public function canSearchOnFullName()
+    public function canGetClientDetails()
     {
-        $this->loggedUserAsAdmin();
-        Passport::actingAs($this->user);
+        $this->asAdmin();
 
-        // Search from database - find last_name
+        // Get random client
         $randomUser = $this->findRandomData('users', ['role' => User::ROLE_CLIENT]);
-        $key = $randomUser->first_name . ' ' . $randomUser->last_name;
-        $response = $this->json('GET', route('api.admin.client.search', ['key' => $key]));
+        $code = $randomUser->code;
+
+        $response = $this->json('GET', route('api.admin.client.details', ['code' => $code]));
 
         $data = $response->getData();
 
@@ -341,20 +339,85 @@ class AdminClientTest extends TestCase
             ->assertJson([
                 'success' => true,
                 'message' => '',
+                'client' => [
+                    'id' => $randomUser->id,
+                    'email' => $randomUser->email,
+                    'username' => $randomUser->username,
+                ]
             ]);
+    }
 
-        $this->assertNotEmpty($data->clients);
-        $this->paginationTest($data->clients);
+    /**
+     * @test
+     */
+    public function canUpdateClientPaymentMode()
+    {
+        $this->asAdmin();
 
-        $sampleResult = $data->clients->data[0];
-        $fullName = $sampleResult->first_name . ' ' . $sampleResult->last_name;
+        // Find random client
+        $client = $this->findRandomData('users', ['role' => User::ROLE_CLIENT]);
+        $oldPaymentMode = $client->payment_mode;
 
-        $isFound = false;
-        if (Str::contains($fullName, $key))
-            $isFound = true;
-        elseif (Str::contains($sampleResult->email, $key))
-            $isFound = true;
+        $newPaymentMode = $oldPaymentMode == 1 ? 0 : 1;
 
-        $this->assertTrue($isFound);
+        $response = $this->json('POST', route('api.admin.client.update.payment_mode', [
+            'id' => $client->id
+        ]), [
+            'id' => $client->id,
+            'payment_mode' => $newPaymentMode,
+        ]);
+
+        $response
+            ->assertStatus(self::RESPONSE_SUCCESS)
+            ->assertJson([
+                'success' => true,
+                'message' => trans('message.admin.client.manage.success.update_payment_mode'),
+                'client' => [
+                    'id' => $client->id,
+                    'email' => $client->email,
+                    'payment_mode' => $newPaymentMode,
+                ],
+            ]);
+    }
+
+    /**
+     * @test
+     */
+    public function cannotUpdateCLientPaymentModeIfIdOrPaymentModeIsInvalidValue()
+    {
+        $this->asAdmin();
+
+        // Client does not exist
+        $client_code = '23123ao323opeoasde1';
+        $client_id = '23123ao323opeoasde1';
+
+        $response = $this->json('POST', route('api.admin.client.update.payment_mode', ['code' => $client_code]), [
+            'id' => $client_id,
+            'payment_mode' => 1,
+        ]);
+
+        $response
+            ->assertStatus(self::RESPONSE_CLIENT_ERROR)
+            ->assertJson([
+                'success' => false,
+                'message' => trans('validation.error')
+            ])
+            ->assertJsonValidationErrors(['id']);
+
+        //** Test if cannot update if payment_mode is invalid
+        // Find random client
+        $client = $this->findRandomData('users', ['role' => User::ROLE_CLIENT]);
+        $response = $this->json('POST', route('api.admin.client.update.payment_mode', ['code' => $client->code]), [
+            'id' => $client->id,
+            'payment_mode' => 100,
+        ]);
+
+        $response
+        ->assertStatus(self::RESPONSE_CLIENT_ERROR)
+        ->assertJson([
+            'success' => false,
+            'message' => trans('validation.error')
+        ])
+        ->assertJsonValidationErrors(['payment_mode']);
     }
 }

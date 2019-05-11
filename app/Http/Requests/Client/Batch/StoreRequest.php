@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\Client\Batch;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\BaseRequest;
 use Illuminate\Validation\Rule;
 
-class StoreRequest extends FormRequest
+class StoreRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,7 +28,7 @@ class StoreRequest extends FormRequest
             'source_id' => 'required|integer|exists:sources',
             'patient_type_id' => 'required|integer|exists:patient_types',
             'payment_mode' => 'required',
-            
+
             'first_name' => 'required',
             'last_name' => 'required',
             'password' => 'required|confirmed',

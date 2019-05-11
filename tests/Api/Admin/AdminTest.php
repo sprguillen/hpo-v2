@@ -17,8 +17,7 @@ class AdminTest extends TestCase
      */
     public function canAccessToAdminRoutes()
     {
-        $this->loggedUserAsAdmin();
-        Passport::actingAs($this->user);
+        $this->asAdmin();
 
         $response = $this->json('GET', route('api.admin.client'));
 
@@ -37,8 +36,7 @@ class AdminTest extends TestCase
      */
     public function cannotAccessIfUserIsNotAdmin()
     {
-        $this->loggedUserClient();
-        Passport::actingAs($this->user);
+        $this->asClient();
 
         $response = $this->json('GET', route('api.admin.client'));
 

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Client\StoreRequest;
 use App\Http\Requests\Admin\Client\UpdateRequest;
+use App\Http\Requests\Admin\Client\UpdatePaymentModeRequest;
 
 class ClientController extends Controller
 {
@@ -100,11 +101,42 @@ class ClientController extends Controller
      * Search client based on key
      *
      * @param  string $key
-     * @return response
+     * @return \Illuminate\Http\Response
      */
     public function search($key)
     {
         $clients = User::client()->findByName($key)->paginate(10);
         return success_data(compact('clients'));
+    }
+
+    /**
+     * Get client details
+     *
+     * @author goper
+     * @param  string $code
+     * @return \Illuminate\Http\Response
+     */
+    public function details($code)
+    {
+        $client = User::client()->where('code', $code)->firstOrFail();
+        return success_data(compact('client'));
+    }
+
+    /**
+     * Update client payment mode
+     *
+     * @author goper
+     * @param  integer $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updatePaymentMode(UpdatePaymentModeRequest $request, $code = null)
+    {
+        $client = User::client()->findOrFail($request->id);
+        $client->payment_mode = $request->payment_mode;
+        $client->save();
+
+        return successful(trans('message.admin.client.manage.success.update_payment_mode'), [
+            'client' => $client
+        ]);
     }
 }
