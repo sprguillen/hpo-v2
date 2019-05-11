@@ -15,6 +15,7 @@ class UserObserver
     public function created(User $user)
     {
         $user->code = int_to_code($user->id);
+        $user->save();
     }
 
     /**

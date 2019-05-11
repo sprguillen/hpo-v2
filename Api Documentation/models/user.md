@@ -16,6 +16,7 @@ User model
 * `business_name` = **string(45)** | **nullable**
 * `business_address` = **string(255)** | **nullable**
 * `is_active` = **tinyinteger(1)**
+* `payment_mode` = **tinyinteger(1)**
 * `updated_at` = **timestamp**
 * `created_at` = **timestamp**
 
@@ -27,3 +28,8 @@ User model
    * `2` = **Patient** Role  
    * `3` = **Staff** Role  
    * `10` = **Admin** Role  
+
+
+* `payment_mode` = values:
+    * `0` = **Cash**
+    * `1` = **Charge**

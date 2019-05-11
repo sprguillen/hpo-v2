@@ -19,8 +19,7 @@ class AdminSourceTest extends TestCase
      */
     public function canGetSourceList()
     {
-        $this->loggedUserAsAdmin();
-        Passport::actingAs($this->user);
+        $this->asAdmin();
 
         $response = $this->json('GET', route('api.admin.system.source'));
 
@@ -43,8 +42,7 @@ class AdminSourceTest extends TestCase
      */
     public function canAdminStoreNewSource()
     {
-        $this->loggedUserAsAdmin();
-        Passport::actingAs($this->user);
+        $this->asAdmin();
 
         $name = $this->getRandomUniqueData('sources', 'name', 'company');
         $code = $this->getRandomUniqueData('sources', 'name', 'word');
@@ -71,8 +69,7 @@ class AdminSourceTest extends TestCase
      */
     public function canAdminUpdateSource()
     {
-        $this->loggedUserAsAdmin();
-        Passport::actingAs($this->user);
+        $this->asAdmin();
 
         // Find random client
         $source = $this->findRandomData('sources');
@@ -104,8 +101,7 @@ class AdminSourceTest extends TestCase
      */
     public function canAdminDeleteSource()
     {
-        $this->loggedUserAsAdmin();
-        Passport::actingAs($this->user);
+        $this->asAdmin();
 
         // Client
         $source = Source::first();

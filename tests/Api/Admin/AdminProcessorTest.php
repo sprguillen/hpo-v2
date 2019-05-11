@@ -18,8 +18,7 @@ class AdminProcessorTest extends TestCase
      */
     public function canGetProcessorList()
     {
-        $this->loggedUserAsAdmin();
-        Passport::actingAs($this->user);
+        $this->asAdmin();
 
         $response = $this->json('GET', route('api.admin.processor'));
 
@@ -41,8 +40,7 @@ class AdminProcessorTest extends TestCase
      */
     public function canStoreNewProcessor()
     {
-        $this->loggedUserAsAdmin();
-        Passport::actingAs($this->user);
+        $this->asAdmin();
 
         $email = $this->faker->email;
         $firstName = $this->faker->firstName;
@@ -77,8 +75,7 @@ class AdminProcessorTest extends TestCase
      */
     public function canUpdateProcessorData()
     {
-        $this->loggedUserAsAdmin();
-        Passport::actingAs($this->user);
+        $this->asAdmin();
 
         // Find random client
         $client = $this->findRandomData('users', ['role' => User::ROLE_PROCESSOR]);
@@ -115,8 +112,7 @@ class AdminProcessorTest extends TestCase
      */
     public function cannotUpdateProcessorIfIdGivenDoesNotExist()
     {
-        $this->loggedUserAsAdmin();
-        Passport::actingAs($this->user);
+        $this->asAdmin();
 
         // Client does not exist
         $client_id = '23123ao3231';
@@ -142,8 +138,7 @@ class AdminProcessorTest extends TestCase
      */
     public function canDestroyProcessor()
     {
-        $this->loggedUserAsAdmin();
-        Passport::actingAs($this->user);
+        $this->asAdmin();
 
         // Client
         $processor = User::processor()->first();
@@ -165,8 +160,7 @@ class AdminProcessorTest extends TestCase
      */
     public function cannotDeleteIfProcessorIdIsNotFound()
     {
-        $this->loggedUserAsAdmin();
-        Passport::actingAs($this->user);
+        $this->asAdmin();
         // Client
         $client_id = '13231o321p32';
         $response = $this->json('POST', route('api.admin.processor.destroy', ['id' => $client_id]));
@@ -179,8 +173,7 @@ class AdminProcessorTest extends TestCase
      */
     public function canSearchProcessorTypeOfUser()
     {
-        $this->loggedUserAsAdmin();
-        Passport::actingAs($this->user);
+        $this->asAdmin();
 
         // Search from database - find firstname
         $randomUser = $this->findRandomData('users', ['role' => User::ROLE_PROCESSOR]);
