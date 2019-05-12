@@ -132,7 +132,29 @@ abstract class TestCase extends BaseTestCase
             $string = $this->faker->$type;
             $count = DB::table($table)->where($column, $string)->count();
         } while ($count > 0);
-        
+
         return $string;
+    }
+
+    /**
+     * Logged user as admin
+     *
+     * @author goper
+     * @return void
+     */
+    public function asAdmin()
+    {
+        $this->loggedUserAsAdmin();
+        Passport::actingAs($this->user);
+    }
+
+    /**
+     * Logged user as client
+     * @return [type] [description]
+     */
+    public function asClient()
+    {
+        $this->loggedUserClient();
+        Passport::actingAs($this->user);
     }
 }

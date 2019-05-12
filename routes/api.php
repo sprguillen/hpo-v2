@@ -73,6 +73,10 @@ Route::namespace('Api')->group(function() {
                 Route::name('api.admin.client.update')->post('{id}/update', 'ClientController@update');
                 Route::name('api.admin.client.destroy')->post('{id}/destroy', 'ClientController@destroy');
                 Route::name('api.admin.client.search')->get('search/{key}', 'ClientController@search');
+
+                //** Manage individual `clients`
+                Route::name('api.admin.client.details')->get('details/{code}', 'ClientController@details');
+                Route::name('api.admin.client.update.payment_mode')->post('payment_mode/{code}/update', 'ClientController@updatePaymentMode');
             });
 
             // Processor
