@@ -1,9 +1,9 @@
 <template>
-  <section class="patient-type">
+  <section class="source">
     <div class="column portlet">
       <div class="header-portlet">
         <h2 class="float-left">
-          PATIENT TYPES
+          SOURCES
         </h2>
         <div class="mini-form float-right">
           <form @submit.prevent="submit">
@@ -28,7 +28,7 @@
         </div>
       </div>
       <b-table
-        :data="patientTypes"
+        :data="sources"
         bordered
         striped
         hoverable
@@ -68,7 +68,7 @@
 <script>
 export default {
   props: {
-    patientTypes: {
+    sources: {
       type: Array,
       required: true
     }
@@ -76,5 +76,5 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  @import "../../../sass/components/system/patientTypes.scss";
+  @import "../../../sass/components/system/sources.scss";
 </style>

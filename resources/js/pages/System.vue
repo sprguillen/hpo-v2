@@ -23,13 +23,16 @@
                   >
                     <a>Patient Types</a>
                   </li>
-                  <li @click="activeTab = 'dispatchers'">
+                  <li @click="activeTab = 'Dispatchers'">
                     <a>Dispatchers</a>
                   </li>
-                  <li @click="activeTab = 'sources'">
+                  <li
+                    :class="isActive('Sources')"
+                    @click="activeTab = 'Sources'"
+                  >
                     <a>Sources</a>
                   </li>
-                  <li @click="activeTab = 'globalPrefix'">
+                  <li @click="activeTab = 'GlobalPrefix'">
                     <a>Global Prefix</a>
                   </li>
                 </ul>
@@ -50,12 +53,14 @@
 import Header from '@/components/global/Header'
 import TestAnnouncements from '@/components/system/TestAnnouncements'
 import PatientTypes from '@/components/system/PatientTypes'
+import Sources from '@/components/system/Sources'
 
 export default {
   components: {
     Header,
     TestAnnouncements,
-    PatientTypes
+    PatientTypes,
+    Sources
   },
   data() {
     return {
@@ -65,6 +70,16 @@ export default {
           name: 'SEND IN'
         }
       ],
+      sourcesList: [
+        {
+          code: '1100',
+          name: 'TESTING ACCOUNT'
+        },
+        {
+          code: '111034',
+          name: 'BERNARDINO GEN. HOSP.-1'
+        }
+      ],
       activeTab: 'TestAnnouncements'
     }
   },
@@ -72,6 +87,8 @@ export default {
     dynamicProps() {
       if (this.activeTab === 'PatientTypes') {
         return { patientTypes: this.patientTypesList }
+      } else if (this.activeTab === 'Sources') {
+        return { sources: this.sourcesList }
       }
 
       return null
