@@ -7,6 +7,7 @@
       <b-input
         v-model="form.search"
         placeholder="Search Processor"
+        @input="search()"
       />
     </b-field>
     <b-table
@@ -19,26 +20,33 @@
         <b-table-column
           field="username"
           label="Processor"
-          width="300"
         >
           {{ props.row.username }}
         </b-table-column>
         <b-table-column
+          field="name"
+          label="Name"
+          width="700"
+        >
+          {{ props.row.first_name }} {{ props.row.last_name }}
+        </b-table-column>
+        <b-table-column
           field="created_at"
           label="Date Added"
-          width="300"
         >
           {{ props.row.created_at | relativeTime }}
         </b-table-column>
         <b-table-column
           field="actions"
           label="Actions"
-          width="300"
         >
           <b-button type="is-success">
-            Send reset password
+            Send Reset Password
           </b-button>
-          <b-button type="is-danger">
+          <b-button
+            type="is-danger"
+            @click="openDeleteModal(props.row.id, props.row.username)"
+          >
             Archive
           </b-button>
         </b-table-column>
@@ -60,6 +68,38 @@
         Next
       </b-button>
     </div>
+    <b-modal
+      class="delete-modal"
+      :active.sync="open"
+      has-modal-card
+    >
+      <div class="card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">
+            <b-icon icon="archive" /> Archive Processor
+          </p>
+        </header>
+        <div class="modal-card-body">
+          Are you sure you want to archive processor {{ modalUsername }}?
+        </div>
+        <footer class="modal-card-foot">
+          <div class="modal-actions">
+            <b-button
+              type="is-danger modal-buttons"
+              @click="closeModal"
+            >
+              Cancel
+            </b-button>
+            <b-button
+              type="is-success modal-buttons"
+              @click="archive"
+            >
+              Yes
+            </b-button>
+          </div>
+        </footer>
+      </div>
+    </b-modal>
   </section>
 </template>
 <script>
@@ -83,8 +123,11 @@ export default {
   data() {
     return {
       form: {
-        search: null
-      }
+        search: ''
+      },
+      open: false,
+      userToArchive: '',
+      modalUsername: ''
     }
   },
   computed: {
@@ -99,6 +142,24 @@ export default {
     },
     search() {
       this.$emit('search', this.form.search)
+    },
+    openDeleteModal(id, username) {
+      this.userToArchive = id
+      this.modalUsername = username
+      this.open = true
+    },
+    closeModal() {
+      this.open = false
+      this.clear()
+    },
+    archive() {
+      this.$emit('archive', this.userToArchive)
+      this.open = false
+      this.clear()
+    },
+    clear() {
+      this.userToArchive = ''
+      this.modalUsername = ''
     }
   }
 }

@@ -1,1 +1,24 @@
 @import '../../variables';
+
+.processors-list {
+  .delete-modal {
+    header.modal-card-head {
+      background: $green;
+    }
+
+    .modal-actions {
+      width: 100%;
+    }
+  
+    .modal-buttons {
+      float: right;
+      position: relative;
+      right: 0.6rem;
+      margin-left: 0.6rem;
+    }
+  
+    footer.modal-card-foot {
+      padding: 10px;
+    }
+  }
+}

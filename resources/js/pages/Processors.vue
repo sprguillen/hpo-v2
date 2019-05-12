@@ -26,8 +26,10 @@
             <List
               :processors="getProcessors"
               :current="page"
+              @archive="archive"
               @next="next"
               @prev="prev"
+              @search="search"
             />
           </div>
         </div>
@@ -37,6 +39,7 @@
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import debounce from 'lodash.debounce'
 import Header from '@/components/global/Header'
 import List from '@/components/processors/List'
 import AddProcessor from '@/components/processors/AddProcessor'
@@ -60,7 +63,7 @@ export default {
     this.callFetchProcessor()
   },
   methods: {
-    ...mapActions('processor', ['fetchProcessors']),
+    ...mapActions('processor', ['fetchProcessors', 'searchProcessors', 'archiveProcessor']),
     async callFetchProcessor() {
       const params = {
         page: this.page
@@ -74,6 +77,35 @@ export default {
     async prev() {
       this.page--
       await this.callFetchProcessor()
+    },
+    search: debounce(async function(value) {
+      if (value) {
+        const params = {
+          key: value
+        }
+        await this.searchProcessors(params)
+      } else {
+        await this.callFetchProcessor()
+      }
+    }, 500),
+    async archive(value) {
+      const params = {
+        id: value
+      }
+
+      try {
+        await this.archiveProcessor(params)
+        this.$toast.open({
+          message: 'Processor was successfully archived',
+          type: 'is-success'
+        })
+        await this.callFetchProcessor()
+      } catch (e) {
+        this.$toast.open({
+          message: e.message,
+          type: 'is-success'
+        })
+      }
     }
   }
 }

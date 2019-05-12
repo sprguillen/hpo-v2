@@ -70,6 +70,15 @@ const actions = {
       const { data } = e.response
       throw data
     }
+  },
+
+  async archiveClient({}, params) {
+    try {
+      await axios.post(`/api/admin/client/${params.id}/destroy`)
+    } catch (e) {
+      const { data } = e.response
+      throw data
+    }
   }
 }
 

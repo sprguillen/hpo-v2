@@ -61,16 +61,25 @@ const actions = {
     }
   },
 
-  // async searchProcessors({ commit }, params) {
-  //   try {
-  //     const { data } = await axios.get(`/api/admin/processor/search/${params.key}`)
-  //     commit('setProcessors', data.processors.data)
-  //     commit('setLastPage', data.processors.last_page)
-  //   } catch (e) {
-  //     const { data } = e.response
-  //     throw data
-  //   }
-  // }
+  async searchProcessors({ commit }, params) {
+    try {
+      const { data } = await axios.get(`/api/admin/processor/search/${params.key}`)
+      commit('setProcessors', data.processors.data)
+      commit('setLastPage', data.processors.last_page)
+    } catch (e) {
+      const { data } = e.response
+      throw data
+    }
+  },
+
+  async archiveProcessor({}, params) {
+    try {
+      await axios.post(`/api/admin/processor/${params.id}/destroy`)
+    } catch (e) {
+      const { data } = e.response
+      throw data
+    }
+  }
 }
 
 export default {

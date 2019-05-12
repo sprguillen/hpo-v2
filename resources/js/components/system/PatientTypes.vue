@@ -54,8 +54,8 @@
             label="Actions"
             width="300"
           >
-            <b-button type="is-success">
-              Send reset password
+            <b-button type="app-primary">
+              Edit
             </b-button>
             <b-button type="is-danger">
               Archive

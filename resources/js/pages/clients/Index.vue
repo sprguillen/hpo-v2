@@ -26,6 +26,7 @@
             <List
               :clients="getClients"
               :current="page"
+              @archive="archive"
               @next="next()"
               @prev="prev()"
               @search="search"
@@ -62,7 +63,7 @@ export default {
     this.callFetchClient()
   },
   methods: {
-    ...mapActions('client', ['fetchClients', 'searchClients']),
+    ...mapActions('client', ['fetchClients', 'searchClients', 'archiveClient']),
     async callFetchClient() {
       const params = {
         page: this.page
@@ -86,7 +87,26 @@ export default {
       } else {
         await this.callFetchClient()
       }
-    }, 500)
+    }, 500),
+    async archive(value) {
+      const params = {
+        id: value
+      }
+
+      try {
+        await this.archiveClient(params)
+        this.$toast.open({
+          message: 'Client was successfully archived',
+          type: 'is-success'
+        })
+        await this.callFetchClient()
+      } catch (e) {
+        this.$toast.open({
+          message: e.message,
+          type: 'is-success'
+        })
+      }
+    }
   }
 }
 </script>

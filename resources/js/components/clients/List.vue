@@ -46,9 +46,12 @@
           label="Actions"
         >
           <b-button type="is-success">
-            Send reset password
+            Send Reset Password
           </b-button>
-          <b-button type="is-danger">
+          <b-button
+            type="is-danger"
+            @click="openDeleteModal(props.row.id, props.row.username)"
+          >
             Archive
           </b-button>
         </b-table-column>
@@ -70,6 +73,38 @@
         Next
       </b-button>
     </div>
+    <b-modal
+      class="delete-modal"
+      :active.sync="open"
+      has-modal-card
+    >
+      <div class="card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">
+            <b-icon icon="archive" /> Archive Client
+          </p>
+        </header>
+        <div class="modal-card-body">
+          Are you sure you want to archive client {{ modalUsername }}?
+        </div>
+        <footer class="modal-card-foot">
+          <div class="modal-actions">
+            <b-button
+              type="is-danger modal-buttons"
+              @click="closeModal"
+            >
+              Cancel
+            </b-button>
+            <b-button
+              type="is-success modal-buttons"
+              @click="archive"
+            >
+              Yes
+            </b-button>
+          </div>
+        </footer>
+      </div>
+    </b-modal>
   </section>
 </template>
 <script>
@@ -93,8 +128,11 @@ export default {
   data() {
     return {
       form: {
-        search: null
-      }
+        search: ''
+      },
+      open: false,
+      userToArchive: '',
+      modalUsername: ''
     }
   },
   computed: {
@@ -109,6 +147,24 @@ export default {
     },
     search() {
       this.$emit('search', this.form.search)
+    },
+    openDeleteModal(id, username) {
+      this.userToArchive = id
+      this.modalUsername = username
+      this.open = true
+    },
+    closeModal() {
+      this.open = false
+      this.clear()
+    },
+    archive() {
+      this.$emit('archive', this.userToArchive)
+      this.open = false
+      this.clear()
+    },
+    clear() {
+      this.userToArchive = ''
+      this.modalUsername = ''
     }
   }
 }
