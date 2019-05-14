@@ -15,7 +15,7 @@ class CreateServicesTable extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('code', 20)->unique()->nullable()->default(null);
+            $table->string('code')->unique()->nullable()->default(null);
             $table->string('name', 45);
             $table->float('default_cost');
             $table->timestamps();

@@ -88,6 +88,15 @@ Route::namespace('Api')->group(function() {
                 Route::name('api.admin.processor.destroy')->post('{id}/destroy', 'ProcessorController@destroy');
             });
 
+            // Services
+            Route::prefix('services')->group(function() {
+                Route::name('api.admin.services')->get('', 'ServiceController@index');
+                Route::name('api.admin.services.search')->get('search/{key}', 'ServiceController@search');
+                Route::name('api.admin.services.store')->post('store', 'ServiceController@store');
+                Route::name('api.admin.services.update')->post('{id}/update', 'ServiceController@update');
+                Route::name('api.admin.services.destroy')->post('{id}/destroy', 'ServiceController@destroy');
+            });
+
             // System
             Route::prefix('system')->namespace('System')->group(function() {
 

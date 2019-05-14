@@ -126,10 +126,32 @@ abstract class TestCase extends BaseTestCase
      * @param  string $type - faker type data
      * @return string
      */
-    public function getRandomUniqueData($table, $column, $type)
+    public function getRandomUniqueData($table, $column, $type, $typeOptions = [])
     {
         do {
             $string = $this->faker->$type;
+
+            if (!empty($typeOptions)) {
+                $count = 0;
+                foreach ($typeOptions as $key => $option) {
+
+                    if ($count == 0) {
+                        $opt1Key = $key;
+                        $opt1Value = $option;
+                    } elseif ($count == 1) {
+                        $opt2Key = $key;
+                        $opt2Value = $option;
+                    }
+                    $count++;
+                }
+                if ($count == 1) {
+                    $string = $this->faker->$type($opt1Key = $opt1Value);
+                } elseif ($count == 2) {
+                    $string = $this->faker->$type($opt1Key = $opt1Value, $opt2Key = $opt2Value);
+                }
+
+            }
+
             $count = DB::table($table)->where($column, $string)->count();
         } while ($count > 0);
 

@@ -51,6 +51,13 @@ return [
                 'destroy' => 'Processor has been deleted.',
             ],
         ],
+        'service' => [
+            'success' => [
+                'store' => 'New service has been created.',
+                'update' => ':name service has been updated.',
+                'destroy' => 'Service has been deleted.',
+            ]
+        ],
         'system' => [
             'source' => [
                 'success' => [
