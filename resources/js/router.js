@@ -30,7 +30,7 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/clients/:id',
+      path: '/clients/:code',
       name: 'client_details',
       component: ClientDetails,
       meta: {

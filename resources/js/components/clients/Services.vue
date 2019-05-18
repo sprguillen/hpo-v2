@@ -64,46 +64,14 @@
     >
       Assign Service
     </b-button>
-    <AssignServices :open="openAssignModal" />
-    <div class="column no-left-padding">
-      <h2 class="h2-portlet">
-        PAYMENT MODE
-      </h2>
-      <b-field
-        class="mt-2"
-        grouped
-      >
-        <b-select placeholder="Select payment mode">
-          <option>Cash</option>
-          <option>Charge</option>
-        </b-select>
-        <b-button
-          tag="input"
-          type="app-primary"
-          value="Update"
-        />
-      </b-field>
-      <h2 class="h2-portlet">
-        DISPATCH MODE
-      </h2>
-      <b-field
-        class="mt-2"
-        grouped
-      >
-        <b-select placeholder="Select payment mode">
-          <option>Online</option>
-          <option>Send</option>
-        </b-select>
-        <b-button
-          tag="input"
-          type="app-primary"
-          value="Update"
-        />
-      </b-field>
-    </div>
+    <AssignServices
+      :open="openAssignModal"
+      @close="openAssignModal = false"
+    />
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex'
 import AssignServices from '@/components/clients/AssignServices'
 
 export default {
@@ -117,6 +85,10 @@ export default {
     },
     current: {
       type: Number,
+      required: true
+    },
+    code: {
+      type: String,
       required: true
     }
   },

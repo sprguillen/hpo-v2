@@ -65,10 +65,10 @@ export default {
   methods: {
     ...mapActions('client', ['fetchClients', 'searchClients', 'archiveClient']),
     async callFetchClient() {
-      const params = {
+      const payload = {
         page: this.page
       }
-      await this.fetchClients(params)
+      await this.fetchClients(payload)
     },
     async next() {
       this.page++
@@ -80,21 +80,21 @@ export default {
     },
     search: debounce(async function(value) {
       if (value) {
-        const params = {
+        const payload = {
           key: value
         }
-        await this.searchClients(params)
+        await this.searchClients(payload)
       } else {
         await this.callFetchClient()
       }
     }, 500),
     async archive(value) {
-      const params = {
+      const payload = {
         id: value
       }
 
       try {
-        await this.archiveClient(params)
+        await this.archiveClient(payload)
         this.$toast.open({
           message: 'Client was successfully archived',
           type: 'is-success'

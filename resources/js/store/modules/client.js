@@ -46,10 +46,10 @@ const actions = {
     }
   },
 
-  async fetchClients({ commit }, params) {
+  async fetchClients({ commit }, payload) {
     let url = '/api/admin/client'
-    if (params.page) {
-      url += `?page=${params.page}`
+    if (payload.page) {
+      url += `?page=${payload.page}`
     }
     try {
       const { data } = await axios.get(url)
@@ -61,9 +61,9 @@ const actions = {
     }
   },
 
-  async searchClients({ commit }, params) {
+  async searchClients({ commit }, payload) {
     try {
-      const { data } = await axios.get(`/api/admin/client/search/${params.key}`)
+      const { data } = await axios.get(`/api/admin/client/search/${payload.key}`)
       commit('setClients', data.clients.data)
       commit('setLastPage', data.clients.last_page)
     } catch (e) {
@@ -72,9 +72,35 @@ const actions = {
     }
   },
 
-  async archiveClient({}, params) {
+  async archiveClient({}, payload) {
     try {
-      await axios.post(`/api/admin/client/${params.id}/destroy`)
+      await axios.post(`/api/admin/client/${payload.id}/destroy`)
+    } catch (e) {
+      const { data } = e.response
+      throw data
+    }
+  },
+
+  async fetchClient({}, payload) {
+    try {
+      const { data } = await axios.get(`/api/admin/client/details/${payload.code}`)
+      return data.client
+    } catch (e) {
+      const { data } = e.response
+      throw data
+    }
+  },
+
+  async updatePayment({ commit }, payload) {
+    const url = `/api/admin/client/payment_mode/${payload.code}/update`
+    const params = {
+      id: payload.id,
+      payment_mode: payload.payment_mode
+    }
+
+    try {
+      const { data } = await axios.post(url, params)
+      return data.client
     } catch (e) {
       const { data } = e.response
       throw data

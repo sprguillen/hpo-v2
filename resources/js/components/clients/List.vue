@@ -22,7 +22,7 @@
           label="Client"
         >
           <router-link
-            :to="{ name: 'client_details', params: { id: props.row.id } }"
+            :to="{ name: 'client_details', params: { code: props.row.code } }"
             class="client-link"
           >
             {{ props.row.username }}
