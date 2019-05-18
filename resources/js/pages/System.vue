@@ -53,6 +53,7 @@
 import Header from '@/components/global/Header'
 import TestAnnouncements from '@/components/system/TestAnnouncements'
 import PatientTypes from '@/components/system/PatientTypes'
+import Dispatchers from '@/components/system/Dispatchers'
 import Sources from '@/components/system/Sources'
 
 export default {
@@ -60,6 +61,7 @@ export default {
     Header,
     TestAnnouncements,
     PatientTypes,
+    Dispatchers,
     Sources
   },
   data() {
@@ -68,6 +70,16 @@ export default {
         {
           code: 'OP',
           name: 'SEND IN'
+        }
+      ],
+      dispatchersList: [
+        {
+          code: 'C',
+          name: 'ONLINE'
+        },
+        {
+          code: '2',
+          name: 'SEND'
         }
       ],
       sourcesList: [
@@ -89,6 +101,8 @@ export default {
         return { patientTypes: this.patientTypesList }
       } else if (this.activeTab === 'Sources') {
         return { sources: this.sourcesList }
+      } else if (this.activeTab === 'Dispatchers') {
+        return { dispatchers: this.dispatchersList }
       }
 
       return null
