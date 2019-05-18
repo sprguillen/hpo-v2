@@ -88,6 +88,24 @@ Route::namespace('Api')->group(function() {
                 Route::name('api.admin.processor.destroy')->post('{id}/destroy', 'ProcessorController@destroy');
             });
 
+            // Services
+            Route::prefix('services')->namespace('Service')->group(function() {
+                Route::name('api.admin.services')->get('', 'IndexController@index');
+                Route::name('api.admin.services.search')->get('search/{key}', 'IndexController@search');
+                Route::name('api.admin.services.store')->post('store', 'IndexController@store');
+                Route::name('api.admin.services.update')->post('{id}/update', 'IndexController@update');
+                Route::name('api.admin.services.destroy')->post('{id}/destroy', 'IndexController@destroy');
+                Route::name('api.admin.service.details')->get('details/{code}', 'IndexController@details');
+
+                // Client servies routes
+                Route::prefix('client')->group(function() {
+                    Route::name('api.admin.service.client.store')->post('store', 'ClientController@store');
+                    Route::name('api.admin.service.client.update')->post('{id}/update', 'ClientController@update');
+                    Route::name('api.admin.service.client.destroy')->post('{id}/destroy', 'ClientController@destroy');
+                });
+
+            });
+
             // System
             Route::prefix('system')->namespace('System')->group(function() {
 

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateServicesTable extends Migration
+class CreateUserServicesPivotTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateServicesTable extends Migration
      */
     public function up()
     {
-        Schema::create('services', function (Blueprint $table) {
+        Schema::create('client_services', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('code')->unique()->nullable()->default(null);
-            $table->string('name', 45);
-            $table->float('default_cost');
+            $table->integer('user_id')->unsigned()->index();
+            $table->integer('service_id')->unsigned()->index();
+            $table->float('price')->default(0);
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateServicesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('services');
+        Schema::dropIfExists('client_services');
     }
 }
