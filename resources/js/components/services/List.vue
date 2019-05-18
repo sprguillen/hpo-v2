@@ -79,6 +79,22 @@
         </b-table-column>
       </template>
     </b-table>
+    <div class="pagination-controls mt-2">
+      <b-button
+        type="is-danger"
+        :disabled="current === 1"
+        @click="prev()"
+      >
+        Previous
+      </b-button>
+      <b-button
+        type="is-danger"
+        :disabled="current === getLastPage"
+        @click="next()"
+      >
+        Next
+      </b-button>
+    </div>
   </section>
 </template>
 <script>
@@ -87,13 +103,17 @@ export default {
     services: {
       type: Array,
       required: true
+    },
+    current: {
+      type: Number,
+      required: true
     }
   },
   data() {
     return {
       form: {
-        search: null,
-        filter: null
+        search: '',
+        filter: ''
       },
       options: [
         { value: 0, text: 'HMI Care Inc.' },

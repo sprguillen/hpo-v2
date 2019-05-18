@@ -28,7 +28,10 @@
           <div class="column" />
           <div class="column" />
           <div class="column portlet">
-            <List :services="servicesList" />
+            <List
+              :services="servicesList"
+              :current="page"
+            />
           </div>
         </div>
       </div>
@@ -71,7 +74,8 @@ export default {
           no_orders: 6
         }
       ],
-      addMode: false
+      addMode: false,
+      page: 1
     }
   },
   methods: {

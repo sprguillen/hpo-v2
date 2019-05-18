@@ -101,15 +101,17 @@ export default {
           name: 'ACE MEDICAL CTR. (VALENZUELA)'
         }
       ],
-      activeTab: 'Services'
+      activeTab: 'Services',
+      servicesPage: 1,
+      sourcesPage: 1
     }
   },
   computed: {
     dynamicProps() {
       if (this.activeTab === 'Services') {
-        return { services: this.servicesList }
+        return { services: this.servicesList, current: this.servicesPage }
       } else {
-        return { sources: this.sourcesList }
+        return { sources: this.sourcesList, current: this.sourcesPage }
       }
     }
   },

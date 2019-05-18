@@ -1,0 +1,38 @@
+@import '../../variables';
+
+.client-services-list {
+  .no-left-padding {
+    padding-left: 0;
+  }
+
+  .h2-portlet {
+    border-bottom: 1px solid #eef1f5;
+  }
+
+  .assign-modal {
+    header.modal-card-head {
+      background: $green;
+    }
+
+    .modal-actions {
+      width: 100%;
+    }
+  
+    .modal-buttons {
+      float: right;
+      position: relative;
+      right: 0.6rem;
+      margin-left: 0.6rem;
+    }
+
+    .close-button {
+      float: right;
+      position: relative;
+      right: 0.6rem;
+    }
+  
+    footer.modal-card-foot {
+      padding: 10px;
+    }
+  }
+}
