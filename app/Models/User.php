@@ -51,6 +51,19 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    // protected $visible = [
+    //     'full_name',
+    // ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'full_name'
+    ];
+
     /**
      * guarded
      * @var array
@@ -61,6 +74,16 @@ class User extends Authenticatable
         'type',
         'active'
     ];
+
+    /**
+     * Get user's full name.
+     *
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        return trim(join(' ', [$this->first_name, $this->last_name]));
+    }
 
     /**
      * Get users that are admin
@@ -177,5 +200,15 @@ class User extends Authenticatable
     public function sources()
     {
         return $this->belongsToMany(Sources::class, 'user_sources', 'user_id', 'source_id');
+    }
+
+    /**
+     * Get user `client` services
+     *
+     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function services()
+    {
+        return $this->belongsToMany(Services::class, 'client_services', 'user_id', 'service_id');
     }
 }

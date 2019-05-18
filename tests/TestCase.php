@@ -3,13 +3,15 @@
 namespace Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Tests\Traits\ResponseHelper;
+use Tests\Traits\Accessor;
 use Laravel\Passport\Passport;
 use App\Models\User;
 use DB;
 
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication;
+    use CreatesApplication, ResponseHelper, Accessor;
 
     /**
      * HTTP response constants
@@ -24,43 +26,6 @@ abstract class TestCase extends BaseTestCase
     const RESPONSE_NOT_FOUND = 404;
 
     protected $user;
-
-    /**
-     * Login user
-     *
-     * @author goper
-     * @param  string $email
-     * @return void
-     */
-    public function loggedUser($email)
-    {
-        if ($email == 'random') {
-            $randomUser = User::orderByRaw('RAND()')->client()->first();
-            $email = $randomUser->email;
-        }
-        $this->user = User::where('email', $email)->first();
-    }
-
-    /**
-     * Login client user
-     *
-     * @author goper
-     * @return void
-     */
-    public function loggedUserClient()
-    {
-        $user = User::orderByRaw('RAND()')->client()->first();
-        $this->loggedUser($user->email);
-    }
-
-    /**
-     * Login user admin
-     */
-    public function loggedUserAsAdmin()
-    {
-        $user = User::orderByRaw('RAND()')->admin()->first();
-        $this->loggedUser($user->email);
-    }
 
     /**
      * Fetch random data base on `table` data given
@@ -80,44 +45,6 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Get response body on `GET` request
-     *
-     * @param  [type] $response [description]
-     * @return [type]           [description]
-     */
-    public function getResponseData($response)
-    {
-        return $response->getOriginalContent()->getData();
-    }
-
-    /**
-     * Get reponse on POST request
-     *
-     * @param  string $value [description]
-     * @return [type]        [description]
-     */
-    public function getPostResponse($response)
-    {
-        return json_decode($response->getContent());
-    }
-
-    /**
-     * Test response data if pagination or not
-     *
-     * @author goper
-     * @param  object $data
-     * @return void
-     */
-    public function paginationTest($data)
-    {
-        $this->assertObjectHasAttribute('current_page', $data);
-        $this->assertObjectHasAttribute('first_page_url', $data);
-        $this->assertObjectHasAttribute('total', $data);
-        $this->assertTrue(is_array($data->data));
-
-    }
-
-    /**
      * Generate unique random data on table
      *
      * @author goper
@@ -126,35 +53,35 @@ abstract class TestCase extends BaseTestCase
      * @param  string $type - faker type data
      * @return string
      */
-    public function getRandomUniqueData($table, $column, $type)
+    public function getRandomUniqueData($table, $column, $type, $typeOptions = [])
     {
         do {
             $string = $this->faker->$type;
+
+            if (!empty($typeOptions)) {
+                $count = 0;
+                foreach ($typeOptions as $key => $option) {
+
+                    if ($count == 0) {
+                        $opt1Key = $key;
+                        $opt1Value = $option;
+                    } elseif ($count == 1) {
+                        $opt2Key = $key;
+                        $opt2Value = $option;
+                    }
+                    $count++;
+                }
+                if ($count == 1) {
+                    $string = $this->faker->$type($opt1Key = $opt1Value);
+                } elseif ($count == 2) {
+                    $string = $this->faker->$type($opt1Key = $opt1Value, $opt2Key = $opt2Value);
+                }
+
+            }
+
             $count = DB::table($table)->where($column, $string)->count();
         } while ($count > 0);
 
         return $string;
-    }
-
-    /**
-     * Logged user as admin
-     *
-     * @author goper
-     * @return void
-     */
-    public function asAdmin()
-    {
-        $this->loggedUserAsAdmin();
-        Passport::actingAs($this->user);
-    }
-
-    /**
-     * Logged user as client
-     * @return [type] [description]
-     */
-    public function asClient()
-    {
-        $this->loggedUserClient();
-        Passport::actingAs($this->user);
     }
 }

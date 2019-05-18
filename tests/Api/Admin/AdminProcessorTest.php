@@ -178,6 +178,8 @@ class AdminProcessorTest extends TestCase
         // Search from database - find firstname
         $randomUser = $this->findRandomData('users', ['role' => User::ROLE_PROCESSOR]);
         $key = substr($randomUser->first_name, 0, 3);
+        $key = strtolower($key);
+
         $response = $this->json('GET', route('api.admin.processor.search', ['key' => $key]));
 
         $data = $response->getData();
@@ -194,7 +196,8 @@ class AdminProcessorTest extends TestCase
 
         $sampleResult = $data->processors->data[0];
         $name = $sampleResult->first_name;
-
+        $name = strtolower($name);
+        
         $isFound = false;
         if (Str::contains($name, $key))
             $isFound = true;
