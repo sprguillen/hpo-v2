@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Api\Admin;
+namespace Tests\Api\Admin\Service;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -113,5 +113,80 @@ class AdminServiceTest extends TestCase
                 'message' => trans('message.admin.service.success.destroy'),
             ]);
         $this->assertNull(Service::find($deletedId));
+    }
+
+    /**
+     * @test
+     */
+    public function canAdminGetServiceDetailsWithClient()
+    {
+        $this->asAdmin();
+
+        $service = $this->findRandomData('services');
+
+        $response = $this->json('GET', route('api.admin.service.details', ['code' => $service->code]));
+
+        $response
+            ->assertStatus(self::RESPONSE_SUCCESS)
+            ->assertJson([
+                'success' => true,
+                'service' => [
+                    'id' => $service->id,
+                    'code' => $service->code,
+                    'name' => $service->name,
+                ]
+            ]);
+
+        // Test response has clients data
+        $data = $this->getPostResponse($response);
+        $service = $data->service;
+
+        $this->assertObjectHasAttribute('clients', $service);
+        // Test client is an array
+        $this->assertTrue(is_array($service->clients));
+    }
+
+    /**
+     * @test
+     */
+    public function cannotGetServiceDetailsIfCodeIsNotFound()
+    {
+        $this->asAdmin();
+
+        $code = 'qe231ad231po1p2o31p23o12312312asdaeqe1234o';
+
+        $response = $this->json('GET', route('api.admin.service.details', ['code' => $code]));
+
+        $response
+            ->assertStatus(self::RESPONSE_CLIENT_ERROR)
+            ->assertJson([
+                'success' => false,
+                'message' => trans('message.admin.service.not_found'),
+            ]);
+    }
+
+    /**
+     * @test
+     */
+    public function canSearchOnServiceUsingCodeOrName()
+    {
+        $this->asAdmin();
+
+        $randomService = $this->findRandomData('services');
+        $key = substr($randomService->name, 0, 3);
+        $key = strtolower($key);
+
+        $response = $this->json('GET', route('api.admin.services.search', ['key' => $key]));
+
+        $data = $response->getData();
+        $response
+            ->assertStatus(self::RESPONSE_SUCCESS)
+            ->assertJson([
+                'success' => true,
+                'message' => '',
+            ]);
+
+        $this->assertNotEmpty($data->services);
+        $this->paginationTest($data->services);
     }
 }

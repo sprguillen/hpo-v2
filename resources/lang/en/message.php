@@ -56,6 +56,15 @@ return [
                 'store' => 'New service has been created.',
                 'update' => ':name service has been updated.',
                 'destroy' => 'Service has been deleted.',
+            ],
+            'not_found' => 'Service not found.',
+            'user_not_client' => 'User is not a client.',
+            'client' => [
+                'success' => [
+                    'store' => ':name client has been added to service.',
+                    'update' => ':name has been updated price successfully.',
+                    'destroy' => 'Client has been remove on this service.',
+                ],
             ]
         ],
         'system' => [

@@ -16,7 +16,7 @@ class ServiceSeeder extends Seeder
         $faker = Faker::create();
 
         for ($i=1; $i < 5; $i++) {
-            $source = new Services();
+            $source = new Service();
             $source->code = int_to_code($i);
             $source->name = $faker->bs;
             $source->default_cost = $faker->numberBetween(100, 10000);;

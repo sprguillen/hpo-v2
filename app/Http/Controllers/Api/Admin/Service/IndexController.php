@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Admin;
+namespace App\Http\Controllers\Api\Admin\Service;
 
 use Hash;
 use App\Models\Service;
@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Service\StoreRequest;
 use App\Http\Requests\Admin\Service\UpdateRequest;
 
-class ServiceController extends Controller
+class IndexController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,15 +23,15 @@ class ServiceController extends Controller
     }
 
     /**
-     * Search user type processors
+     * Search services using code or name
      *
      * @author goper
      * @param  string $key
-     * @return [type]
+     * @return response
      */
     public function search($key)
     {
-        $processors = User::processor()->findByName($key)->paginate(10);
+        $processors = Service::search($key)->paginate(10);
         return success_data(compact('processors'));
     }
 
@@ -86,5 +86,23 @@ class ServiceController extends Controller
         $service = Service::findOrFail($id);
         $service->delete();
         return successful(trans('message.admin.service.success.destroy'));
+    }
+
+    /**
+     * Display all clients accompanied by this service
+     *
+     * @param  [string] $code
+     * @return \Illuminate\Http\Response
+     */
+    public function details($code)
+    {
+        // CHeck if code exist
+        $service = Service::where('code', $code)->with('clients')->first();
+
+        if (!$service) {
+            return errorify(trans('message.admin.service.not_found'));
+        }
+
+        return success_data(compact('service'));
     }
 }
