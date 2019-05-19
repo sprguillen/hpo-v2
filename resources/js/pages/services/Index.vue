@@ -24,13 +24,16 @@
           <AddService
             v-if="addMode"
             @hide="addMode = false"
+            @success="callFetchServices"
           />
           <div class="column" />
           <div class="column" />
           <div class="column portlet">
             <List
-              :services="servicesList"
+              :services="getServices"
               :current="page"
+              @next="next()"
+              @prev="prev()"
             />
           </div>
         </div>
@@ -39,6 +42,7 @@
   </div>
 </template>
 <script>
+import { mapActions, mapGetters } from 'vuex'
 import Header from '@/components/global/Header'
 import AddService from '@/components/services/AddService'
 import List from '@/components/services/List'
@@ -51,34 +55,32 @@ export default {
   },
   data() {
     return {
-      servicesList: [
-        {
-          code: 'OXCAR9',
-          name: '10-OH Oxcarbazepine',
-          default_cost: 'P 1000.00',
-          no_clients: 6,
-          no_orders: 4
-        },
-        {
-          code: '12UALB',
-          name: '12 Hour Urine Albumin',
-          default_cost: 'P 800.00',
-          no_clients: 4,
-          no_orders: 6
-        },
-        {
-          code: '12UCRE',
-          name: '12 Hour Urine Creatinine',
-          default_cost: 'P 700.00',
-          no_clients: 4,
-          no_orders: 6
-        }
-      ],
       addMode: false,
       page: 1
     }
   },
+  computed: {
+    ...mapGetters('service', ['getServices'])
+  },
+  async beforeMount() {
+    this.callFetchServices()
+  },
   methods: {
+    ...mapActions('service', ['fetchServices']),
+    async callFetchServices() {
+      const payload = {
+        page: this.page
+      }
+      await this.fetchServices(payload)
+    },
+    async next() {
+      this.page++
+      await this.callFetchServices()
+    },
+    async prev() {
+      this.page--
+      await this.callFetchServices()
+    },
     importFile() {
 
     }

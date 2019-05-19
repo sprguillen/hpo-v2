@@ -17,7 +17,7 @@
           <AddClient
             v-if="addMode"
             @hide="addMode = false"
-            @success="callFetchClient"
+            @success="callFetchClients"
           />
           <div
             class="column portlet"
@@ -60,11 +60,11 @@ export default {
     ...mapGetters('client', ['getClients'])
   },
   async beforeMount() {
-    this.callFetchClient()
+    this.callFetchClients()
   },
   methods: {
     ...mapActions('client', ['fetchClients', 'searchClients', 'archiveClient']),
-    async callFetchClient() {
+    async callFetchClients() {
       const payload = {
         page: this.page
       }
@@ -72,11 +72,11 @@ export default {
     },
     async next() {
       this.page++
-      await this.callFetchClient()
+      await this.callFetchClients()
     },
     async prev() {
       this.page--
-      await this.callFetchClient()
+      await this.callFetchClients()
     },
     search: debounce(async function(value) {
       if (value) {
@@ -85,7 +85,7 @@ export default {
         }
         await this.searchClients(payload)
       } else {
-        await this.callFetchClient()
+        await this.callFetchClients()
       }
     }, 500),
     async archive(value) {
@@ -99,7 +99,7 @@ export default {
           message: 'Client was successfully archived',
           type: 'is-success'
         })
-        await this.callFetchClient()
+        await this.callFetchClients()
       } catch (e) {
         this.$toast.open({
           message: e.message,

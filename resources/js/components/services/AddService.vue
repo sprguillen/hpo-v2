@@ -81,6 +81,7 @@
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex' 
 import validationMixin from '@/mixins/validation'
 
 export default {
@@ -99,15 +100,58 @@ export default {
         }
       },
       form: {
-        code: null,
-        name: null,
-        default_cost: null
+        code: '',
+        name: '',
+        default_cost: ''
       }
     }
   },
   methods: {
+    ...mapActions('service', ['addService']),
     async submit() {
       const result = await this.validateBeforeSubmit()
+
+      try {
+        const data = await this.addService(this.form)
+        if (data.success) {
+          this.$toast.open({
+            message: data.message,
+            type: 'is-success'
+          })
+
+          this.clearForm()
+          this.clearErrors()
+          this.$emit('success')
+        }
+      } catch (e) {
+        if (e.errors) {
+          if (e.errors.code) {
+            e.errors.code.forEach((error) => {
+              this.$toast.open({
+                message: `Service with code ${this.form.code} already exists`,
+                type: 'is-danger'
+              })
+            })
+          } else if (e.errors.name) {
+            e.errors.name.forEach((error) => {
+              this.$toast.open({
+                message: `Service with code ${this.form.name} already exists`,
+                type: 'is-danger'
+              })
+            })
+          }
+        } else {
+          this.$toast.open({
+            message: e.message,
+            type: 'is-danger'
+          })
+        }
+      }
+    },
+    clearForm() {
+      this.form.code = ''
+      this.form.name = ''
+      this.form.default_cost = ''
     }
   }
 }

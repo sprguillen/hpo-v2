@@ -61,14 +61,14 @@
       <b-button
         type="is-danger"
         :disabled="current === 1"
-        @click="prev()"
+        @click="$emit('prev')"
       >
         Previous
       </b-button>
       <b-button
         type="is-danger"
         :disabled="current === getLastPage"
-        @click="next()"
+        @click="$emit('next')"
       >
         Next
       </b-button>
@@ -139,12 +139,6 @@ export default {
     ...mapGetters('client', ['getLastPage'])
   },
   methods: {
-    next() {
-      this.$emit('next')
-    },
-    prev() {
-      this.$emit('prev')
-    },
     search() {
       this.$emit('search', this.form.search)
     },

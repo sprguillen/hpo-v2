@@ -18,7 +18,7 @@
       </b-select>
       <b-input
         v-model="form.search"
-        placeholder="Search Processor"
+        placeholder="Search Services"
       />
     </b-field>
     <b-table
@@ -57,14 +57,14 @@
           label="No. of clients"
           width="110"
         >
-          {{ props.row.no_clients }}
+          {{ getClientsCount(props.row.no_clients) }}
         </b-table-column>
         <b-table-column
           field="no_orders"
           label="No. of orders"
           width="100"
         >
-          {{ props.row.no_orders }}
+          {{ getOrdersCount(props.row.no_orders) }}
         </b-table-column>
         <b-table-column
           field="actions"
@@ -83,14 +83,14 @@
       <b-button
         type="is-danger"
         :disabled="current === 1"
-        @click="prev()"
+        @click="$emit('prev')"
       >
         Previous
       </b-button>
       <b-button
         type="is-danger"
         :disabled="current === getLastPage"
-        @click="next()"
+        @click="$emit('next')"
       >
         Next
       </b-button>
@@ -98,6 +98,8 @@
   </section>
 </template>
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   props: {
     services: {
@@ -120,6 +122,25 @@ export default {
         { value: 1, text: 'Dr. Jose Reyes Memorial Hospital' },
         { value: 2, text: 'National Children Hospital' }
       ]
+    }
+  },
+  computed: {
+    ...mapGetters('service', ['getLastPage'])
+  },
+  methods: {
+    getClientsCount(clientsCount) {
+      if (clientsCount > 0) {
+        // fill this up later
+      } else {
+        return 0
+      }
+    },
+    getOrdersCount(ordersCount) {
+      if (ordersCount > 0) {
+        // fill this up later
+      } else {
+        return 0
+      }
     }
   }
 }
