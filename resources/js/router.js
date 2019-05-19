@@ -48,7 +48,7 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/services/:id',
+      path: '/services/:code',
       name: 'service_details',
       component: ServiceDetails,
       meta: {

@@ -74,6 +74,7 @@
   </div>
 </template>
 <script>
+// import { mapActions } from 'vuex'
 import Header from '@/components/global/Header'
 import ClientList from '@/components/services/ClientList'
 
@@ -88,6 +89,9 @@ export default {
         { client: 'dswd3126', price: 'P 472.50' }
       ]
     }
+  },
+  methods: {
+    // ...mapActions('services', ['fetchService'])
   }
 }
 </script>

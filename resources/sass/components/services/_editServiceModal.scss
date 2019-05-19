@@ -1,0 +1,23 @@
+@import '../../variables';
+
+.edit-service-modal {
+  .custom-width {
+    width: 500px;
+  }
+
+  header.modal-card-head {
+    background: $green;
+  }
+
+  h3 {
+    font-size: 2rem;
+  }
+
+  .modal-actions {
+    width: 100%;
+  }
+
+  footer.modal-card-foot {
+    padding: 10px;
+  }
+}

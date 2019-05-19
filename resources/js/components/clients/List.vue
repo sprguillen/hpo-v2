@@ -7,7 +7,7 @@
       <b-input
         v-model="form.search"
         placeholder="Search Client"
-        @input="search()"
+        @input="$emit('search', form.search)"
       />
     </b-field>
     <b-table
@@ -139,9 +139,6 @@ export default {
     ...mapGetters('client', ['getLastPage'])
   },
   methods: {
-    search() {
-      this.$emit('search', this.form.search)
-    },
     openDeleteModal(id, username) {
       this.userToArchive = id
       this.modalUsername = username

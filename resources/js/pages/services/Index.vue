@@ -34,6 +34,7 @@
               :current="page"
               @next="next()"
               @prev="prev()"
+              @search="search"
             />
           </div>
         </div>
@@ -43,6 +44,7 @@
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import debounce from 'lodash.debounce'
 import Header from '@/components/global/Header'
 import AddService from '@/components/services/AddService'
 import List from '@/components/services/List'
@@ -66,7 +68,7 @@ export default {
     this.callFetchServices()
   },
   methods: {
-    ...mapActions('service', ['fetchServices']),
+    ...mapActions('service', ['fetchServices', 'searchServices']),
     async callFetchServices() {
       const payload = {
         page: this.page
@@ -81,6 +83,16 @@ export default {
       this.page--
       await this.callFetchServices()
     },
+    search: debounce(async function(value) {
+      if (value) {
+        const payload = {
+          key: value
+        }
+        await this.searchServices(payload)
+      } else {
+        await this.callFetchServices()
+      }
+    }, 500),
     importFile() {
 
     }

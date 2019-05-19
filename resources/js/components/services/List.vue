@@ -19,6 +19,7 @@
       <b-input
         v-model="form.search"
         placeholder="Search Services"
+        @input="$emit('search', form.search)"
       />
     </b-field>
     <b-table
@@ -33,7 +34,7 @@
           label="Code"
         >
           <router-link
-            :to="{ name: 'service_details', params: { id: 'test' } }"
+            :to="{ name: 'service_details', params: { code: props.row.code } }"
             class="service-link"
           >
             {{ props.row.code }}
@@ -70,7 +71,10 @@
           field="actions"
           label="Actions"
         >
-          <b-button type="app-primary">
+          <b-button
+            type="app-primary"
+            @click="open = true"
+          >
             Edit
           </b-button>
           <b-button type="is-danger">
@@ -95,12 +99,20 @@
         Next
       </b-button>
     </div>
+    <EditServiceModal
+      :open="open"
+      @close="open = false"
+    />
   </section>
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import EditServiceModal from '@/components/services/EditServiceModal'
 
 export default {
+  components: {
+    EditServiceModal
+  },
   props: {
     services: {
       type: Array,
@@ -121,7 +133,8 @@ export default {
         { value: 0, text: 'HMI Care Inc.' },
         { value: 1, text: 'Dr. Jose Reyes Memorial Hospital' },
         { value: 2, text: 'National Children Hospital' }
-      ]
+      ],
+      open: false
     }
   },
   computed: {

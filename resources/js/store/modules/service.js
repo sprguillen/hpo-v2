@@ -60,6 +60,18 @@ const actions = {
       throw data
     }
   },
+
+  async searchServices({ commit }, payload) {
+    try {
+      const { data } = await axios.get(`/api/admin/services/search/${payload.key}`)
+      // temporary
+      commit('setServices', data.processors.data)
+      commit('setLastPage', data.processors.last_page)
+    } catch (e) {
+      const { data } = e.response
+      throw data
+    }
+  }
 }
 
 export default {

@@ -45,5 +45,5 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  @import "../../../sass/components/services/_clientList.scss";
+  @import "../../../sass/components/services/clientList.scss";
 </style>
