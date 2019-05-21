@@ -39,7 +39,14 @@ Used to get client details
         "is_active": 1,
         "payment_mode": 0,
         "created_at": "2019-05-11 22:47:18",
-        "updated_at": "2019-05-11 23:13:08"
+        "updated_at": "2019-05-11 23:13:08",
+
+        "dispatcher": {
+            "name": "ONLINE",
+            "code": "ONL",
+            "created_at": "2019-05-11 22:47:18",
+            "updated_at": "2019-05-11 23:13:08",
+        }
     }
 }
 ```

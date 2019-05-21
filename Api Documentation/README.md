@@ -25,6 +25,7 @@ Token is provided with the request:
 * [Source info](admin/system/source/source.md)
 * [Service info](admin/service/service.md)
 * [Client service info](admin/service/client/client.md)
+* [Dispatcher info](admin/system/dispatcher/dispatcher.md)
 
 ### User related
 

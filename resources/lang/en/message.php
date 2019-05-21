@@ -35,6 +35,9 @@ return [
                 'update' => ':name client has been updated.',
                 'destroy' => 'Client has been deleted.',
             ],
+            'error' => [
+                'dispatcher_not_found' => 'Dispatcher given is not valid.',
+            ],
             'manage' => [
                 'error' => [
                     'invalid_payment_mode' => 'Invalid payment mode value, please enter between Cash or Charge.',
@@ -74,6 +77,13 @@ return [
                     'update' => ':name source has been updated.',
                     'destroy' => 'Source has been deleted.',
                 ],
+            ],
+            'dispatcher' => [
+                'success' => [
+                    'store' => 'New dispatcher has been created.',
+                    'update' => ':name dispatcher has been updated.',
+                    'destroy' => 'Dispatcher has been deleted.',
+                ]
             ]
         ]
     ],

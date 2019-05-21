@@ -30,6 +30,19 @@ class UpdateRequest extends BaseRequest
             'username' => 'required|unique:users,username,' . $this->id,
             'first_name' => 'required',
             'last_name' => 'required',
+            'dispatcher_id' => 'sometimes|exists:dispatchers,id',
+        ];
+    }
+
+    /**
+     * Custome validation messages
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'dispatcher_id.exists' => trans('message.admin.client.error.dispatcher_not_found'),
         ];
     }
 }

@@ -345,6 +345,9 @@ class AdminClientTest extends TestCase
                     'username' => $randomUser->username,
                 ]
             ]);
+
+        // Can get dispatcher data
+        $this->assertObjectHasAttribute('dispatcher', $data->client);
     }
 
     /**
@@ -419,5 +422,100 @@ class AdminClientTest extends TestCase
             'message' => trans('validation.error')
         ])
         ->assertJsonValidationErrors(['payment_mode']);
+    }
+
+    /**
+     * @test
+     */
+    public function adminCanAddDispatchModeOnUser()
+    {
+        $this->asAdmin();
+
+        // Find random client
+        $client = $this->findRandomData('users', ['role' => User::ROLE_CLIENT]);
+        $name = $client->first_name . ' ' . $client->last_name;
+
+        $newFirstName = $this->faker->firstName;
+        $newLastName = $this->faker->lastName;
+
+        // Get dispatcher mode
+        $dispatcher = $this->findRandomData('dispatchers');
+
+        $response = $this->json('POST', route('api.admin.client.update', ['id' => $client->id]), [
+            'id' => $client->id,
+            'email' => $client->email,
+            'username' => $client->username,
+            'first_name' => $newFirstName,
+            'last_name' => $newLastName,
+            'dispatcher_id' => $dispatcher->id,
+        ]);
+
+        $response
+            ->assertStatus(self::RESPONSE_SUCCESS)
+            ->assertJson([
+                'success' => true,
+                'message' => trans('message.admin.client.success.update', ['name' => $name]),
+                'client' => [
+                    'id' => $client->id,
+                    'email' => $client->email,
+                    'first_name' => $newFirstName,
+                    'last_name' => $newLastName,
+                    'dispatcher_id' => $dispatcher->id,
+                ],
+            ]);
+
+        // Check database data if match
+        $user = User::find($client->id);
+        $this->assertEquals($user->dispatcher_id, $dispatcher->id);
+    }
+
+    /**
+     * @test
+     */
+    public function cannotUpdateClientIfDispatcherIdNotExist()
+    {
+        $this->asAdmin();
+
+        // Client does not exist
+        $dispatcherId = '23123ao323opeoasde1';
+
+        // Find random client
+        $client = $this->findRandomData('users', ['role' => User::ROLE_CLIENT]);
+        $name = $client->first_name . ' ' . $client->last_name;
+
+        $newFirstName = $this->faker->firstName;
+        $newLastName = $this->faker->lastName;
+
+        $response = $this->json('POST', route('api.admin.client.update', ['id' => $client->id]), [
+            'id' => $client->id,
+            'email' => $client->email,
+            'username' => $client->username,
+            'first_name' => $newFirstName,
+            'last_name' => $newLastName,
+            'dispatcher_id' => $dispatcherId,
+        ]);
+
+        $response
+            ->assertStatus(self::RESPONSE_CLIENT_ERROR)
+            ->assertJson([
+                'success' => false,
+                'message' => trans('validation.error'),
+                'errors' => [
+                    'dispatcher_id' => [trans('message.admin.client.error.dispatcher_not_found')]
+                ]
+            ])
+            ->assertJsonValidationErrors(['dispatcher_id']);
+    }
+
+    /**
+     * @test
+     */
+    public function userCanGetDispatcherDataRelationship()
+    {
+        // Find random client
+        $client = $this->findRandomData('users', ['role' => User::ROLE_CLIENT]);
+        $user = User::with('dispatcher')->find($client->id);
+
+        $this->assertObjectHasAttribute('dispatcher', $user);
     }
 }

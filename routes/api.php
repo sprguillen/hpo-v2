@@ -117,6 +117,14 @@ Route::namespace('Api')->group(function() {
                     Route::name('api.admin.system.source.destroy')->post('{id}/destroy', 'SourceController@destroy');
                 });
 
+                // Dispatchers
+                Route::prefix('dispatcher')->group(function() {
+                    Route::name('api.admin.system.dispatcher')->get('', 'DispatcherController@index');
+                    Route::name('api.admin.system.dispatcher.store')->post('store', 'DispatcherController@store');
+                    Route::name('api.admin.system.dispatcher.update')->post('{id}/update', 'DispatcherController@update');
+                    Route::name('api.admin.system.dispatcher.destroy')->post('{id}/destroy', 'DispatcherController@destroy');
+                });
+
             });
         });
 

@@ -78,6 +78,7 @@ class ClientController extends Controller
         $client->username = $request->username;
         $client->first_name = $request->first_name;
         $client->last_name = $request->last_name;
+        $client->dispatcher_id = $request->filled('dispatcher_id') ? $request->dispatcher_id : null;
         $client->save();
 
         return successful(trans('message.admin.client.success.update', ['name' => $name]), [
@@ -118,7 +119,7 @@ class ClientController extends Controller
      */
     public function details($code)
     {
-        $client = User::client()->where('code', $code)->firstOrFail();
+        $client = User::client()->with('dispatcher')->where('code', $code)->firstOrFail();
         return success_data(compact('client'));
     }
 
