@@ -25,6 +25,7 @@ Store client
     "username": "username",
     "first_name": "$firstName",
     "last_name": "lastName",
+    "dispatcher_id": "sometimes|must exists on dispatchers table (you can get all dispatchers see doc dispatchers manager)",
 }
 ```
 

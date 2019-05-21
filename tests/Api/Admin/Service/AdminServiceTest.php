@@ -139,6 +139,7 @@ class AdminServiceTest extends TestCase
 
         // Test response has clients data
         $data = $this->getPostResponse($response);
+        
         $service = $data->service;
 
         $this->assertObjectHasAttribute('clients', $service);

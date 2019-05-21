@@ -31,8 +31,8 @@ class IndexController extends Controller
      */
     public function search($key)
     {
-        $processors = Service::search($key)->paginate(10);
-        return success_data(compact('processors'));
+        $services = Service::search($key)->paginate(10);
+        return success_data(compact('services'));
     }
 
     /**

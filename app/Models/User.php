@@ -27,6 +27,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
+        'dispatcher_id',
         'code',
         'global_prefix',
         'username',
@@ -210,5 +211,15 @@ class User extends Authenticatable
     public function services()
     {
         return $this->belongsToMany(Services::class, 'client_services', 'user_id', 'service_id');
+    }
+
+    /**
+     * Get user dispatcher
+     *
+     * @return Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function dispatcher()
+    {
+        return $this->hasOne(Dispatcher::class, 'id', 'dispatcher_id');
     }
 }
