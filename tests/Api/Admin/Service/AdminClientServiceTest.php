@@ -24,7 +24,8 @@ class AdminClientServiceTest extends TestCase
         $service = $this->findRandomData('services');
         $price = $this->faker->numberBetween(1, 10000);
 
-        $name = User::find($user->id)->full_name;
+        $name = User::find($user->id);
+        $name = $name->full_name;
 
         $response = $this->json('POST', route('api.admin.service.client.store'), [
             'user_id' => $user->id,
@@ -81,8 +82,8 @@ class AdminClientServiceTest extends TestCase
 
         // Find random client service
         $client = $this->findRandomData('client_services');
-
-        $name = User::find($client->user_id)->full_name;
+        $user = User::find($client->user_id);
+        $name = $user->full_name;
 
         $oldPrice = $client->price;
         $newPrice = $this->faker->numberBetween(1, 10000);
@@ -114,7 +115,9 @@ class AdminClientServiceTest extends TestCase
         $this->asAdmin();
 
         $client = ClientService::first();
-        $name = User::find($client->user_id)->full_name;
+        $user = User::find($client->user_id);
+
+        $name = $user->full_name;
         $deletedId = $client->id;
         $userId = $client->user_id;
         $serviceId = $client->service_id;
