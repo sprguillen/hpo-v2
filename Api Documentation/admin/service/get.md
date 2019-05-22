@@ -29,7 +29,8 @@ Used to collect Services list
                 "name":"orchestrate value-added portals",
                 "default_cost":5448,
                 "created_at":"2019-05-18 01:38:18",
-                "updated_at":"2019-05-18 01:38:18"
+                "updated_at":"2019-05-18 01:38:18",
+                "tests_count": 1,
             },
             {
                 "id":2,
@@ -37,7 +38,8 @@ Used to collect Services list
                 "name":"whiteboard innovative systems",
                 "default_cost":2005,
                 "created_at":"2019-05-18 01:38:18",
-                "updated_at":"2019-05-18 01:38:18"
+                "updated_at":"2019-05-18 01:38:18",
+                "tests_count": 1,
             },
             {
                 "id":3,
@@ -45,7 +47,8 @@ Used to collect Services list
                 "name":"syndicate plug-and-play networks",
                 "default_cost":566,
                 "created_at":"2019-05-18 01:38:18",
-                "updated_at":"2019-05-18 01:38:18"
+                "updated_at":"2019-05-18 01:38:18",
+                "tests_count": 1,
             },
             {
                 "id":4,
@@ -53,7 +56,8 @@ Used to collect Services list
                 "name":"utilize one-to-one convergence",
                 "default_cost":8471,
                 "created_at":"2019-05-18 01:38:18",
-                "updated_at":"2019-05-18 01:38:18"
+                "updated_at":"2019-05-18 01:38:18",
+                "tests_count": 1,
             }
         ],
         "first_page_url": "http://localhost/api/admin/services?page=1",

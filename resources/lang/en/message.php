@@ -59,6 +59,7 @@ return [
                 'store' => 'New service has been created.',
                 'update' => ':name service has been updated.',
                 'destroy' => 'Service has been deleted.',
+                'import' => 'Importing services successful.',
             ],
             'not_found' => 'Service not found.',
             'user_not_client' => 'User is not a client.',

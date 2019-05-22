@@ -31,6 +31,8 @@ class AdminServiceTest extends TestCase
         $this->assertNotEmpty($data->services);
         $this->paginationTest($data->services);
 
+        // Test `test_count` exists
+        $this->assertObjectHasAttribute('tests_count', $data->services->data[0]);
     }
 
     /**
@@ -139,7 +141,7 @@ class AdminServiceTest extends TestCase
 
         // Test response has clients data
         $data = $this->getPostResponse($response);
-        
+
         $service = $data->service;
 
         $this->assertObjectHasAttribute('clients', $service);
@@ -189,5 +191,23 @@ class AdminServiceTest extends TestCase
 
         $this->assertNotEmpty($data->services);
         $this->paginationTest($data->services);
+    }
+
+    /**
+     * @test
+     */
+    public function canImportCsvFileOnServices()
+    {
+        $this->asAdmin();
+        
+        Storage::fake('public');
+
+        $this->json('post', '/upload', [
+            'file' => $file = UploadedFile::fake()->image('random.jpg')
+        ]);
+
+        $this->assertEquals('file/' . $file->hashName(), Upload::latest()->first()->file);
+
+        Storage::disk('public')->assertExists('file/' . $file->hashName());
     }
 }

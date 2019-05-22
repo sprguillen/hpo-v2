@@ -96,6 +96,7 @@ Route::namespace('Api')->group(function() {
                 Route::name('api.admin.services.update')->post('{id}/update', 'IndexController@update');
                 Route::name('api.admin.services.destroy')->post('{id}/destroy', 'IndexController@destroy');
                 Route::name('api.admin.service.details')->get('details/{code}', 'IndexController@details');
+                Route::name('api.admin.service.import')->post('import', 'IndexController@import');
 
                 // Client servies routes
                 Route::prefix('client')->group(function() {
