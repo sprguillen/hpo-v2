@@ -3,21 +3,29 @@
 namespace App\Imports;
 
 use App\Models\Service;
-use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Row;
+use Maatwebsite\Excel\Concerns\OnEachRow;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class ServicesImport implements ToModel
+class ServicesImport implements OnEachRow, WithHeadingRow
 {
     /**
     * @param array $row
     *
     * @return \Illuminate\Database\Eloquent\Model|null
     */
-    public function model(array $row)
+    public function onRow(Row $row)
     {
-        return new Service([
-            'code'     => $row[0],
-            'name'    => $row[1],
-            'default_cost' => $row[2],
-        ]);
+        $rowIndex = $row->getIndex();
+        $row      = $row->toArray();
+
+        $check = Service::where('code', $row['code'])->count();
+        if ($check == 0) {
+            new Service([
+                'code'     => $row['code'],
+                'name'    => $row['name'],
+                'default_cost' => $row['defaultcost'],
+            ]);
+        }
     }
 }

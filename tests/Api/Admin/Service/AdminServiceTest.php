@@ -199,15 +199,17 @@ class AdminServiceTest extends TestCase
     public function canImportCsvFileOnServices()
     {
         $this->asAdmin();
-        
-        Storage::fake('public');
+        $file = $this->getUploadableFile(base_path("tests/Fixtures/ONLINE_ORDER_IMPORT.csv"));
 
-        $this->json('post', '/upload', [
-            'file' => $file = UploadedFile::fake()->image('random.jpg')
+        $response = $this->json('POST', route('api.admin.service.import'), [
+            'file' => $file
         ]);
 
-        $this->assertEquals('file/' . $file->hashName(), Upload::latest()->first()->file);
-
-        Storage::disk('public')->assertExists('file/' . $file->hashName());
+        $response
+            ->assertStatus(self::RESPONSE_SUCCESS)
+            ->assertJson([
+                'success' => true,
+                'message' => trans('message.admin.service.success.import'),
+            ]);
     }
 }
