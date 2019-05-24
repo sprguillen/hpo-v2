@@ -64,14 +64,34 @@ const actions = {
   async searchServices({ commit }, payload) {
     try {
       const { data } = await axios.get(`/api/admin/services/search/${payload.key}`)
-      // temporary
-      commit('setServices', data.processors.data)
-      commit('setLastPage', data.processors.last_page)
+      commit('setServices', data.services.data)
+      commit('setLastPage', data.services.last_page)
     } catch (e) {
       const { data } = e.response
       throw data
     }
-  }
+  },
+
+  async fetchService({}, payload) {
+    try {
+      const { data } = await axios.get(`/api/admin/services/details/${payload.code}`)
+      return data.service
+    } catch (e) {
+      const { data } = e.response
+      throw data
+    }
+  },
+
+  // async updateService({}, payload) {
+  //   const url = `/api/admin/services/${payload.id}/update`
+  //   try {
+  //     const { data } = await axios.get(url)
+  //     return data.service
+  //   } catch (e) {
+  //     const { data } = e.response
+  //     throw data
+  //   }
+  // }
 }
 
 export default {

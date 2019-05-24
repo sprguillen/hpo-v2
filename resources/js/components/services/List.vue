@@ -73,7 +73,7 @@
         >
           <b-button
             type="app-primary"
-            @click="open = true"
+            @click="openEditModal(props.row.code)"
           >
             Edit
           </b-button>
@@ -100,6 +100,8 @@
       </b-button>
     </div>
     <EditServiceModal
+      v-if="open"
+      :code="serviceToEdit"
       :open="open"
       @close="open = false"
     />
@@ -134,7 +136,8 @@ export default {
         { value: 1, text: 'Dr. Jose Reyes Memorial Hospital' },
         { value: 2, text: 'National Children Hospital' }
       ],
-      open: false
+      open: false,
+      serviceToEdit: ''
     }
   },
   computed: {
@@ -154,6 +157,10 @@ export default {
       } else {
         return 0
       }
+    },
+    openEditModal(code) {
+      this.open = true
+      this.serviceToEdit = code
     }
   }
 }

@@ -9,6 +9,7 @@
         <form @submit.prevent="submit">
           <div class="column">
             <h3>Update Service</h3>
+            <hr>
           </div>
           <div class="column">
             <div class="columns">
@@ -72,11 +73,17 @@
   </b-modal>
 </template>
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   props: {
     open: {
       type: Boolean,
       default: false
+    },
+    code: {
+      type: String,
+      required: true
     }
   },
   data() {
@@ -87,6 +94,19 @@ export default {
         default_cost: ''
       }
     }
+  },
+  async beforeMount() {
+    const payload = {
+      code: this.code
+    }
+
+    this.service = await this.fetchService(payload)
+    this.form.code = this.code
+    this.form.name = this.service.name
+    this.form.default_cost = this.service.default_cost
+  },
+  methods: {
+    ...mapActions('service', ['fetchService'])
   }
 }
 </script>
