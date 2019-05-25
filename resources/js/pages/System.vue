@@ -7,6 +7,7 @@
           <div class="column portlet">
             <section>
               <h1 class="float-left">
+               <b-icon icon="settings" />
                 SYSTEM CONFIGURATIONS
               </h1>
               <div class="tabs float-right">
