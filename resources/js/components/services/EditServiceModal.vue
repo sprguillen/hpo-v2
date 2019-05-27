@@ -108,7 +108,7 @@ export default {
   },
   methods: {
     ...mapActions('service', ['fetchService', 'updateService']),
-    submit() {
+    async submit() {
       const payload = {
         id: this.service.id,
         name: this.form.name,
@@ -117,7 +117,7 @@ export default {
       }
 
       try {
-        const message = this.updateService(payload)
+        const message = await this.updateService(payload)
         this.$toast.open({
           message: message,
           type: 'is-success'

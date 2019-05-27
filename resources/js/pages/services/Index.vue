@@ -35,6 +35,7 @@
             <List
               :services="getServices"
               :current="page"
+              @archive="archive"
               @next="next()"
               @prev="prev()"
               @search="search"
@@ -72,7 +73,7 @@ export default {
     this.callFetchServices()
   },
   methods: {
-    ...mapActions('service', ['fetchServices', 'searchServices']),
+    ...mapActions('service', ['fetchServices', 'searchServices', 'archiveService']),
     async callFetchServices() {
       const payload = {
         page: this.page
@@ -99,6 +100,25 @@ export default {
     }, 500),
     importFile() {
       console.log(this.file)
+    },
+    async archive(value) {
+      const payload = {
+        id: value
+      }
+
+      try {
+        await this.archiveService(payload)
+        this.$toast.open({
+          message: 'Service was successfully archived',
+          type: 'is-success'
+        })
+        await this.callFetchServices()
+      } catch (e) {
+        this.$toast.open({
+          message: e.message,
+          type: 'is-success'
+        })
+      }
     }
   }
 }

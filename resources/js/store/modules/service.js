@@ -91,6 +91,15 @@ const actions = {
       const { data } = e.response
       throw data
     }
+  },
+
+  async archiveService({}, payload) {
+    try {
+      await axios.post(`/api/admin/services/${payload.id}/destroy`)
+    } catch (e) {
+      const { data } = e.response
+      throw data
+    }
   }
 }
 
