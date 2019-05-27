@@ -11,7 +11,7 @@
             <h3>Update Service</h3>
             <hr>
           </div>
-          <div class="column">
+          <div class="column no-top-padding">
             <div class="columns">
               <div class="column">
                 <b-field label="Code">
@@ -51,6 +51,7 @@
           </div>
           <div class="column">
             <div class="modal-actions">
+              <hr>
               <b-button
                 class="float-right"
                 type="is-danger"
@@ -106,7 +107,30 @@ export default {
     this.form.default_cost = this.service.default_cost
   },
   methods: {
-    ...mapActions('service', ['fetchService'])
+    ...mapActions('service', ['fetchService', 'updateService']),
+    submit() {
+      const payload = {
+        id: this.service.id,
+        name: this.form.name,
+        code: this.form.code,
+        default_cost: this.form.default_cost
+      }
+
+      try {
+        const message = this.updateService(payload)
+        this.$toast.open({
+          message: message,
+          type: 'is-success'
+        })
+
+        this.$emit('close')
+      } catch (e) {
+        this.$toast.open({
+          message: `Error on updating service ${e.message}`,
+          type: 'is-danger'
+        })
+      }
+    }
   }
 }
 </script>

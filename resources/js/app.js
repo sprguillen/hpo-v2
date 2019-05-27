@@ -14,6 +14,8 @@ Vue.use(VeeValidate)
 Vue.use(VueCookies)
 Vue.use(VeeValidate, { events: '' })
 
+VueCookies.config('1d')
+
 const app = new Vue({
   router,
   store,

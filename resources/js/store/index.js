@@ -25,6 +25,8 @@ const errorResponseHandler = (error) => {
   if (error.response.status === 401) {
     VueCookies.remove('access_token')
     VueCookies.remove('refresh_token')
+    VueCookies.remove('user_name')
+    VueCookies.remove('user_role')
     router.push({ name: 'login' })
   } 
 }

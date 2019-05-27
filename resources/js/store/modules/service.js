@@ -82,16 +82,16 @@ const actions = {
     }
   },
 
-  // async updateService({}, payload) {
-  //   const url = `/api/admin/services/${payload.id}/update`
-  //   try {
-  //     const { data } = await axios.get(url)
-  //     return data.service
-  //   } catch (e) {
-  //     const { data } = e.response
-  //     throw data
-  //   }
-  // }
+  async updateService({}, payload) {
+    const url = `/api/admin/services/${payload.id}/update`
+    try {
+      const { data } = await axios.post(url, payload)
+      return data.message
+    } catch (e) {
+      const { data } = e.response
+      throw data
+    }
+  }
 }
 
 export default {
