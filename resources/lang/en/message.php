@@ -45,7 +45,13 @@ return [
                 'success' => [
                     'update_payment_mode' => 'Client payment mode has been updated.',
                 ]
-            ]
+            ],
+            'source' => [
+                'success' => [
+                    'store' => 'Source has been added to :name.',
+                    'destroy' => 'Source has been removed from this client.',
+                ],
+            ],
         ],
         'processor' => [
             'success' => [

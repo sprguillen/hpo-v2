@@ -67,16 +67,23 @@ Route::namespace('Api')->group(function() {
             ->namespace('Admin')->group(function() {
 
             // Client
-            Route::prefix('client')->group(function() {
-                Route::name('api.admin.client')->get('', 'ClientController@index');
-                Route::name('api.admin.client.store')->post('store', 'ClientController@store');
-                Route::name('api.admin.client.update')->post('{id}/update', 'ClientController@update');
-                Route::name('api.admin.client.destroy')->post('{id}/destroy', 'ClientController@destroy');
-                Route::name('api.admin.client.search')->get('search/{key}', 'ClientController@search');
+            Route::prefix('client')->namespace('Client')->group(function() {
+                Route::name('api.admin.client')->get('', 'IndexController@index');
+                Route::name('api.admin.client.store')->post('store', 'IndexController@store');
+                Route::name('api.admin.client.update')->post('{id}/update', 'IndexController@update');
+                Route::name('api.admin.client.destroy')->post('{id}/destroy', 'IndexController@destroy');
+                Route::name('api.admin.client.search')->get('search/{key}', 'IndexController@search');
 
                 //** Manage individual `clients`
-                Route::name('api.admin.client.details')->get('details/{code}', 'ClientController@details');
-                Route::name('api.admin.client.update.payment_mode')->post('payment_mode/{code}/update', 'ClientController@updatePaymentMode');
+                Route::name('api.admin.client.details')->get('details/{code}', 'IndexController@details');
+                Route::name('api.admin.client.update.payment_mode')->post('payment_mode/{code}/update', 'IndexController@updatePaymentMode');
+
+                //** Manage client sources
+                Route::prefix('{id}/sources')->group(function() {
+                    Route::name('api.admin.client.sources')->get('', 'SourcesController@index');
+                    Route::name('api.admin.client.sources.store')->post('store', 'SourcesController@store');
+                    Route::name('api.admin.client.sources.destroy')->post('{sourceId}/destroy', 'SourcesController@destroy');
+                });
             });
 
             // Processor
