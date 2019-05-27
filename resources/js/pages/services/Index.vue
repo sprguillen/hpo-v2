@@ -13,13 +13,16 @@
             >
               Add a Service
             </b-button>
-            <b-button
-              type="app-primary"
-              icon-right="cloud-download"
-              @click="importFile"
+            <b-upload
+              v-model="file"
+              :native="true"
+              @input="importFile"
             >
-              Import
-            </b-button>
+              <a class="button app-primary">
+                <b-icon icon="cloud-download" />
+                <span>Import</span>
+              </a>
+            </b-upload>
           </div>
           <AddService
             v-if="addMode"
@@ -58,7 +61,8 @@ export default {
   data() {
     return {
       addMode: false,
-      page: 1
+      page: 1,
+      file: null
     }
   },
   computed: {
@@ -94,7 +98,7 @@ export default {
       }
     }, 500),
     importFile() {
-
+      console.log(this.file)
     }
   }
 }
