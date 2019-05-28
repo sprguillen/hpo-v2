@@ -348,6 +348,8 @@ class AdminClientTest extends TestCase
 
         // Can get dispatcher data
         $this->assertObjectHasAttribute('dispatcher', $data->client);
+        // Can get clients services
+        $this->assertObjectHasAttribute('services', $data->client);
     }
 
     /**

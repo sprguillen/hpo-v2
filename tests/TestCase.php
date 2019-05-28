@@ -2,12 +2,13 @@
 
 namespace Tests;
 
-use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Tests\Traits\ResponseHelper;
+use DB;
+use App\Models\User;
 use Tests\Traits\Accessor;
 use Laravel\Passport\Passport;
-use App\Models\User;
-use DB;
+use Tests\Traits\ResponseHelper;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -83,5 +84,24 @@ abstract class TestCase extends BaseTestCase
         } while ($count > 0);
 
         return $string;
+    }
+
+    /**
+     * Get uploadable file.
+     *
+     * @return UploadedFile
+     */
+    public function getUploadableFile($file)
+    {
+        $dummy = file_get_contents($file);
+        file_put_contents(base_path("tests/storage/" . basename($file)), $dummy);
+        $path = base_path("tests/storage/" . basename($file));
+        $original_name = 'services.csv';
+        $mime_type = 'text/csv';
+        $size = 111;
+        $error = null;
+        $test = true;
+        $file = new UploadedFile($path, $original_name, $mime_type, $size, $error, $test);
+        return $file;
     }
 }

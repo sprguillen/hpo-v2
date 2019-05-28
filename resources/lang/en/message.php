@@ -45,7 +45,13 @@ return [
                 'success' => [
                     'update_payment_mode' => 'Client payment mode has been updated.',
                 ]
-            ]
+            ],
+            'source' => [
+                'success' => [
+                    'store' => 'Source has been added to :name client.',
+                    'destroy' => 'Source has been removed from this client.',
+                ],
+            ],
         ],
         'processor' => [
             'success' => [
@@ -59,6 +65,7 @@ return [
                 'store' => 'New service has been created.',
                 'update' => ':name service has been updated.',
                 'destroy' => 'Service has been deleted.',
+                'import' => 'Importing services successful.',
             ],
             'not_found' => 'Service not found.',
             'user_not_client' => 'User is not a client.',

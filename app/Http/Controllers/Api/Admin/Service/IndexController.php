@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api\Admin\Service;
 
 use Hash;
 use App\Models\Service;
+use App\Imports\ServicesImport;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Service\StoreRequest;
 use App\Http\Requests\Admin\Service\UpdateRequest;
@@ -18,7 +20,7 @@ class IndexController extends Controller
      */
     public function index()
     {
-        $services = Service::paginate(30);
+        $services = Service::withCount('tests')->paginate(30);
         return success_data(compact('services'));
     }
 
@@ -104,5 +106,20 @@ class IndexController extends Controller
         }
 
         return success_data(compact('service'));
+    }
+
+    /**
+     * Import services
+     *
+     * @return [type] [description]
+     */
+    public function import()
+    {
+        Excel::import(new ServicesImport, request()->file('file'));
+
+        $services = Service::withCount('tests')->paginate(30);
+        return successful(trans('message.admin.service.success.import'), [
+            'services' => $services,
+        ]);
     }
 }

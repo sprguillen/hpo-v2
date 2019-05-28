@@ -4,9 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ClientService extends Model
+class ClientSource extends Model
 {
-    protected $table = "client_services";
+    /**
+     * Table to be used
+     *
+     * @{inheritdoc}
+     * @var string
+     */
+    protected $table = "client_sources";
 
     /**
      * The attributes that are mass assignable.
@@ -15,8 +21,7 @@ class ClientService extends Model
      */
     protected $fillable = [
         'user_id',
-        'service_id',
-        'price',
+        'source_id',
     ];
 
     /**
@@ -24,7 +29,7 @@ class ClientService extends Model
      */
 
     /**
-     * Get user on this service
+     * Get user on this sources
      *
      * @return Illuminate\Database\Eloquent\Relations\HasOne
      */
@@ -34,12 +39,12 @@ class ClientService extends Model
     }
 
     /**
-     * Get service on this client
+     * Get source on this client
      *
      * @return Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function service()
+    public function source()
     {
-        return $this->hasOne(Service::class, 'id', 'service_id');
+        return $this->hasOne(Source::class, 'id', 'source_id');
     }
 }
