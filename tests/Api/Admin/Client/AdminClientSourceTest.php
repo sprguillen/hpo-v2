@@ -51,6 +51,7 @@ class AdminClientSourceTest extends TestCase
             $user = User::find($source->user_id);
 
             $response = $this->json('GET', route('api.admin.client.sources', ['id' => $user->id]));
+
             $data = $response->getData();
             $response
                 ->assertStatus(self::RESPONSE_SUCCESS)
@@ -177,6 +178,7 @@ class AdminClientSourceTest extends TestCase
             'id' => $user->id,
             'sourceId' => $deletedId
         ]));
+        
         $response
             ->assertStatus(self::RESPONSE_SUCCESS)
             ->assertJson([

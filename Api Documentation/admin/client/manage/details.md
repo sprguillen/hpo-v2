@@ -46,7 +46,28 @@ Used to get client details
             "code": "ONL",
             "created_at": "2019-05-11 22:47:18",
             "updated_at": "2019-05-11 23:13:08",
-        }
+        },
+
+        "services": [
+            {
+                "id":1,
+                "code":"b",
+                "name":"orchestrate value-added portals",
+                "default_cost":5448,
+                "created_at":"2019-05-18 01:38:18",
+                "updated_at":"2019-05-18 01:38:18",
+                "tests_count": 1,
+            },
+            {
+                "id":2,
+                "code":"c",
+                "name":"whiteboard innovative systems",
+                "default_cost":2005,
+                "created_at":"2019-05-18 01:38:18",
+                "updated_at":"2019-05-18 01:38:18",
+                "tests_count": 1,
+            },
+        ]
     }
 }
 ```

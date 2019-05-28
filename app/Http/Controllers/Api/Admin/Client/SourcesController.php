@@ -39,6 +39,7 @@ class SourcesController extends Controller
         $client->save();
 
         $name = $client->user->full_name;
+        $client = ClientSource::with('source')->find($client->id);
         return successful(trans('message.admin.client.source.success.store', ['name' => $name]), [
             'client' => $client,
         ]);

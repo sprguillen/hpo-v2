@@ -4,6 +4,7 @@ namespace Tests\Api\Admin\Service;
 
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\Service;
 use App\Models\ClientService;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -32,7 +33,7 @@ class AdminClientServiceTest extends TestCase
             'service_id' => $service->id,
             'price' => $price,
         ]);
-
+        $data = $response->getData();
         $response
             ->assertStatus(self::RESPONSE_SUCCESS)
             ->assertJson([
@@ -44,6 +45,21 @@ class AdminClientServiceTest extends TestCase
                     'price' => $price,
                 ],
             ]);
+
+        $client = $data->client;
+        $this->assertObjectHasAttribute('service', $client);
+        $responseService = $client->service;
+
+        // Check source response has source data on fields like code, name etc...
+        $this->assertObjectHasAttribute('service', $client);
+        $this->assertObjectHasAttribute('code', $responseService);
+        $this->assertObjectHasAttribute('name', $responseService);
+
+        // Check on DB if match on response about the `source` data
+        $dbSource = Service::find($responseService->id);
+        $this->assertEquals($dbSource->id, $responseService->id);
+        $this->assertEquals($dbSource->code, $responseService->code);
+        $this->assertEquals($dbSource->name, $responseService->name);
     }
 
     /**

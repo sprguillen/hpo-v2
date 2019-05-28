@@ -200,7 +200,7 @@ class User extends Authenticatable
      */
     public function services()
     {
-        return $this->belongsToMany(Services::class, 'client_services', 'user_id', 'service_id');
+        return $this->belongsToMany(Service::class, 'client_services', 'user_id', 'service_id');
     }
 
     /**

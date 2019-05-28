@@ -119,7 +119,7 @@ class IndexController extends Controller
      */
     public function details($code)
     {
-        $client = User::client()->with('dispatcher')->where('code', $code)->firstOrFail();
+        $client = User::client()->with(['dispatcher', 'services'])->where('code', $code)->firstOrFail();
         return success_data(compact('client'));
     }
 

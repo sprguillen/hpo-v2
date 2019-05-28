@@ -48,7 +48,7 @@ return [
             ],
             'source' => [
                 'success' => [
-                    'store' => 'Source has been added to :name.',
+                    'store' => 'Source has been added to :name client.',
                     'destroy' => 'Source has been removed from this client.',
                 ],
             ],
