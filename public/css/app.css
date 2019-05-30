@@ -2,11 +2,35 @@
 
 .app-primary {
   background-color: #32c5d2;
-  color: #fff;
+  color: #fff !important;
 }
 
 .app-text-primary {
   color: #32c5d2 !important;
+}
+
+.portlet {
+  border: 1px solid #e7ecf1;
+}
+
+h1 {
+  font-size: 1.5rem;
+  color: #32c5d2;
+}
+
+h2 {
+  font-size: 1.2rem;
+  color: #32c5d2;
+}
+
+.header-portlet {
+  border-bottom: 1px solid #eef1f5;
+  height: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 /*!
@@ -10702,6 +10726,17 @@ a.text-dark:focus {
   position: fixed;
   right: 0;
   z-index: 30;
+}
+
+html {
+  min-height: 100%;
+}
+
+body {
+  font-size: 14px;
+  font-family: "Oswald", sans-serif !important;
+  min-height: 100vh;
+  overflow: auto;
 }
 
 .navbar-laravel {
