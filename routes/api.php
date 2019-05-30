@@ -133,6 +133,13 @@ Route::namespace('Api')->group(function() {
                     Route::name('api.admin.system.dispatcher.destroy')->post('{id}/destroy', 'DispatcherController@destroy');
                 });
 
+                // Manage PatientType
+                Route::prefix('patient-type')->group(function() {
+                    Route::name('api.admin.system.patient_type')->get('', 'PatientTypeController@index');
+                    Route::name('api.admin.system.patient_type.store')->post('store', 'PatientTypeController@store');
+                    Route::name('api.admin.system.patient_type.update')->post('{id}/update', 'PatientTypeController@update');
+                    Route::name('api.admin.system.patient_type.destroy')->post('{id}/destroy', 'PatientTypeController@destroy');
+                });
             });
         });
 
