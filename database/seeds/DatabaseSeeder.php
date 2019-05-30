@@ -15,5 +15,6 @@ class DatabaseSeeder extends Seeder
         $this->call(SourcesSeeder::class);
         $this->call(ServiceSeeder::class);
         $this->call(DispatcherSeeder::class);
+        $this->call(WhiteListIpSeeder::class);
     }
 }

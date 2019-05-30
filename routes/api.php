@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 
 // Authentication
-Route::namespace('Api')->group(function() {
+Route::namespace('Api')->middleware(['checkIp'])->group(function() {
 
     //** Auth routes
     Route::prefix('auth')->namespace('Auth')->group(function() {
@@ -139,6 +139,14 @@ Route::namespace('Api')->group(function() {
                     Route::name('api.admin.system.patient_type.store')->post('store', 'PatientTypeController@store');
                     Route::name('api.admin.system.patient_type.update')->post('{id}/update', 'PatientTypeController@update');
                     Route::name('api.admin.system.patient_type.destroy')->post('{id}/destroy', 'PatientTypeController@destroy');
+                });
+
+                // Manage WhitelistIps
+                Route::prefix('white-listed-ip')->group(function() {
+                    Route::name('api.admin.system.white_listed_ip')->get('', 'WhiteListedIpController@index');
+                    Route::name('api.admin.system.white_listed_ip.store')->post('store', 'WhiteListedIpController@store');
+                    Route::name('api.admin.system.white_listed_ip.update')->post('{id}/update', 'WhiteListedIpController@update');
+                    Route::name('api.admin.system.white_listed_ip.destroy')->post('{id}/destroy', 'WhiteListedIpController@destroy');
                 });
             });
         });
