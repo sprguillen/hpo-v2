@@ -78,6 +78,8 @@ class AdminClientSourceTest extends TestCase
             $this->assertEquals($dbSource->id, $responseSource->source->id);
             $this->assertEquals($dbSource->code, $responseSource->source->code);
             $this->assertEquals($dbSource->name, $responseSource->source->name);
+        } else {
+            $this->assertNull($source);
         }
 
     }
@@ -178,7 +180,7 @@ class AdminClientSourceTest extends TestCase
             'id' => $user->id,
             'sourceId' => $deletedId
         ]));
-        
+
         $response
             ->assertStatus(self::RESPONSE_SUCCESS)
             ->assertJson([

@@ -22,9 +22,12 @@ Token is provided with the request:
 
 * [Client info](admin/client/client.md)
 * [Processor info](admin/processor/processor.md)
-* [Source info](admin/system/source/source.md)
-* [Service info](admin/service/service.md)
-* [Dispatcher info](admin/system/dispatcher/dispatcher.md)
+
+* System
+    * [Source info](admin/system/source/source.md)
+    * [Service info](admin/service/service.md)
+    * [Dispatcher info](admin/system/dispatcher/dispatcher.md)
+    * [Patient Type info](admin/system/patient_type/patient_type.md)
 
 #### Admin Client related
 

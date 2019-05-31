@@ -91,7 +91,14 @@ return [
                     'update' => ':name dispatcher has been updated.',
                     'destroy' => 'Dispatcher has been deleted.',
                 ]
-            ]
+            ],
+            'patient_type' => [
+                'success' => [
+                    'store' => 'New patient type has been created.',
+                    'update' => ':name patient type has been updated.',
+                    'destroy' => 'Patient type has been deleted.',
+                ],
+            ],
         ]
     ],
 ];
