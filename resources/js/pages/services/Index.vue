@@ -73,7 +73,7 @@ export default {
     this.callFetchServices()
   },
   methods: {
-    ...mapActions('service', ['fetchServices', 'searchServices', 'archiveService']),
+    ...mapActions('service', ['fetchServices', 'searchServices', 'archiveService', 'importService']),
     async callFetchServices() {
       const payload = {
         page: this.page
@@ -98,8 +98,19 @@ export default {
         await this.callFetchServices()
       }
     }, 500),
-    importFile() {
-      console.log(this.file)
+    async importFile() {
+      let formData = new FormData();
+      formData.append('file', this.file)
+      try {
+        await this.importService(formData)
+        this.$toast.open({
+          message: 'Import successful',
+          type: 'is-success'
+        })
+        await this.callFetchServices()
+      } catch (e) {
+        console.error(e)
+      }
     },
     async archive(value) {
       const payload = {
