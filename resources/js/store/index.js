@@ -27,8 +27,9 @@ const errorResponseHandler = (error) => {
     VueCookies.remove('refresh_token')
     VueCookies.remove('user_name')
     VueCookies.remove('user_role')
-    router.push({ name: 'login' })
-  } 
+  }
+
+  return Promise.reject(error)
 }
 
 axios.interceptors.response.use(
