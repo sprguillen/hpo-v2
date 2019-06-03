@@ -107,7 +107,7 @@ export default {
     this.form.default_cost = this.service.default_cost
   },
   methods: {
-    ...mapActions('service', ['fetchService', 'updateService']),
+    ...mapActions('service', ['fetchService']),
     async submit() {
       const payload = {
         id: this.service.id,
@@ -116,20 +116,7 @@ export default {
         default_cost: this.form.default_cost
       }
 
-      try {
-        const message = await this.updateService(payload)
-        this.$toast.open({
-          message: message,
-          type: 'is-success'
-        })
-
-        this.$emit('close')
-      } catch (e) {
-        this.$toast.open({
-          message: `Error on updating service ${e.message}`,
-          type: 'is-danger'
-        })
-      }
+      this.$emit('update', payload)
     }
   }
 }

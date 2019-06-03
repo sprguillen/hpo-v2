@@ -107,6 +107,7 @@
       :code="serviceToEdit"
       :open="open"
       @close="open = false"
+      @update="update"
     />
     <DeleteServiceModal
       :open="openDelete"
@@ -118,13 +119,11 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import EditServiceModal from '@/components/services/EditServiceModal'
-import DeleteServiceModal from '@/components/services/DeleteServiceModal'
 
 export default {
   components: {
-    EditServiceModal,
-    DeleteServiceModal
+    EditServiceModal: () => import('@/components/services/EditServiceModal'),
+    DeleteServiceModal: () => import('@/components/services/DeleteServiceModal')
   },
   props: {
     services: {
@@ -184,6 +183,10 @@ export default {
     archive() {
       this.$emit('archive', this.serviceToArchive)
       this.openDelete = false
+    },
+    update(payload) {
+      this.open = false
+      this.$emit('update', payload)
     }
   }
 }
