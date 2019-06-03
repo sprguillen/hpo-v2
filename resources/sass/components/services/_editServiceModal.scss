@@ -1,6 +1,10 @@
 @import '../../variables';
 
 .edit-service-modal {
+  hr {
+    margin-top: 0;
+  }
+
   .custom-width {
     width: 500px;
   }
@@ -19,5 +23,9 @@
 
   footer.modal-card-foot {
     padding: 10px;
+  }
+
+  .no-top-padding {
+    padding-top: 0;
   }
 }

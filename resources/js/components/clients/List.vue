@@ -73,38 +73,12 @@
         Next
       </b-button>
     </div>
-    <b-modal
-      class="delete-modal"
-      :active.sync="open"
-      has-modal-card
-    >
-      <div class="card">
-        <header class="modal-card-head">
-          <p class="modal-card-title">
-            <b-icon icon="archive" /> Archive Client
-          </p>
-        </header>
-        <div class="modal-card-body">
-          Are you sure you want to archive client {{ modalUsername }}?
-        </div>
-        <footer class="modal-card-foot">
-          <div class="modal-actions">
-            <b-button
-              type="is-danger modal-buttons"
-              @click="closeModal"
-            >
-              Cancel
-            </b-button>
-            <b-button
-              type="is-success modal-buttons"
-              @click="archive"
-            >
-              Yes
-            </b-button>
-          </div>
-        </footer>
-      </div>
-    </b-modal>
+    <DeleteClientModal
+      :open="open"
+      :modal-username="modalUsername"
+      @archive="archive"
+      @close="open = false"
+    />
   </section>
 </template>
 <script>
@@ -112,6 +86,9 @@ import { mapGetters } from 'vuex'
 import { relativeTime } from '@/filters/date'
 
 export default {
+  components: {
+    DeleteClientModal: () => import('@/components/clients/DeleteClientModal')
+  },
   filters: {
     relativeTime
   },
@@ -144,18 +121,9 @@ export default {
       this.modalUsername = username
       this.open = true
     },
-    closeModal() {
-      this.open = false
-      this.clear()
-    },
     archive() {
       this.$emit('archive', this.userToArchive)
       this.open = false
-      this.clear()
-    },
-    clear() {
-      this.userToArchive = ''
-      this.modalUsername = ''
     }
   }
 }

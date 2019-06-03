@@ -67,39 +67,13 @@
       >
         Next
       </b-button>
+      <DeleteProcessorModal
+        :open="open"
+        :modal-username="modalUsername"
+        @archive="archive"
+        @close="open = false"
+      />
     </div>
-    <b-modal
-      class="delete-modal"
-      :active.sync="open"
-      has-modal-card
-    >
-      <div class="card">
-        <header class="modal-card-head">
-          <p class="modal-card-title">
-            <b-icon icon="archive" /> Archive Processor
-          </p>
-        </header>
-        <div class="modal-card-body">
-          Are you sure you want to archive processor {{ modalUsername }}?
-        </div>
-        <footer class="modal-card-foot">
-          <div class="modal-actions">
-            <b-button
-              type="is-danger modal-buttons"
-              @click="closeModal"
-            >
-              Cancel
-            </b-button>
-            <b-button
-              type="is-success modal-buttons"
-              @click="archive"
-            >
-              Yes
-            </b-button>
-          </div>
-        </footer>
-      </div>
-    </b-modal>
   </section>
 </template>
 <script>
@@ -107,6 +81,9 @@ import { mapGetters } from 'vuex'
 import { relativeTime } from '@/filters/date'
 
 export default {
+  components: {
+    DeleteProcessorModal: () => import('@/components/processors/DeleteProcessorModal')
+  },
   filters: {
     relativeTime
   },
@@ -139,18 +116,9 @@ export default {
       this.modalUsername = username
       this.open = true
     },
-    closeModal() {
-      this.open = false
-      this.clear()
-    },
     archive() {
       this.$emit('archive', this.userToArchive)
       this.open = false
-      this.clear()
-    },
-    clear() {
-      this.userToArchive = ''
-      this.modalUsername = ''
     }
   }
 }

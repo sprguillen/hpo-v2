@@ -73,11 +73,14 @@
         >
           <b-button
             type="app-primary"
-            @click="open = true"
+            @click="openEditModal(props.row.code)"
           >
             Edit
           </b-button>
-          <b-button type="is-danger">
+          <b-button
+            type="is-danger"
+            @click="openDeleteModal(props.row.id, props.row.name)"
+          >
             Archive
           </b-button>
         </b-table-column>
@@ -100,18 +103,27 @@
       </b-button>
     </div>
     <EditServiceModal
+      v-if="open"
+      :code="serviceToEdit"
       :open="open"
       @close="open = false"
+      @update="update"
+    />
+    <DeleteServiceModal
+      :open="openDelete"
+      :modal-service-name="modalServiceName"
+      @archive="archive"
+      @close="openDelete = false"
     />
   </section>
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import EditServiceModal from '@/components/services/EditServiceModal'
 
 export default {
   components: {
-    EditServiceModal
+    EditServiceModal: () => import('@/components/services/EditServiceModal'),
+    DeleteServiceModal: () => import('@/components/services/DeleteServiceModal')
   },
   props: {
     services: {
@@ -134,7 +146,11 @@ export default {
         { value: 1, text: 'Dr. Jose Reyes Memorial Hospital' },
         { value: 2, text: 'National Children Hospital' }
       ],
-      open: false
+      open: false,
+      serviceToEdit: '',
+      serviceToArchive: '',
+      modalServiceName: '',
+      openDelete: false
     }
   },
   computed: {
@@ -154,6 +170,23 @@ export default {
       } else {
         return 0
       }
+    },
+    openEditModal(code) {
+      this.open = true
+      this.serviceToEdit = code
+    },
+    openDeleteModal(id, serviceName) {
+      this.serviceToArchive = id
+      this.modalServiceName = serviceName
+      this.openDelete = true
+    },
+    archive() {
+      this.$emit('archive', this.serviceToArchive)
+      this.openDelete = false
+    },
+    update(payload) {
+      this.open = false
+      this.$emit('update', payload)
     }
   }
 }

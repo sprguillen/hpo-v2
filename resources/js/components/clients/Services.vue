@@ -72,11 +72,11 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
-import AssignServices from '@/components/clients/AssignServices'
+// import AssignServices from '@/components/clients/AssignServices'
 
 export default {
   components: {
-    AssignServices
+    AssignServices: () => import('@/components/clients/AssignServices')
   },
   props: {
     services: {

@@ -75,11 +75,9 @@
   </section>
 </template>
 <script>
-import BatchOrdersModal from '@/components/dashboard/BatchOrdersModal'
-
 export default {
   components: {
-    BatchOrdersModal
+    BatchOrdersModal: () => import('@/components/dashboard/BatchOrdersModal')
   },
   props: {
     orders: {

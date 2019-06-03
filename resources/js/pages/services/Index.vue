@@ -13,13 +13,16 @@
             >
               Add a Service
             </b-button>
-            <b-button
-              type="app-primary"
-              icon-right="cloud-download"
-              @click="importFile"
+            <b-upload
+              v-model="file"
+              :native="true"
+              @input="importFile"
             >
-              Import
-            </b-button>
+              <a class="button app-primary">
+                <b-icon icon="cloud-download" />
+                <span>Import</span>
+              </a>
+            </b-upload>
           </div>
           <AddService
             v-if="addMode"
@@ -32,9 +35,11 @@
             <List
               :services="getServices"
               :current="page"
+              @archive="archive"
               @next="next()"
               @prev="prev()"
               @search="search"
+              @update="update"
             />
           </div>
         </div>
@@ -58,7 +63,8 @@ export default {
   data() {
     return {
       addMode: false,
-      page: 1
+      page: 1,
+      file: null
     }
   },
   computed: {
@@ -68,7 +74,13 @@ export default {
     this.callFetchServices()
   },
   methods: {
-    ...mapActions('service', ['fetchServices', 'searchServices']),
+    ...mapActions('service', [
+      'fetchServices',
+      'searchServices',
+      'archiveService',
+      'importService',
+      'updateService'
+    ]),
     async callFetchServices() {
       const payload = {
         page: this.page
@@ -93,8 +105,54 @@ export default {
         await this.callFetchServices()
       }
     }, 500),
-    importFile() {
+    async importFile() {
+      let formData = new FormData();
+      formData.append('file', this.file)
+      try {
+        await this.importService(formData)
+        this.$toast.open({
+          message: 'Import successful',
+          type: 'is-success'
+        })
+        await this.callFetchServices()
+      } catch (e) {
+        console.error(e)
+      }
+    },
+    async archive(value) {
+      const payload = {
+        id: value
+      }
 
+      try {
+        await this.archiveService(payload)
+        this.$toast.open({
+          message: 'Service was successfully archived',
+          type: 'is-success'
+        })
+        await this.callFetchServices()
+      } catch (e) {
+        this.$toast.open({
+          message: e.message,
+          type: 'is-success'
+        })
+      }
+    },
+    async update(payload) {
+      try {
+        const message = await this.updateService(payload)
+        this.$toast.open({
+          message: message,
+          type: 'is-success'
+        })
+
+        await this.callFetchServices()
+      } catch (e) {
+        this.$toast.open({
+          message: `Error on updating service ${e.message}`,
+          type: 'is-danger'
+        })
+      }
     }
   }
 }

@@ -64,9 +64,47 @@ const actions = {
   async searchServices({ commit }, payload) {
     try {
       const { data } = await axios.get(`/api/admin/services/search/${payload.key}`)
-      // temporary
-      commit('setServices', data.processors.data)
-      commit('setLastPage', data.processors.last_page)
+      commit('setServices', data.services.data)
+      commit('setLastPage', data.services.last_page)
+    } catch (e) {
+      const { data } = e.response
+      throw data
+    }
+  },
+
+  async fetchService({}, payload) {
+    try {
+      const { data } = await axios.get(`/api/admin/services/details/${payload.code}`)
+      return data.service
+    } catch (e) {
+      const { data } = e.response
+      throw data
+    }
+  },
+
+  async updateService({}, payload) {
+    const url = `/api/admin/services/${payload.id}/update`
+    try {
+      const { data } = await axios.post(url, payload)
+      return data.message
+    } catch (e) {
+      const { data } = e.response
+      throw data
+    }
+  },
+
+  async archiveService({}, payload) {
+    try {
+      await axios.post(`/api/admin/services/${payload.id}/destroy`)
+    } catch (e) {
+      const { data } = e.response
+      throw data
+    }
+  },
+
+  async importService({}, formData) {
+    try {
+      await axios.post('/api/admin/services/import', formData)
     } catch (e) {
       const { data } = e.response
       throw data
