@@ -24,15 +24,15 @@
   </section>
 </template>
 <script>
-    export default {
-        data() {
-            return {
-                form: {
-                    prefix: null
-                }
-            }
-        }
+export default {
+  data() {
+    return {
+      form: {
+        prefix: null
+      }
     }
+  }
+}
 </script>
 <style lang="scss" scoped>
   @import "../../../sass/components/system/globalPrefix.scss";
