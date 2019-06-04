@@ -39,6 +39,7 @@
               @next="next()"
               @prev="prev()"
               @search="search"
+              @update="update"
             />
           </div>
         </div>
@@ -73,7 +74,13 @@ export default {
     this.callFetchServices()
   },
   methods: {
-    ...mapActions('service', ['fetchServices', 'searchServices', 'archiveService']),
+    ...mapActions('service', [
+      'fetchServices',
+      'searchServices',
+      'archiveService',
+      'importService',
+      'updateService'
+    ]),
     async callFetchServices() {
       const payload = {
         page: this.page
@@ -98,8 +105,19 @@ export default {
         await this.callFetchServices()
       }
     }, 500),
-    importFile() {
-      console.log(this.file)
+    async importFile() {
+      let formData = new FormData();
+      formData.append('file', this.file)
+      try {
+        await this.importService(formData)
+        this.$toast.open({
+          message: 'Import successful',
+          type: 'is-success'
+        })
+        await this.callFetchServices()
+      } catch (e) {
+        console.error(e)
+      }
     },
     async archive(value) {
       const payload = {
@@ -117,6 +135,22 @@ export default {
         this.$toast.open({
           message: e.message,
           type: 'is-success'
+        })
+      }
+    },
+    async update(payload) {
+      try {
+        const message = await this.updateService(payload)
+        this.$toast.open({
+          message: message,
+          type: 'is-success'
+        })
+
+        await this.callFetchServices()
+      } catch (e) {
+        this.$toast.open({
+          message: `Error on updating service ${e.message}`,
+          type: 'is-danger'
         })
       }
     }

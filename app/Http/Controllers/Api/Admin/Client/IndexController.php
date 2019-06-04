@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Admin;
+namespace App\Http\Controllers\Api\Admin\Client;
 
 use Hash;
 use App\Models\User;
@@ -10,7 +10,7 @@ use App\Http\Requests\Admin\Client\StoreRequest;
 use App\Http\Requests\Admin\Client\UpdateRequest;
 use App\Http\Requests\Admin\Client\UpdatePaymentModeRequest;
 
-class ClientController extends Controller
+class IndexController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -119,7 +119,7 @@ class ClientController extends Controller
      */
     public function details($code)
     {
-        $client = User::client()->with('dispatcher')->where('code', $code)->firstOrFail();
+        $client = User::client()->with(['dispatcher', 'services'])->where('code', $code)->firstOrFail();
         return success_data(compact('client'));
     }
 

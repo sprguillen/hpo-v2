@@ -84,11 +84,10 @@
 <script>
 import { mapGetters } from 'vuex'
 import { relativeTime } from '@/filters/date'
-import DeleteClientModal from '@/components/clients/DeleteClientModal'
 
 export default {
   components: {
-    DeleteClientModal
+    DeleteClientModal: () => import('@/components/clients/DeleteClientModal')
   },
   filters: {
     relativeTime

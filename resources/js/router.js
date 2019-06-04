@@ -88,9 +88,9 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   let authToken = store.getters['auth/getAccessToken']
   let userRole = store.getters['auth/getUserRole']
-  
+
   if (to.meta.requiresAuth) {
-    if (!authToken) {
+    if (!authToken || !userRole) {
       next({ path: '/login' })
     } else if (to.meta.forAdmin) {
       if (userRole == 10) {
@@ -102,7 +102,7 @@ router.beforeEach((to, from, next) => {
       next()
     }
   } else if (to.meta.guest) {
-    if (!authToken) {
+    if (!authToken || !userRole) {
       next()
     } else {
       next({ path: '/' })

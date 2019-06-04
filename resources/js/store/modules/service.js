@@ -100,6 +100,15 @@ const actions = {
       const { data } = e.response
       throw data
     }
+  },
+
+  async importService({}, formData) {
+    try {
+      await axios.post('/api/admin/services/import', formData)
+    } catch (e) {
+      const { data } = e.response
+      throw data
+    }
   }
 }
 

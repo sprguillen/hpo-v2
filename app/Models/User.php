@@ -194,23 +194,13 @@ class User extends Authenticatable
      */
 
     /**
-     * Get user sources
-     *
-     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function sources()
-    {
-        return $this->belongsToMany(Sources::class, 'user_sources', 'user_id', 'source_id');
-    }
-
-    /**
      * Get user `client` services
      *
      * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function services()
     {
-        return $this->belongsToMany(Services::class, 'client_services', 'user_id', 'service_id');
+        return $this->belongsToMany(Service::class, 'client_services', 'user_id', 'service_id');
     }
 
     /**
@@ -221,5 +211,15 @@ class User extends Authenticatable
     public function dispatcher()
     {
         return $this->hasOne(Dispatcher::class, 'id', 'dispatcher_id');
+    }
+
+    /**
+     * Get user `client` sources
+     *
+     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function sources()
+    {
+        return $this->belongsToMany(Source::class, 'client_sources', 'user_id', 'source_id');
     }
 }
