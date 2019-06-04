@@ -35,6 +35,11 @@ Token is provided with the request:
 * [Client service info](admin/service/client/client.md)
 * [Client source info](admin/client/sources/sources.md)
 
+### Client related
+
+* [Client staff info](client/staff/staff.md)
+
+
 ### User related
 
 * [Get User data](user/index.md)

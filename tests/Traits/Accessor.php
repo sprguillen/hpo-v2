@@ -36,9 +36,13 @@ trait Accessor {
      * @author goper
      * @return void
      */
-    public function loggedUserClient()
+    public function loggedUserClient($email = '')
     {
-        $user = User::orderByRaw('RAND()')->client()->first();
+        if ($email != '') {
+            $user = User::where('email', $email)->first();
+        } else {
+            $user = User::orderByRaw('RAND()')->client()->first();
+        }
         $this->loggedUser($user->email);
     }
 
@@ -48,6 +52,15 @@ trait Accessor {
     public function loggedUserAsAdmin()
     {
         $user = User::orderByRaw('RAND()')->admin()->first();
+        $this->loggedUser($user->email);
+    }
+
+    /**
+     * Login user processor
+     */
+    public function loggedUserAsProcessor()
+    {
+        $user = User::where('role', User::ROLE_PROCESSOR)->orderByRaw('RAND()')->first();
         $this->loggedUser($user->email);
     }
 
@@ -65,11 +78,21 @@ trait Accessor {
 
     /**
      * Logged user as client
-     * @return [type] [description]
+     * @return void
      */
-    public function asClient()
+    public function asClient($email = '')
     {
-        $this->loggedUserClient();
+        $this->loggedUserClient($email);
+        Passport::actingAs($this->user);
+    }
+
+    /**
+     * Logged user as `processor`
+     * @return void
+     */
+    public function asProcessor($email = '')
+    {
+        $this->loggedUserAsProcessor($email);
         Passport::actingAs($this->user);
     }
 }

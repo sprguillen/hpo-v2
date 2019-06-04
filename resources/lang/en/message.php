@@ -108,4 +108,15 @@ return [
             ],
         ]
     ],
+
+    // client messages
+    'client' => [
+        'staff' => [
+            'success' => [
+                'store' => 'New staff has been added.',
+                'update' => 'Staff has been updated.',
+                'archived' => 'Staff has been archived.',
+            ],
+        ],
+    ],
 ];
