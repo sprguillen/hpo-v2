@@ -120,6 +120,17 @@ class User extends Authenticatable
     }
 
     /**
+     * Get users that are `staff` role
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     * @author goper
+     */
+    public function scopeStaff($query) {
+        return $query->where('role', self::ROLE_STAFF);
+    }
+
+    /**
      * Is the current user an admin
      *
      * @return boolean
@@ -131,14 +142,14 @@ class User extends Authenticatable
     }
 
     /**
-     * Is the current user an client
+     * Is the current user a client
      *
      * @return boolean
      * @author goper
      */
     public function getIsClientAttribute()
     {
-        return $this->role == self::ROLE_CLIENT;
+        return $this->isClient();
     }
 
     /**
@@ -164,6 +175,17 @@ class User extends Authenticatable
     public function isAdmin() {
         return $this->role == self::ROLE_ADMIN;
     }
+
+    /**
+     * Is the current user an admin?
+     *
+     * @return boolean
+     * @author goper
+     */
+    public function isClient() {
+        return $this->role == self::ROLE_CLIENT;
+    }
+
     /**
      * Find the user instance for the given username.
      *
@@ -221,5 +243,25 @@ class User extends Authenticatable
     public function sources()
     {
         return $this->belongsToMany(Source::class, 'client_sources', 'user_id', 'source_id');
+    }
+
+    /**
+     * Get user `client` staffs
+     *
+     * @return Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function staffs()
+    {
+        return $this->hasMany(ClientStaff::class, 'client_id', 'id');
+    }
+
+    /**
+     * Get staff `client`
+     *
+     * @return Illuminate\Database\Eloquent\Relations\hasOne
+     */
+    public function staffclient()
+    {
+        return $this->hasOne(ClientStaff::class, 'staff_id', 'id');
     }
 }
