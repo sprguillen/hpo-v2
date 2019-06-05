@@ -8,6 +8,8 @@ import Services from '@/pages/services/Index'
 import ServiceDetails from '@/pages/services/Details'
 import System from '@/pages/System'
 import store from '@/store'
+import NewPassword from '@/pages/auth/NewPassword'
+import ResetPassword from '@/pages/auth/ResetPassword'
 
 const router = new VueRouter({
   mode: 'history',
@@ -78,6 +80,22 @@ const router = new VueRouter({
       path: '/login',
       name: 'login',
       component: Login,
+      meta: {
+        guest: true
+      }
+    },
+    {
+      path: '/new-password',
+      name: 'newPass',
+      component: NewPassword,
+      meta: {
+        guest: true
+      }
+    },
+    {
+      path: '/reset-password',
+      name: 'resetPass',
+      component: ResetPassword,
       meta: {
         guest: true
       }
