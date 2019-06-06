@@ -99,6 +99,24 @@ return [
                     'destroy' => 'Patient type has been deleted.',
                 ],
             ],
+            'white_listed_ip' => [
+                'success' => [
+                    'store' => 'New ip has been added to white list.',
+                    'update' => 'White listed ip has been updated.',
+                    'destroy' => 'IP has been deleted.',
+                ],
+            ],
         ]
+    ],
+
+    // client messages
+    'client' => [
+        'staff' => [
+            'success' => [
+                'store' => 'New staff has been added.',
+                'update' => 'Staff has been updated.',
+                'archived' => 'Staff has been archived.',
+            ],
+        ],
     ],
 ];
