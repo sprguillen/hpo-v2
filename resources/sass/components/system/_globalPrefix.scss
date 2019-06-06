@@ -1,0 +1,21 @@
+@import '../../variables';
+
+.global-prefix {
+  .no-left-padding {
+    padding-left: 0;
+  }
+
+  .no-top-padding {
+    padding-top: 0;
+  }
+
+  .input {
+    border: 0;
+    border-bottom: 1px solid #c2cad8;
+  }
+
+  .btn-save {
+    border-radius: 0;
+    border-color: none;
+  }
+}

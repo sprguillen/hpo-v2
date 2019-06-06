@@ -1,7 +1,7 @@
 <template>
   <section class="processors-list">
     <div class="header-portlet">
-      <h1>PROCESSORS LIST</h1>
+      <h1> <b-icon icon="incognito" /> PROCESSORS LIST</h1>
     </div>
     <b-field grouped>
       <b-input

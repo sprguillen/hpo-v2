@@ -1,7 +1,7 @@
 <template>
   <section class="services-list">
     <div class="header-portlet">
-      <h1>SERVICES LIST</h1>
+      <h1> <b-icon icon="hospital" /> SERVICES LIST</h1>
     </div>
     <b-field grouped>
       <b-select
