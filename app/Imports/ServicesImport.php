@@ -20,8 +20,9 @@ class ServicesImport implements OnEachRow, WithHeadingRow
         $row      = $row->toArray();
 
         $check = Service::where('code', $row['code'])->count();
+
         if ($check == 0) {
-            new Service([
+            Service::create([
                 'code'     => $row['code'],
                 'name'    => $row['name'],
                 'default_cost' => $row['defaultcost'],
