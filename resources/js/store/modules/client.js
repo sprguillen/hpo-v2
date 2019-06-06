@@ -66,6 +66,7 @@ const actions = {
       const { data } = await axios.get(`/api/admin/client/search/${payload.key}`)
       commit('setClients', data.clients.data)
       commit('setLastPage', data.clients.last_page)
+      return data
     } catch (e) {
       const { data } = e.response
       throw data
