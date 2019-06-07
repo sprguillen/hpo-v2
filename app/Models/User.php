@@ -52,10 +52,6 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    // protected $visible = [
-    //     'full_name',
-    // ];
-
     /**
      * The accessors to append to the model's array form.
      *
@@ -263,5 +259,15 @@ class User extends Authenticatable
     public function staffclient()
     {
         return $this->hasOne(ClientStaff::class, 'staff_id', 'id');
+    }
+
+    /**
+     * Get user type `client` - patients
+     *
+     * @return Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function patients()
+    {
+        return $this->hasMany(Patient::class, 'client_id', 'id');
     }
 }
