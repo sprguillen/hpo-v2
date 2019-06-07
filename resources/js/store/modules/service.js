@@ -46,10 +46,10 @@ const actions = {
     }
   },
 
-  async fetchServices({ commit }, params) {
+  async fetchServices({ commit }, payload) {
     let url = '/api/admin/services'
-    if (params.page) {
-      url += `?page=${params.page}`
+    if (payload.page) {
+      url += `?page=${payload.page}`
     }
     try {
       const { data } = await axios.get(url)
@@ -62,8 +62,14 @@ const actions = {
   },
 
   async searchServices({ commit }, payload) {
+    let url = `/api/admin/services/search/${payload.key}`
+
+    if (payload.page) {
+      url += `?page=${payload.page}`
+    }
+
     try {
-      const { data } = await axios.get(`/api/admin/services/search/${payload.key}`)
+      const { data } = await axios.get(url)
       commit('setServices', data.services.data)
       commit('setLastPage', data.services.last_page)
     } catch (e) {
