@@ -66,6 +66,15 @@ Route::namespace('Api')->middleware(['checkIp'])->group(function() {
                 Route::name('api.client.staff.search')->get('search/{key}', 'StaffController@search');
             });
 
+            // Client Patient routes
+            Route::prefix('patient')->group(function() {
+                Route::name('api.client.patient')->get('', 'PatientController@index');
+                Route::name('api.client.patient.store')->post('store', 'PatientController@store');
+                Route::name('api.client.patient.update')->post('{id}/update', 'PatientController@update');
+                Route::name('api.client.patient.archive')->post('{id}/archive', 'PatientController@archive');
+                Route::name('api.client.patient.search')->get('search/{key}', 'PatientController@search');
+            });
+
         });
 
         /**
