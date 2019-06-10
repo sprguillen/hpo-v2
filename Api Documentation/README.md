@@ -22,10 +22,23 @@ Token is provided with the request:
 
 * [Client info](admin/client/client.md)
 * [Processor info](admin/processor/processor.md)
-* [Source info](admin/system/source/source.md)
-* [Service info](admin/service/service.md)
+
+* System
+    * [Source info](admin/system/source/source.md)
+    * [Service info](admin/service/service.md)
+    * [Dispatcher info](admin/system/dispatcher/dispatcher.md)
+    * [Patient Type info](admin/system/patient_type/patient_type.md)
+    * [White Listed Ip info](admin/system/white_listed_ip/white_listed_ip.md)
+
+#### Admin Client related
+
 * [Client service info](admin/service/client/client.md)
-* [Dispatcher info](admin/system/dispatcher/dispatcher.md)
+* [Client source info](admin/client/sources/sources.md)
+
+### Client related
+
+* [Client staff info](client/staff/staff.md)
+
 
 ### User related
 
@@ -56,3 +69,6 @@ All responses, if error occur on the request **(especially on request validation
 }
 ```
 > Sample error on update request if given id is not found or does not exist.
+
+## Deployment
+To used the whitelist ip feature make sure to **update the `.env` file** and set the `APP_ENV` to `production` or `live`.

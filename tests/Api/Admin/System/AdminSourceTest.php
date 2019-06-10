@@ -45,7 +45,7 @@ class AdminSourceTest extends TestCase
         $this->asAdmin();
 
         $name = $this->getRandomUniqueData('sources', 'name', 'company');
-        $code = $this->getRandomUniqueData('sources', 'name', 'word');
+        $code = $this->getRandomUniqueData('sources', 'code', 'word');
 
         $response = $this->json('POST', route('api.admin.system.source.store'), [
             'name' => $name,

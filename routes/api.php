@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 
 // Authentication
-Route::namespace('Api')->group(function() {
+Route::namespace('Api')->middleware(['checkIp'])->group(function() {
 
     //** Auth routes
     Route::prefix('auth')->namespace('Auth')->group(function() {
@@ -44,7 +44,7 @@ Route::namespace('Api')->group(function() {
         /**
          * Client routes
          */
-        Route::prefix('client')->namespace('Client')->group(function() {
+        Route::prefix('client')->namespace('Client')->middleware('client')->group(function() {
 
             /**
              * Batch routes
@@ -57,6 +57,15 @@ Route::namespace('Api')->group(function() {
                 Route::name('api.client.batch.search')->get('search/{key}', 'BatchController@search');
             });
 
+            // Client staff routes
+            Route::prefix('staff')->group(function() {
+                Route::name('api.client.staff')->get('', 'StaffController@index');
+                Route::name('api.client.staff.store')->post('store', 'StaffController@store');
+                Route::name('api.client.staff.update')->post('{id}/update', 'StaffController@update');
+                Route::name('api.client.staff.archive')->post('{id}/archive', 'StaffController@archive');
+                Route::name('api.client.staff.search')->get('search/{key}', 'StaffController@search');
+            });
+
         });
 
         /**
@@ -67,16 +76,23 @@ Route::namespace('Api')->group(function() {
             ->namespace('Admin')->group(function() {
 
             // Client
-            Route::prefix('client')->group(function() {
-                Route::name('api.admin.client')->get('', 'ClientController@index');
-                Route::name('api.admin.client.store')->post('store', 'ClientController@store');
-                Route::name('api.admin.client.update')->post('{id}/update', 'ClientController@update');
-                Route::name('api.admin.client.destroy')->post('{id}/destroy', 'ClientController@destroy');
-                Route::name('api.admin.client.search')->get('search/{key}', 'ClientController@search');
+            Route::prefix('client')->namespace('Client')->group(function() {
+                Route::name('api.admin.client')->get('', 'IndexController@index');
+                Route::name('api.admin.client.store')->post('store', 'IndexController@store');
+                Route::name('api.admin.client.update')->post('{id}/update', 'IndexController@update');
+                Route::name('api.admin.client.destroy')->post('{id}/destroy', 'IndexController@destroy');
+                Route::name('api.admin.client.search')->get('search/{key}', 'IndexController@search');
 
                 //** Manage individual `clients`
-                Route::name('api.admin.client.details')->get('details/{code}', 'ClientController@details');
-                Route::name('api.admin.client.update.payment_mode')->post('payment_mode/{code}/update', 'ClientController@updatePaymentMode');
+                Route::name('api.admin.client.details')->get('details/{code}', 'IndexController@details');
+                Route::name('api.admin.client.update.payment_mode')->post('payment_mode/{code}/update', 'IndexController@updatePaymentMode');
+
+                //** Manage client sources
+                Route::prefix('{id}/sources')->group(function() {
+                    Route::name('api.admin.client.sources')->get('', 'SourcesController@index');
+                    Route::name('api.admin.client.sources.store')->post('store', 'SourcesController@store');
+                    Route::name('api.admin.client.sources.destroy')->post('{sourceId}/destroy', 'SourcesController@destroy');
+                });
             });
 
             // Processor
@@ -96,6 +112,7 @@ Route::namespace('Api')->group(function() {
                 Route::name('api.admin.services.update')->post('{id}/update', 'IndexController@update');
                 Route::name('api.admin.services.destroy')->post('{id}/destroy', 'IndexController@destroy');
                 Route::name('api.admin.service.details')->get('details/{code}', 'IndexController@details');
+                Route::name('api.admin.service.import')->post('import', 'IndexController@import');
 
                 // Client servies routes
                 Route::prefix('client')->group(function() {
@@ -125,6 +142,21 @@ Route::namespace('Api')->group(function() {
                     Route::name('api.admin.system.dispatcher.destroy')->post('{id}/destroy', 'DispatcherController@destroy');
                 });
 
+                // Manage PatientType
+                Route::prefix('patient-type')->group(function() {
+                    Route::name('api.admin.system.patient_type')->get('', 'PatientTypeController@index');
+                    Route::name('api.admin.system.patient_type.store')->post('store', 'PatientTypeController@store');
+                    Route::name('api.admin.system.patient_type.update')->post('{id}/update', 'PatientTypeController@update');
+                    Route::name('api.admin.system.patient_type.destroy')->post('{id}/destroy', 'PatientTypeController@destroy');
+                });
+
+                // Manage WhitelistIps
+                Route::prefix('white-listed-ip')->group(function() {
+                    Route::name('api.admin.system.white_listed_ip')->get('', 'WhiteListedIpController@index');
+                    Route::name('api.admin.system.white_listed_ip.store')->post('store', 'WhiteListedIpController@store');
+                    Route::name('api.admin.system.white_listed_ip.update')->post('{id}/update', 'WhiteListedIpController@update');
+                    Route::name('api.admin.system.white_listed_ip.destroy')->post('{id}/destroy', 'WhiteListedIpController@destroy');
+                });
             });
         });
 

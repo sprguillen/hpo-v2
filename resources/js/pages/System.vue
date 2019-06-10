@@ -7,6 +7,7 @@
           <div class="column portlet">
             <section>
               <h1 class="float-left">
+                <b-icon icon="settings" />
                 SYSTEM CONFIGURATIONS
               </h1>
               <div class="tabs float-right">
@@ -32,7 +33,10 @@
                   >
                     <a>Sources</a>
                   </li>
-                  <li @click="activeTab = 'GlobalPrefix'">
+                  <li 
+                    :class="isActive('GlobalPrefix')"
+                    @click="activeTab = 'GlobalPrefix'"
+                  >
                     <a>Global Prefix</a>
                   </li>
                 </ul>
@@ -55,6 +59,7 @@ import TestAnnouncements from '@/components/system/TestAnnouncements'
 import PatientTypes from '@/components/system/PatientTypes'
 import Dispatchers from '@/components/system/Dispatchers'
 import Sources from '@/components/system/Sources'
+import GlobalPrefix from '@/components/system/GlobalPrefix'
 
 export default {
   components: {
@@ -62,7 +67,8 @@ export default {
     TestAnnouncements,
     PatientTypes,
     Dispatchers,
-    Sources
+    Sources,
+    GlobalPrefix
   },
   data() {
     return {

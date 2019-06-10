@@ -45,7 +45,13 @@ return [
                 'success' => [
                     'update_payment_mode' => 'Client payment mode has been updated.',
                 ]
-            ]
+            ],
+            'source' => [
+                'success' => [
+                    'store' => 'Source has been added to :name client.',
+                    'destroy' => 'Source has been removed from this client.',
+                ],
+            ],
         ],
         'processor' => [
             'success' => [
@@ -59,6 +65,7 @@ return [
                 'store' => 'New service has been created.',
                 'update' => ':name service has been updated.',
                 'destroy' => 'Service has been deleted.',
+                'import' => 'Importing services successful.',
             ],
             'not_found' => 'Service not found.',
             'user_not_client' => 'User is not a client.',
@@ -84,7 +91,32 @@ return [
                     'update' => ':name dispatcher has been updated.',
                     'destroy' => 'Dispatcher has been deleted.',
                 ]
-            ]
+            ],
+            'patient_type' => [
+                'success' => [
+                    'store' => 'New patient type has been created.',
+                    'update' => ':name patient type has been updated.',
+                    'destroy' => 'Patient type has been deleted.',
+                ],
+            ],
+            'white_listed_ip' => [
+                'success' => [
+                    'store' => 'New ip has been added to white list.',
+                    'update' => 'White listed ip has been updated.',
+                    'destroy' => 'IP has been deleted.',
+                ],
+            ],
         ]
+    ],
+
+    // client messages
+    'client' => [
+        'staff' => [
+            'success' => [
+                'store' => 'New staff has been added.',
+                'update' => 'Staff has been updated.',
+                'archived' => 'Staff has been archived.',
+            ],
+        ],
     ],
 ];

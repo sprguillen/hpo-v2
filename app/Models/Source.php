@@ -36,8 +36,10 @@ class Source extends Model
      *
      * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function user()
+    public function client()
     {
-        return $this->belongsToMany(User::class, 'user_sources', 'source_id', 'user_id');
+        return $this->belongsToMany(User::class, 'client_sources', 'source_id', 'user_id');
     }
+
+
 }

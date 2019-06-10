@@ -29,6 +29,16 @@ class Service extends Model
     }
 
     /**
+     * Get lab tests on this service
+     *
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tests()
+    {
+        return $this->hasMany(LabTest::class);
+    }
+
+    /**
      * Find service by name or code
      *
      * @param  QueryBuilder $query                              the query builder to use

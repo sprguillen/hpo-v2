@@ -52,10 +52,6 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    // protected $visible = [
-    //     'full_name',
-    // ];
-
     /**
      * The accessors to append to the model's array form.
      *
@@ -120,6 +116,17 @@ class User extends Authenticatable
     }
 
     /**
+     * Get users that are `staff` role
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     * @author goper
+     */
+    public function scopeStaff($query) {
+        return $query->where('role', self::ROLE_STAFF);
+    }
+
+    /**
      * Is the current user an admin
      *
      * @return boolean
@@ -131,14 +138,14 @@ class User extends Authenticatable
     }
 
     /**
-     * Is the current user an client
+     * Is the current user a client
      *
      * @return boolean
      * @author goper
      */
     public function getIsClientAttribute()
     {
-        return $this->role == self::ROLE_CLIENT;
+        return $this->isClient();
     }
 
     /**
@@ -164,6 +171,17 @@ class User extends Authenticatable
     public function isAdmin() {
         return $this->role == self::ROLE_ADMIN;
     }
+
+    /**
+     * Is the current user an admin?
+     *
+     * @return boolean
+     * @author goper
+     */
+    public function isClient() {
+        return $this->role == self::ROLE_CLIENT;
+    }
+
     /**
      * Find the user instance for the given username.
      *
@@ -194,23 +212,13 @@ class User extends Authenticatable
      */
 
     /**
-     * Get user sources
-     *
-     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function sources()
-    {
-        return $this->belongsToMany(Sources::class, 'user_sources', 'user_id', 'source_id');
-    }
-
-    /**
      * Get user `client` services
      *
      * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function services()
     {
-        return $this->belongsToMany(Services::class, 'client_services', 'user_id', 'service_id');
+        return $this->belongsToMany(Service::class, 'client_services', 'user_id', 'service_id');
     }
 
     /**
@@ -221,5 +229,45 @@ class User extends Authenticatable
     public function dispatcher()
     {
         return $this->hasOne(Dispatcher::class, 'id', 'dispatcher_id');
+    }
+
+    /**
+     * Get user `client` sources
+     *
+     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function sources()
+    {
+        return $this->belongsToMany(Source::class, 'client_sources', 'user_id', 'source_id');
+    }
+
+    /**
+     * Get user `client` staffs
+     *
+     * @return Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function staffs()
+    {
+        return $this->hasMany(ClientStaff::class, 'client_id', 'id');
+    }
+
+    /**
+     * Get staff `client`
+     *
+     * @return Illuminate\Database\Eloquent\Relations\hasOne
+     */
+    public function staffclient()
+    {
+        return $this->hasOne(ClientStaff::class, 'staff_id', 'id');
+    }
+
+    /**
+     * Get user type `client` - patients
+     *
+     * @return Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function patients()
+    {
+        return $this->hasMany(Patient::class, 'client_id', 'id');
     }
 }

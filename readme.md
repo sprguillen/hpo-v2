@@ -13,3 +13,6 @@
 
 ### API
 1. Creating `FormRequest` always extend the `BaseRequest` not the `FormRequest` (which is the default).
+
+### Deployment
+To used the whitelist ip feature make sure to **update the `.env` file** and set the `APP_ENV` to `production` or `live`.

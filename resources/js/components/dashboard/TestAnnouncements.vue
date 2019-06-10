@@ -31,11 +31,9 @@
   </section>
 </template>
 <script>
-import TestAnnouncementsModal from '@/components/dashboard/TestAnnouncementsModal'
-
 export default {
   components: {
-    TestAnnouncementsModal
+    TestAnnouncementsModal: () => import('@/components/dashboard/TestAnnouncementsModal')
   },
   props: {
     announcements: {

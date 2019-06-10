@@ -79,3 +79,11 @@ if (!function_exists('code_to_int'))
         return appHelper()->codeToInt($code);
     }
 }
+
+if (!function_exists('global_prefix'))
+{
+    function global_prefix($id = '')
+    {
+        return appHelper()->globalPrefix($id);
+    }
+}

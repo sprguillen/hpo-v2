@@ -28,6 +28,8 @@ class ClientController extends Controller
         $client->save();
 
         $name = User::find($request->user_id)->full_name;
+        $client = ClientService::with('service')->find($client->id);
+
         return successful(trans('message.admin.service.client.success.store', ['name' => $name]), [
             'client' => $client,
         ]);

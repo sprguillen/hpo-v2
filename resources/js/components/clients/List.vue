@@ -1,7 +1,7 @@
 <template>
   <section class="clients-list">
     <div class="header-portlet">
-      <h1>CLIENTS LIST</h1>
+      <h1> <b-icon icon="account-star" /> CLIENTS LIST</h1>
     </div>
     <b-field grouped>
       <b-input
@@ -84,11 +84,10 @@
 <script>
 import { mapGetters } from 'vuex'
 import { relativeTime } from '@/filters/date'
-import DeleteClientModal from '@/components/clients/DeleteClientModal'
 
 export default {
   components: {
-    DeleteClientModal
+    DeleteClientModal: () => import('@/components/clients/DeleteClientModal')
   },
   filters: {
     relativeTime

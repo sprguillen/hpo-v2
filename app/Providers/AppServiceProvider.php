@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use App\Observers\BatchObserver;
-use App\Observers\UserObserver;
-use App\Models\Batch;
 use App\Models\User;
+use App\Models\Batch;
+use App\Models\Patient;
+use App\Observers\UserObserver;
+use App\Observers\BatchObserver;
+use App\Observers\PatientObserver;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,5 +31,6 @@ class AppServiceProvider extends ServiceProvider
     {
         User::observe(UserObserver::class);
         Batch::observe(BatchObserver::class);
+        Patient::observe(PatientObserver::class);
     }
 }

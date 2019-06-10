@@ -9,6 +9,8 @@ import ServiceDetails from '@/pages/services/Details'
 import System from '@/pages/System'
 import Orders from '@/pages/Orders'
 import store from '@/store'
+import NewPassword from '@/pages/auth/NewPassword'
+import ResetPassword from '@/pages/auth/ResetPassword'
 
 const router = new VueRouter({
   mode: 'history',
@@ -91,6 +93,22 @@ const router = new VueRouter({
         requiresAuth: true,
         forAdmin: true
       }
+    },
+    {
+      path: '/new-password',
+      name: 'newPass',
+      component: NewPassword,
+      meta: {
+        guest: true
+      }
+    },
+    {
+      path: '/reset-password',
+      name: 'resetPass',
+      component: ResetPassword,
+      meta: {
+        guest: true
+      }
     }
   ]
 })
@@ -98,9 +116,9 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   let authToken = store.getters['auth/getAccessToken']
   let userRole = store.getters['auth/getUserRole']
-  
+
   if (to.meta.requiresAuth) {
-    if (!authToken) {
+    if (!authToken || !userRole) {
       next({ path: '/login' })
     } else if (to.meta.forAdmin) {
       if (userRole == 10) {
@@ -112,7 +130,7 @@ router.beforeEach((to, from, next) => {
       next()
     }
   } else if (to.meta.guest) {
-    if (!authToken) {
+    if (!authToken || !userRole) {
       next()
     } else {
       next({ path: '/' })

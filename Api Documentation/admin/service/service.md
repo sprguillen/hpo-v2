@@ -8,3 +8,4 @@
 * [Service update](update.md)
 * [Service delete](delete.md)
 * [Service details](details.md)
+* [Service import](import.md)
