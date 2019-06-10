@@ -1,0 +1,36 @@
+@import '../variables';
+
+.orders {
+  width: 100%;
+  background: $body-bg;
+
+  section .main-container {
+    padding-left: 1.95rem;
+    padding-right: 1.95rem;
+  }
+
+  .no-left-padding {
+    padding-left: 0;
+  }
+
+  .page-content {
+    padding: 30px;
+    min-height: 500px;
+    margin-bottom: 15px;
+    background: #fff;
+  }
+
+  .breadcrumb {
+    padding: 0;
+    background-color: #fff;
+  }
+
+  .tabs li.system-active a {
+    color: $primary;
+    border-bottom-color: $primary;
+  }
+
+  .show-field {
+      margin-right: 20px;
+  }
+}

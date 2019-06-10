@@ -7,6 +7,7 @@ import Processors from '@/pages/Processors'
 import Services from '@/pages/services/Index'
 import ServiceDetails from '@/pages/services/Details'
 import System from '@/pages/System'
+import Orders from '@/pages/Orders'
 import store from '@/store'
 
 const router = new VueRouter({
@@ -80,6 +81,15 @@ const router = new VueRouter({
       component: Login,
       meta: {
         guest: true
+      }
+    },
+    {
+      path: '/orders',
+      name: 'orders',
+      component: Orders,
+      meta: {
+        requiresAuth: true,
+        forAdmin: true
       }
     }
   ]
