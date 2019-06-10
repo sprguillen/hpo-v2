@@ -90,46 +90,151 @@ class ClientPatientTest extends TestCase
      */
     public function canUpdateClientData()
     {
-        $this->asClient();
-
         // Get random client patient
-        $patient = $this->findRandomData('patients');
+        $patient = Patient::with('client')->orderByRaw('RAND()')->first();
+        if ($patient) {
+            $client = $patient->client;
+            $this->asClient($client->email);
 
-        $newFirstName = $this->faker->firstName;
-        $newLastName = $this->faker->lastName;
+            $newFirstName = $this->faker->firstName;
+            $newLastName = $this->faker->lastName;
 
-        $response = $this->json('POST', route('api.client.patient.update', ['id' => $patient->id]), [
-            'id' => $patient->id,
-            'client_id' => $this->user->id,
-            'email' => $patient->email,
-            'first_name' => $newFirstName,
-            'last_name' => $newLastName,
-            'gender' => $patient->gender,
-            'birth_date' => Carbon::createFromFormat('Y-m-d', $patient->birth_date)->format('m-d-Y'),
-            'passport_number' => $patient->passport_number,
-            'citizen' => $patient->citizen,
-            'blood_type' => $patient->blood_type,
-            'address' => $patient->address,
-            'city' => $patient->city,
-            'senior_citizen_id' => $patient->senior_citizen_id,
-            'telephone_number' => $patient->telephone_number,
-            'occupation' => $patient->occupation,
-        ]);
-
-        $data = $response->getData();
-
-        $response
-        ->assertStatus(self::RESPONSE_SUCCESS)
-        ->assertJson([
-            'success' => true,
-            'message' => trans('message.client.patient.success.update'),
-            'patient' => [
+            $response = $this->json('POST', route('api.client.patient.update', ['id' => $patient->id]), [
                 'id' => $patient->id,
                 'client_id' => $this->user->id,
                 'email' => $patient->email,
                 'first_name' => $newFirstName,
                 'last_name' => $newLastName,
-            ],
-        ]);
+                'gender' => $patient->gender,
+                'birth_date' => Carbon::parse($patient->birth_date)->format('m-d-Y'),
+                'passport_number' => $patient->passport_number,
+                'citizen' => $patient->citizen,
+                'blood_type' => $patient->blood_type,
+                'address' => $patient->address,
+                'city' => $patient->city,
+                'senior_citizen_id' => $patient->senior_citizen_id,
+                'telephone_number' => $patient->telephone_number,
+                'occupation' => $patient->occupation,
+            ]);
+
+            $data = $response->getData();
+
+            $response
+            ->assertStatus(self::RESPONSE_SUCCESS)
+            ->assertJson([
+                'success' => true,
+                'message' => trans('message.client.patient.success.update'),
+                'patient' => [
+                    'id' => $patient->id,
+                    'client_id' => $this->user->id,
+                    'email' => $patient->email,
+                    'first_name' => $newFirstName,
+                    'last_name' => $newLastName,
+                ],
+            ]);
+        } else {
+            $this->assertEmpty($patient);
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function cannotUpdatePatientIfClientIsNotTheOwnerOrTheCLientPatient()
+    {
+        // Get random client patient
+        $patient = Patient::with('client')->orderByRaw('RAND()')->first();
+        if ($patient) {
+            $this->asClient();
+
+            $newFirstName = $this->faker->firstName;
+            $newLastName = $this->faker->lastName;
+
+            $response = $this->json('POST', route('api.client.patient.update', ['id' => $patient->id]), [
+                'id' => $patient->id,
+                'client_id' => $this->user->id,
+                'email' => $patient->email,
+                'first_name' => $newFirstName,
+                'last_name' => $newLastName,
+                'gender' => $patient->gender,
+                'birth_date' => Carbon::parse($patient->birth_date)->format('m-d-Y'),
+                'passport_number' => $patient->passport_number,
+                'citizen' => $patient->citizen,
+                'blood_type' => $patient->blood_type,
+                'address' => $patient->address,
+                'city' => $patient->city,
+                'senior_citizen_id' => $patient->senior_citizen_id,
+                'telephone_number' => $patient->telephone_number,
+                'occupation' => $patient->occupation,
+            ]);
+
+            $data = $response->getData();
+
+            $response
+            ->assertStatus(self::RESPONSE_CLIENT_ERROR)
+            ->assertJson([
+                'success' => false,
+                'message' => trans('validation.error'),
+                'errors' => [
+                    'client_id' => [
+                        trans('message.client.patient.error.patient_not_owned')
+                    ]
+                ]
+            ])
+            ->assertJsonValidationErrors(['client_id']);
+        } else {
+            $this->assertEmpty($patient);
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function canDeletePatient()
+    {
+        // Get random client patient
+        $patient = Patient::with('client')->orderByRaw('RAND()')->first();
+        if ($patient) {
+            $client = $patient->client();
+            $this->asClient($client->email);
+
+            $newFirstName = $this->faker->firstName;
+            $newLastName = $this->faker->lastName;
+
+            $response = $this->json('POST', route('api.client.patient.delete', ['id' => $patient->id]), [
+                'id' => $patient->id,
+                'client_id' => $this->user->id,
+                'email' => $patient->email,
+                'first_name' => $newFirstName,
+                'last_name' => $newLastName,
+                'gender' => $patient->gender,
+                'birth_date' => Carbon::parse($patient->birth_date)->format('m-d-Y'),
+                'passport_number' => $patient->passport_number,
+                'citizen' => $patient->citizen,
+                'blood_type' => $patient->blood_type,
+                'address' => $patient->address,
+                'city' => $patient->city,
+                'senior_citizen_id' => $patient->senior_citizen_id,
+                'telephone_number' => $patient->telephone_number,
+                'occupation' => $patient->occupation,
+            ]);
+
+            $data = $response->getData();
+
+            $response
+            ->assertStatus(self::RESPONSE_CLIENT_ERROR)
+            ->assertJson([
+                'success' => false,
+                'message' => trans('validation.error'),
+                'errors' => [
+                    'client_id' => [
+                        trans('message.client.patient.error.patient_not_owned')
+                    ]
+                ]
+            ])
+            ->assertJsonValidationErrors(['client_id']);
+        } else {
+            $this->assertEmpty($patient);
+        }
     }
 }
