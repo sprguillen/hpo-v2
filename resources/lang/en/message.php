@@ -124,6 +124,9 @@ return [
                 'update' => 'Patient has been updated.',
                 'archived' => 'Patient has been archived.',
             ],
+            'error' => [
+                'patient_not_owned' => 'You are not the client on this patient.',
+            ]
         ],
     ],
 ];

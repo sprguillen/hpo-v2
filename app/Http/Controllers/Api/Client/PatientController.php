@@ -32,8 +32,13 @@ class PatientController extends Controller
      */
     public function store(StoreRequest $request)
     {
+        $timestamp = \Carbon\Carbon::now()->timestamp;
+        
         $patient = new Patient();
         $patient->client_id = auth()->user()->id;
+        $patient->code = $timestamp;
+        $patient->global_custom_id = $timestamp;
+        $patient->hpo_patient_id = $timestamp;
         $patient->client_custom_id = $request->client_custom_id;
         $patient->email = $request->email;
         $patient->first_name = $request->first_name;

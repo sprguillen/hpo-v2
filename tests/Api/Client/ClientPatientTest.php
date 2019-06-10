@@ -3,6 +3,7 @@
 namespace Tests\Api\Client;
 
 use Tests\TestCase;
+use \Carbon\Carbon;
 use App\Models\User;
 use App\Models\Patient;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -69,6 +70,7 @@ class ClientPatientTest extends TestCase
         ]);
 
         $data = $response->getData();
+
         $response
             ->assertStatus(self::RESPONSE_SUCCESS)
             ->assertJson([
@@ -79,18 +81,55 @@ class ClientPatientTest extends TestCase
                     'email' => $email,
                     'first_name' => $firstName,
                     'last_name' => $lastName,
-                    'gender' => $gender,
-                    'birth_date' => $birth_date,
-                    'passport_number' => $passport,
-                    'citizen' => $citizen,
-                    'blood_type' => $blood_type,
-                    'address' => $address,
-                    'city' => $city,
-                    'senior_citizen_id' => $senior_citizen_id,
-                    'telephone_number' => $telephone_number,
-                    'occupation' => $occupation,
-                    'hmo_card_no' => null,
                 ],
             ]);
+    }
+
+    /**
+     * @test
+     */
+    public function canUpdateClientData()
+    {
+        $this->asClient();
+
+        // Get random client patient
+        $patient = $this->findRandomData('patients');
+
+        $newFirstName = $this->faker->firstName;
+        $newLastName = $this->faker->lastName;
+
+        $response = $this->json('POST', route('api.client.patient.update', ['id' => $patient->id]), [
+            'id' => $patient->id,
+            'client_id' => $this->user->id,
+            'email' => $patient->email,
+            'first_name' => $newFirstName,
+            'last_name' => $newLastName,
+            'gender' => $patient->gender,
+            'birth_date' => Carbon::createFromFormat('Y-m-d', $patient->birth_date)->format('m-d-Y'),
+            'passport_number' => $patient->passport_number,
+            'citizen' => $patient->citizen,
+            'blood_type' => $patient->blood_type,
+            'address' => $patient->address,
+            'city' => $patient->city,
+            'senior_citizen_id' => $patient->senior_citizen_id,
+            'telephone_number' => $patient->telephone_number,
+            'occupation' => $patient->occupation,
+        ]);
+
+        $data = $response->getData();
+
+        $response
+        ->assertStatus(self::RESPONSE_SUCCESS)
+        ->assertJson([
+            'success' => true,
+            'message' => trans('message.client.patient.success.update'),
+            'patient' => [
+                'id' => $patient->id,
+                'client_id' => $this->user->id,
+                'email' => $patient->email,
+                'first_name' => $newFirstName,
+                'last_name' => $newLastName,
+            ],
+        ]);
     }
 }

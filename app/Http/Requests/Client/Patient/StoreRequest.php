@@ -25,7 +25,10 @@ class StoreRequest extends BaseRequest
     public function rules()
     {
         return [
-            'client_id' => 'required|exists:users,id',
+            'client_id' => [
+                'required',
+                'exists:users,id',
+            ],
             'client_custom_id' => 'sometimes|unique:patients,client_custom_id',
             'email' => 'required|email',
             'first_name' => 'required',

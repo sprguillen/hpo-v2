@@ -9,7 +9,7 @@ class PatientObserver
     /**
      * Handle the user "created" event.
      *
-     * @param  \App\User  $user
+     * @param  \App\Patient  $patient
      * @return void
      */
     public function created(Patient $patient)
@@ -24,10 +24,10 @@ class PatientObserver
     /**
      * Handle the user "updated" event.
      *
-     * @param  \App\User  $user
+     * @param  \App\Patient  $patient
      * @return void
      */
-    public function updated(User $user)
+    public function updated(Patient $patient)
     {
         //
     }
@@ -35,10 +35,10 @@ class PatientObserver
     /**
      * Handle the user "deleted" event.
      *
-     * @param  \App\User  $user
+     * @param  \App\Patient  $patient
      * @return void
      */
-    public function deleted(User $user)
+    public function deleted(Patient $patient)
     {
         //
     }
@@ -46,10 +46,10 @@ class PatientObserver
     /**
      * Handle the user "restored" event.
      *
-     * @param  \App\User  $user
+     * @param  \App\User  $patient
      * @return void
      */
-    public function restored(User $user)
+    public function restored(User $patient)
     {
         //
     }
@@ -57,10 +57,10 @@ class PatientObserver
     /**
      * Handle the user "force deleted" event.
      *
-     * @param  \App\User  $user
+     * @param  \App\Patient  $patient
      * @return void
      */
-    public function forceDeleted(User $user)
+    public function forceDeleted(Patient $patient)
     {
         //
     }

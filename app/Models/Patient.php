@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use DB;
+use \Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -44,8 +45,29 @@ class Patient extends Model
     ];
 
     /**
+     *  The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'updated_at',
+        'created_at',
+        'birth_date',
+    ];
+
+    /**
      * Mutators
      */
+     /**
+      * Set the user's first name.
+      *
+      * @param  string  $value
+      * @return void
+      */
+    public function setBirthDateAttribute($value)
+    {
+        $this->attributes['birth_date'] = Carbon::createFromFormat('m-d-Y', $value)->format('Y-m-d');
+    }
 
     /**
      * Find patient by name
