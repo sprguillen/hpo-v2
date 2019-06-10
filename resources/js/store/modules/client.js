@@ -48,9 +48,11 @@ const actions = {
 
   async fetchClients({ commit }, payload) {
     let url = '/api/admin/client'
+
     if (payload.page) {
       url += `?page=${payload.page}`
     }
+
     try {
       const { data } = await axios.get(url)
       commit('setClients', data.clients.data)
@@ -62,8 +64,14 @@ const actions = {
   },
 
   async searchClients({ commit }, payload) {
+    let url = `/api/admin/client/search/${payload.key}`
+
+    if (payload.page) {
+      url += `?page=${payload.page}`
+    }
+
     try {
-      const { data } = await axios.get(`/api/admin/client/search/${payload.key}`)
+      const { data } = await axios.get(url)
       commit('setClients', data.clients.data)
       commit('setLastPage', data.clients.last_page)
     } catch (e) {

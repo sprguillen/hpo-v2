@@ -20,7 +20,7 @@ class IndexController extends Controller
      */
     public function index()
     {
-        $services = Service::withCount('tests')->paginate(30);
+        $services = Service::withCount('tests')->paginate(10);
         return success_data(compact('services'));
     }
 

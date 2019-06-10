@@ -53,7 +53,9 @@ export default {
   data() {
     return {
       addMode: false,
-      page: 1
+      page: 1,
+      fetchBySearch: false,
+      searchVal: ''
     }
   },
   computed: {
@@ -68,7 +70,13 @@ export default {
       const payload = {
         page: this.page
       }
-      await this.fetchClients(payload)
+
+      if (this.fetchBySearch && this.searchVal) {
+        payload.key = this.searchVal
+        await this.searchClients(payload)
+      } else {
+        await this.fetchClients(payload)
+      }
     },
     async next() {
       this.page++
@@ -80,11 +88,12 @@ export default {
     },
     search: debounce(async function(value) {
       if (value) {
-        const payload = {
-          key: value
-        }
-        await this.searchClients(payload)
+        this.fetchBySearch = true
+        this.searchVal = value
+        await this.callFetchClients()
       } else {
+        this.fetchBySearch = false
+        this.searchVal = ''
         await this.callFetchClients()
       }
     }, 500),

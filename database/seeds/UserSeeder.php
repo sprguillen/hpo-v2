@@ -58,7 +58,7 @@ class UserSeeder extends Seeder
 
         // Seed admin
         $user = new User();
-        $user->global_prefix = '';
+        $user->global_prefix = 'OL';
         $user->username = $faker->userName;
         $user->email = $faker->freeEmail;
         $user->password = Hash::make('secret');

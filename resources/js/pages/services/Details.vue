@@ -59,6 +59,7 @@
               <b-button
                 type="app-primary"
                 icon-right="plus"
+                @click="open = true"
               >
                 Add Client
               </b-button>
@@ -70,6 +71,9 @@
           </div>
         </div>
       </div>
+      <AssignClientModal
+        :open="open"
+      />
     </section>
   </div>
 </template>
@@ -81,14 +85,16 @@ import ClientList from '@/components/services/ClientList'
 export default {
   components: {
     Header,
-    ClientList
+    ClientList,
+    AssignClientModal: () => import('@/components/services/AssignClientModal')
   },
   data() {
     return {
       clientsList: [
         { client: 'dswd3126', price: 'P 472.50' }
       ],
-      service: null
+      service: null,
+      open: false
     }
   },
   async beforeMount() {

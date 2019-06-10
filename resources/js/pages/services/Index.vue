@@ -64,7 +64,9 @@ export default {
     return {
       addMode: false,
       page: 1,
-      file: null
+      file: null,
+      fetchBySearch: false,
+      searchVal: ''
     }
   },
   computed: {
@@ -85,7 +87,13 @@ export default {
       const payload = {
         page: this.page
       }
-      await this.fetchServices(payload)
+
+      if (this.fetchBySearch && this.searchVal) {
+        payload.key = this.searchVal
+        await this.searchServices(payload)
+      } else {
+        await this.fetchServices(payload)
+      }
     },
     async next() {
       this.page++
@@ -97,11 +105,12 @@ export default {
     },
     search: debounce(async function(value) {
       if (value) {
-        const payload = {
-          key: value
-        }
-        await this.searchServices(payload)
+        this.fetchBySearch = true
+        this.searchVal = value
+        await this.callFetchServices()
       } else {
+        this.fetchBySearch = false
+        this.searchVal = ''
         await this.callFetchServices()
       }
     }, 500),
