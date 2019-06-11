@@ -199,6 +199,43 @@ class AdminClientTest extends TestCase
     /**
      * @test
      */
+    public function canDeleteClientRelatedTables()
+    {
+        $this->asAdmin();
+
+        // Client service **
+        do {
+            $clientService = $this->findRandomData('client_services');
+        } while(!$client = User::find($clientService->user_id));
+
+        $deletedId = $client->id;
+        $response = $this->json('POST', route('api.admin.client.destroy', ['id' => $client->id]));
+
+        $response
+            ->assertStatus(self::RESPONSE_SUCCESS)
+            ->assertJson([
+                'success' => true,
+                'message' => trans('message.admin.client.success.destroy'),
+            ]);
+        $this->assertNull(User::find($deletedId));
+
+        // Test that client related tables are deleted also
+        // ClientServices `table`
+        $services = \App\Models\ClientService::where('user_id', $deletedId)->get();
+        $this->assertEmpty($services);
+
+        // ClientStaff `table`
+        $staffs = \App\Models\ClientStaff::where('client_id', $deletedId)->get();
+        $this->assertEmpty($staffs);
+
+        // ClientSource `table`
+        $sources = \App\Models\ClientSource::where('user_id', $deletedId)->get();
+        $this->assertEmpty($sources);
+    }
+
+    /**
+     * @test
+     */
     public function cannotDeleteIfClientIdIsNotFound()
     {
         $this->asAdmin();

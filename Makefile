@@ -44,6 +44,9 @@ testApi:
 testSpecific:
 	./vendor/bin/phpunit --filter ${class} tests/Api/${path}
 
+testSpecificMethod:
+	./vendor/bin/phpunit --filter ${method} ${class} tests/Api/${path}
+
 setupPassport:
 	php artisan passport:install
 	php artisan passport:client --client

@@ -6,6 +6,9 @@ Used to search staff on a client using name.
 
 **URL** : `/api/client/staff/search/{$key}`
 
+**Params**
+1. **key** = search key
+
 **Method** : `GET`
 
 **Auth required** : YES

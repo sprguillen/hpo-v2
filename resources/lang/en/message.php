@@ -118,5 +118,15 @@ return [
                 'archived' => 'Staff has been archived.',
             ],
         ],
+        'patient' => [
+            'success' => [
+                'store' => 'New patient has been added.',
+                'update' => 'Patient has been updated.',
+                'archived' => 'Patient has been archived.',
+            ],
+            'error' => [
+                'patient_not_owned' => 'You are not the client on this patient.',
+            ]
+        ],
     ],
 ];

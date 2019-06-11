@@ -97,8 +97,10 @@ class AdminClientServiceTest extends TestCase
         $this->asAdmin();
 
         // Find random client service
-        $client = $this->findRandomData('client_services');
-        $user = User::find($client->user_id);
+        do {
+            $client = $this->findRandomData('client_services');
+        } while(!$user = User::find($client->user_id));
+        
         $name = $user->full_name;
 
         $oldPrice = $client->price;
