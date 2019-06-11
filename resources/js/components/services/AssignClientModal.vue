@@ -2,66 +2,89 @@
   <b-modal
     class="assign-modal"
     :active.sync="open"
+    :can-cancel="false"
     has-modal-card
   >
     <div class="card">
-      <header class="modal-card-head">
-        <p class="modal-card-title">
-          ASSIGN SERVICE TO CLIENT
-        </p>
-      </header>
       <div class="modal-card-body">
         <form
           class="assign-form"
           @submit.prevent="submit"
         >
-          <b-field label="Name">
-            <v-select
-              :filterable="false"
-              :options="options"
-              @search="searchClient"
-            >
-              <template slot="no-options">
-                Type to search for an existing client.
-              </template>
-              <template
-                slot="option"
-                slot-scope="option"
-              >
-                <div class="columns">
-                  <div class="column">
-                    <b-field label="Name">
+          <div class="column">
+            <h3>Update Service</h3>
+            <hr>
+          </div>
+          <div class="column no-top-padding">
+            <div class="columns">
+              <div class="column">
+                <b-field label="Name">
+                  <v-select
+                    :filterable="false"
+                    :options="options"
+                    @search="searchClient"
+                  >
+                    <template slot="no-options">
+                      Type to search for an existing client.
+                    </template>
+                    <template
+                      slot="option"
+                      slot-scope="option"
+                    >
+                      <div class="columns">
+                        <div class="column">
+                          <b-field label="Name">
+                            {{ `${option.first_name} ${option.last_name}` }}
+                          </b-field>
+                        </div>
+                        <div class="column">
+                          <b-field label="Username">
+                            {{ `${option.username}` }}
+                          </b-field>
+                        </div>
+                      </div>
+                    </template>
+                    <template
+                      slot="selected-option"
+                      slot-scope="option"
+                    >
                       {{ `${option.first_name} ${option.last_name}` }}
-                    </b-field>
-                  </div>
-                  <div class="column">
-                    <b-field label="Username">
-                      {{ `${option.username}` }}
-                    </b-field>
-                  </div>
-                </div>
-              </template>
-              <template
-                slot="selected-option"
-                slot-scope="option"
+                    </template>
+                  </v-select>
+                </b-field>
+              </div>
+            </div>
+            <div class="columns">
+              <div class="column">
+                <b-field>
+                  <b-input
+                    v-model="form.price"
+                    placeholder="Number"
+                    type="number"
+                  />
+                </b-field>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="modal-actions">
+              <hr>
+              <b-button
+                class="float-right"
+                type="is-danger"
+                @click="$emit('close')"
               >
-                {{ `${option.first_name} ${option.last_name}` }}
-              </template>
-            </v-select>
-          </b-field>
-          <b-field>
-            <b-input
-              v-model="form.price"
-              placeholder="Number"
-              type="number"
-            />
-          </b-field>
-          <b-button
-            type="app-primary"
-            tag="input"
-            native-type="submit"
-            value="Save"
-          />
+                Close
+              </b-button>
+              <b-button
+                class="float-right mr-2"
+                type="app-primary"
+                tag="input"
+                native-type="submit"
+                value="Save"
+              />
+            </div>
+          </div>
         </form>
       </div>
     </div>
