@@ -2,15 +2,16 @@
 
 namespace App\Helpers;
 
-use App\Helpers\ShortCodeGenerator;
-use Illuminate\Http\JsonResponse;
 use DB;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
+use App\Helpers\ShortCodeGenerator;
 
 class Aider
 {
 
     use ShortCodeGenerator;
-    
+
     /**
     * Return json response
     *
@@ -112,5 +113,22 @@ class Aider
     public function passportClientCredentials()
     {
         return DB::table('oauth_clients')->where('password_client', 1)->first();
+    }
+
+    /**
+     * Get admin global prefix - default is first admin found
+     *
+     * @param  string $id
+     * @return string
+     */
+    public function globalPrefix($id = '')
+    {
+        if ($id != '') {
+            $admin = User::find($id);
+        } else {
+            $admin = User::where('role', User::ROLE_ADMIN)->first();
+        }
+
+        return $admin->global_prefix;
     }
 }
