@@ -28,7 +28,18 @@
                 slot="option"
                 slot-scope="option"
               >
-                {{ `${option.first_name} ${option.last_name}` }}
+                <div class="columns">
+                  <div class="column">
+                    <b-field label="Name">
+                      {{ `${option.first_name} ${option.last_name}` }}
+                    </b-field>
+                  </div>
+                  <div class="column">
+                    <b-field label="Username">
+                      {{ `${option.username}` }}
+                    </b-field>
+                  </div>
+                </div>
               </template>
               <template
                 slot="selected-option"
@@ -88,6 +99,7 @@ export default {
           key: search
         }
         const { clients } = await this.searchClients(payload)
+        console.log(clients)
         this.options = clients.data
         loading(false)
       }

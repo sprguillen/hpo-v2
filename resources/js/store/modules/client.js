@@ -74,6 +74,7 @@ const actions = {
       const { data } = await axios.get(url)
       commit('setClients', data.clients.data)
       commit('setLastPage', data.clients.last_page)
+      return data
     } catch (e) {
       const { data } = e.response
       throw data
