@@ -80,7 +80,19 @@ class Patient extends Model
     public function scopeFindByName($query, $name)
     {
         $name = strtolower($name);
-        return $query->where(DB::raw("CONCAT(`first_name`, ' ', `last_name`)"), 'LIKE', '%' . $name . '%')->orWhere("email","like","%$name%");
+        return $query->where(DB::raw("CONCAT(`first_name`, ' ', `last_name`)"), 'LIKE', '%' . $name . '%')->orWhere("email", "like", "%$name%");
+    }
+
+    /**
+     * Get patient that owned by this `Client`
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     * @author goper
+     */
+    public function scopeOwned($query)
+    {
+        return $query->where('client_id', auth()->user()->id);
     }
 
     /**

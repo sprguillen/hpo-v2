@@ -19,7 +19,7 @@ class PatientController extends Controller
      */
     public function index()
     {
-        $patients = Patient::where('client_id', auth()->user()->id)->paginate(10);
+        $patients = Patient::owned()->paginate(10);
         return success_data(compact('patients'));
     }
 
@@ -33,12 +33,14 @@ class PatientController extends Controller
     public function store(StoreRequest $request)
     {
         $timestamp = \Carbon\Carbon::now()->timestamp;
-        
+
         $patient = new Patient();
         $patient->client_id = auth()->user()->id;
+        
         $patient->code = $timestamp;
         $patient->global_custom_id = $timestamp;
         $patient->hpo_patient_id = $timestamp;
+
         $patient->client_custom_id = $request->client_custom_id;
         $patient->email = $request->email;
         $patient->first_name = $request->first_name;
@@ -76,7 +78,7 @@ class PatientController extends Controller
      */
     public function update(UpdateRequest $request, $id)
     {
-        $patient = Patient::findOrFail($request->id);
+        $patient = Patient::owned()->findOrFail($request->id);
         $patient->email = $request->email;
         $patient->first_name = $request->first_name;
         $patient->middle_name = $request->middle_name;
@@ -111,6 +113,11 @@ class PatientController extends Controller
     public function archive(Request $request, $id)
     {
         $patient = Patient::findOrFail($request->id);
+
+        if ($patient->client_id != auth()->user()->id) {
+            return errorify(trans('message.client.patient.error.patient_not_owned'));
+        }
+
         $patient->delete();
         return successful(trans('message.client.patient.success.archive'));
     }
@@ -123,10 +130,7 @@ class PatientController extends Controller
      */
     public function search($key)
     {
-        $staffs = User::staff()->findByName($key)->wherehas('staffclient', function($query) {
-            $query->where('client_id', '=', auth()->user()->id);
-        })->paginate(10);
-
-        return success_data(compact('staffs'));
+        $patients = Patient::owned()->findByName($key)->paginate(10);
+        return success_data(compact('patients'));
     }
 }
