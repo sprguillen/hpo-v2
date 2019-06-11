@@ -37,7 +37,13 @@ class UserObserver
      */
     public function deleted(User $user)
     {
-        //
+        // Delete all related tables on user
+        if ($user->isClient()) {
+            \App\Models\ClientService::where('user_id', $user->id)->get()->each->delete();
+            \App\Models\ClientSource::where('user_id', $user->id)->get()->each->delete();
+            \App\Models\ClientStaff::where('client_id', $user->id)->get()->each->delete();
+        }
+
     }
 
     /**
