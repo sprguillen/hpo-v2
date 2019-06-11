@@ -2,6 +2,7 @@
   <b-modal
     class="edit-service-modal"
     :active.sync="open"
+    :can-cancel="false"
     has-modal-card
   >
     <div class="card custom-width">

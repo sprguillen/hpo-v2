@@ -2,6 +2,7 @@
   <b-modal
     class="delete-modal"
     :active.sync="open"
+    :can-cancel="false"
     has-modal-card
   >
     <div class="card">
@@ -11,24 +12,30 @@
         </p>
       </header>
       <div class="modal-card-body">
-        Are you sure you want to archive service {{ modalServiceName }}?
-      </div>
-      <footer class="modal-card-foot">
-        <div class="modal-actions">
-          <b-button
-            type="is-danger modal-buttons"
-            @click="$emit('close')"
-          >
-            Cancel
-          </b-button>
-          <b-button
-            type="is-success modal-buttons"
-            @click="$emit('archive')"
-          >
-            Yes
-          </b-button>
+        <div class="columns">
+          <div class="column">
+            Are you sure you want to archive service {{ modalServiceName }}?
+          </div>
         </div>
-      </footer>
+        <div class="columns">
+          <div class="column">
+            <div class="modal-actions">
+              <b-button
+                type="is-danger modal-buttons"
+                @click="$emit('close')"
+              >
+                Cancel
+              </b-button>
+              <b-button
+                type="is-success modal-buttons"
+                @click="$emit('archive')"
+              >
+                Yes
+              </b-button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </b-modal>
 </template>

@@ -11,24 +11,32 @@
         </p>
       </header>
       <div class="modal-card-body">
-        Are you sure you want to archive processor {{ modalUsername }}?
-      </div>
-      <footer class="modal-card-foot">
-        <div class="modal-actions">
-          <b-button
-            type="is-danger modal-buttons"
-            @click="$emit('close')"
-          >
-            Cancel
-          </b-button>
-          <b-button
-            type="is-success modal-buttons"
-            @click="$emit('archive')"
-          >
-            Yes
-          </b-button>
+        <div class="columns">
+          <div class="column">
+            Are you sure you want to archive processor {{ modalUsername }}?
+          </div>
         </div>
-      </footer>
+        <div class="columns">
+          <div class="column">
+            <div class="modal-actions">
+              <b-button
+                class="float-right"
+                type="is-danger modal-buttons"
+                @click="$emit('close')"
+              >
+                Cancel
+              </b-button>
+              <b-button
+                class="float-right mr-2"
+                type="is-success modal-buttons"
+                @click="$emit('archive')"
+              >
+                Yes
+              </b-button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </b-modal>
 </template>
