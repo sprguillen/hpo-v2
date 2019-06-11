@@ -2,6 +2,30 @@
 
 .assign-modal {
   .assign-form {
-    width: 480px;
+    width: 520px;
+
+    h3 {
+      font-size: 2rem;
+    }
+
+    .modal-actions {
+      width: 100%;
+    }
+  
+    footer.modal-card-foot {
+      padding: 10px;
+    }
+  
+    .modal-actions {
+      width: 100%;
+    }
+  
+    footer.modal-card-foot {
+      padding: 10px;
+    }
+
+    .no-top-padding {
+      padding-top: 0;
+    }
   }
 }

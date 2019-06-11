@@ -73,6 +73,7 @@
       </div>
       <AssignClientModal
         :open="open"
+        @close="open = false"
       />
     </section>
   </div>
