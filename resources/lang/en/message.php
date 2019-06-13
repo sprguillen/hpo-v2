@@ -44,6 +44,7 @@ return [
                 ],
                 'success' => [
                     'update_payment_mode' => 'Client payment mode has been updated.',
+                    'update_dispatcher' => 'Client dispatcher mode has been updated.',
                 ]
             ],
             'source' => [

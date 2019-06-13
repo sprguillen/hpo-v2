@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Client\StoreRequest;
 use App\Http\Requests\Admin\Client\UpdateRequest;
 use App\Http\Requests\Admin\Client\UpdatePaymentModeRequest;
+use App\Http\Requests\Admin\Client\UpdateDispatcherModeRequest;
 
 class IndexController extends Controller
 {
@@ -138,6 +139,22 @@ class IndexController extends Controller
 
         return successful(trans('message.admin.client.manage.success.update_payment_mode'), [
             'client' => $client
+        ]);
+    }
+
+    /**
+     * Update client dispatcher mode
+     *
+     * @return response
+     */
+    public function updateDispatcher(UpdateDispatcherModeRequest $request, $code = null)
+    {
+        $client = User::findOrFail($request->id);
+        $client->dispatcher_id = $request->dispatcher_id;
+        $client->save();
+
+        return successful(trans('message.admin.client.manage.success.update_dispatcher'), [
+            'client' => $client,
         ]);
     }
 }
