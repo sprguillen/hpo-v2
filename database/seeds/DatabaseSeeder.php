@@ -16,5 +16,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ServiceSeeder::class);
         $this->call(DispatcherSeeder::class);
         $this->call(WhiteListIpSeeder::class);
+        $this->call(PatientSeeder::class);
     }
 }

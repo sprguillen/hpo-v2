@@ -38,6 +38,7 @@ Token is provided with the request:
 ### Client related
 
 * [Client staff info](client/staff/staff.md)
+* [Client patient info](client/patient/index.md)
 
 
 ### User related

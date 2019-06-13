@@ -1,6 +1,6 @@
 # Staff list
 
-#### (**Admin Only**)
+#### (**Client Only**)
 
 Used to collect Staff list of logged client
 

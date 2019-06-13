@@ -66,6 +66,15 @@ Route::namespace('Api')->middleware(['checkIp'])->group(function() {
                 Route::name('api.client.staff.search')->get('search/{key}', 'StaffController@search');
             });
 
+            // Client Patient routes
+            Route::prefix('patient')->group(function() {
+                Route::name('api.client.patient')->get('', 'PatientController@index');
+                Route::name('api.client.patient.store')->post('store', 'PatientController@store');
+                Route::name('api.client.patient.update')->post('{id}/update', 'PatientController@update');
+                Route::name('api.client.patient.archive')->post('{id}/archive', 'PatientController@archive');
+                Route::name('api.client.patient.search')->get('search/{key}', 'PatientController@search');
+            });
+
         });
 
         /**
@@ -86,6 +95,7 @@ Route::namespace('Api')->middleware(['checkIp'])->group(function() {
                 //** Manage individual `clients`
                 Route::name('api.admin.client.details')->get('details/{code}', 'IndexController@details');
                 Route::name('api.admin.client.update.payment_mode')->post('payment_mode/{code}/update', 'IndexController@updatePaymentMode');
+                Route::name('api.admin.client.update.dispatcher')->post('dispatcher/{code}/update', 'IndexController@updateDispatcher');
 
                 //** Manage client sources
                 Route::prefix('{id}/sources')->group(function() {
