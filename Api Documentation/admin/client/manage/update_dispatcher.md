@@ -1,10 +1,10 @@
-# Client Update
+# Client Update Dispatcher Mode
 
 #### (**Admin Only**)
 
-Store client
+Update client dispatcher mode.
 
-**URL** : `/api/admin/client/payment_mode/{code}/update`
+**URL** : `/api/admin/client/dispatcher/{code}/update`
 
 **Params**
 1. code = User code
@@ -22,7 +22,7 @@ Store client
 ```json
 {
     "id": "$client->id", **Required
-    "payment_mode": "$payment_mode", **Required `0` = Cash; 1 = Charge
+    "dispatcher_id": "$dispatcher_id", **Required
 }
 ```
 

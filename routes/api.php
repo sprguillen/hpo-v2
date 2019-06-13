@@ -95,6 +95,7 @@ Route::namespace('Api')->middleware(['checkIp'])->group(function() {
                 //** Manage individual `clients`
                 Route::name('api.admin.client.details')->get('details/{code}', 'IndexController@details');
                 Route::name('api.admin.client.update.payment_mode')->post('payment_mode/{code}/update', 'IndexController@updatePaymentMode');
+                Route::name('api.admin.client.update.dispatcher')->post('dispatcher/{code}/update', 'IndexController@updateDispatcher');
 
                 //** Manage client sources
                 Route::prefix('{id}/sources')->group(function() {
